@@ -1,0 +1,325 @@
+schema_version: 1
+
+project:
+  name: genept_scpa
+  active_phase: 5
+  max_phase_allowed: 5
+  protocol: genept_scpa_experiment_plan.md
+  decision_log: docs/genept_scpa_decision_log.md
+
+paths:
+  raw_data: data/raw/genept_scpa
+  interim_data: data/interim/genept_scpa
+  processed_data: data/processed/genept_scpa
+
+phase0:
+  status: passed
+  passed_on: 2026-08-10
+
+phase1:
+  status: passed
+  stage: phase1b_passed
+  dataset_gate_status: passed
+  dataset:
+    name: SCPA integrated naive CD4 T cells, 0/12/24 h
+    source: NCBI GEO
+    accession: GSE212270
+    filename: GSE212270_integrated_naive_cd4.rds.gz
+    extracted_filename: GSE212270_integrated_naive_cd4.rds
+    url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE212nnn/GSE212270/suppl/GSE212270_integrated_naive_cd4.rds.gz
+    geo_record: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE212270
+    reported_archive_size: 2.4 GB
+    reduced: false
+    required_hours: [0, 12, 24]
+    metadata_detection:
+      time_column_candidates: [Hour, hour, time, Time, timepoint, time_point]
+      identity_column_candidates: [Cell_Type, cell_type, population, orig.ident]
+  pathways:
+    name: SCPA combined metabolic pathways
+    filename: combined_metabolic_pathways.csv
+    source_ref: v1.6.2
+    url: https://raw.githubusercontent.com/jackbibby1/SCPA/v1.6.2/gene_sets/combined_metabolic_pathways.csv
+  comparison:
+    label: 0h_vs_24h
+    resting:
+      cell_type: Resting
+      hour: 0
+    activated:
+      cell_type: Activated
+      hour: 24
+  scpa:
+    repository: jackbibby1/SCPA
+    source_ref: v1.6.2
+    seed: 20260810
+    downsample: 500
+    min_genes: 15
+    max_genes: 500
+    parallel: false
+    cores: null
+  phase1b:
+    population_definition: all_cells_matching_hour
+    qval_convention: larger_is_stronger
+    metadata_column: Hour
+    time_values: [0, 12, 24]
+    expression:
+      assay: RNA
+      layer_or_slot: data
+      extraction_function: SCPA::seurat_extract
+      pseudocount: 0.001
+      rerun_normalization: false
+    pathways:
+      collection: SCPA combined metabolic pathways
+      components: [Hallmark, KEGG, Reactome]
+      source_repository: jackbibby1/SCPA
+      source_ref: v1.6.2
+      file: data/reference/genept_scpa/combined_metabolic_pathways.csv
+      sha256: 6bc5977da3fa60f86d5ffb59fc938740bf418fa4d976182a314d65479eb8b744
+      input_pathway_count: 243
+    sampling:
+      mechanism: explicit_base_R_sample_equivalent_to_SCPA_random_cells
+      reuse_same_timepoint_cells_across_analyses: true
+      save_cell_ids: true
+    analyses:
+      global: global_0_12_24
+      0_vs_12: pairwise_0_vs_12
+      12_vs_24: pairwise_12_vs_24
+      0_vs_24: pairwise_0_vs_24
+      reference:
+        id: reference_resting0_vs_activated24
+        population_1: {Cell_Type: Resting, Hour: 0}
+        population_2: {Cell_Type: Activated, Hour: 24}
+        output: data/processed/genept_scpa/phase1/05_reference_resting0_vs_activated24.csv
+        parameter_tuning: false
+    visualization:
+      output_directory: data/processed/genept_scpa/phase1/figures
+      heatmap_top_n: 30
+      comparison_scope: qualitative_only
+      reference: SCPA paper Figure 4 and official tutorials
+
+phase2:
+  status: passed
+  stage: genept_w_passed
+  scope: published_genept_w_reproduction_naive_cd4_only
+  dataset: naive_cd4
+  official_sources:
+    final_paper:
+      title: Simple and effective embedding model for single-cell biology built from ChatGPT
+      journal: Nature Biomedical Engineering
+      year: 2025
+      doi: 10.1038/s41551-024-01284-6
+    repository: https://github.com/yiqunchen/GenePT
+    cell_example: https://github.com/yiqunchen/GenePT/blob/main/aorta_data_analysis.ipynb
+  embedding:
+    model: text-embedding-ada-002
+    dimension: 1536
+    source: https://zenodo.org/records/10833191
+    doi: 10.5281/zenodo.10833191
+    archive_filename: GenePT_emebdding_v2.zip
+    archive_size_bytes: 574395233
+    archive_md5: 3f6ce4317e3a0091978ae5cb8fbf05a3
+    primary_filename: GenePT_gene_embedding_ada_text.pickle
+    summaries_filename: NCBI_summary_of_genes.json
+    generate_via_openai_api: false
+  expression:
+    assay: RNA
+    layer: counts
+    sparse: true
+    integrated_assay_allowed: false
+    scale_data_allowed: false
+  preprocessing:
+    normalization: cell_wise_total_count
+    normalization_target: 10000
+    log_transform: log1p
+    order: normalize_all_dataset_genes_then_align_official_genept_keys
+    aggregation: expression_weighted_average_divide_by_total_dataset_gene_count
+    final_normalization: rowwise_unit_l2
+    unmatched_genes: included_in_library_size_then_zero_projection_contribution
+    matching: exact_artifact_key_only
+    aliases: official_hgnc_alias_keys_in_artifact_only
+  output:
+    directory: data/processed/genept_scpa/phase2
+    matrix: naive_cd4_genept_w.npy
+    cell_ids: naive_cd4_genept_w_cell_ids.txt
+    metadata: naive_cd4_genept_w_metadata.csv
+    mapping: genept_gene_mapping.csv
+    qc: data/interim/genept_scpa/phase2_genept_w_qc.json
+    summary: data/interim/genept_scpa/phase2_genept_w_summary.md
+  prohibited:
+    - SCPA
+    - CD4_vs_CD8_comparison
+    - classifier_training
+    - separability_metrics
+    - Phase3
+
+phase3:
+  status: passed
+  stage: passed_after_gpt_review
+  passed_on: 2026-08-11
+  scope: primary_cd4_0h_vs_cd8_0h_scpa_core_adaptation
+  datasets:
+    cd4:
+      name: naive_cd4
+      cells: 14894
+      features: 17856
+      zero_hour_cells: 4428
+      genept_matrix: data/processed/genept_scpa/phase2/naive_cd4_genept_w.npy
+    cd8:
+      name: naive_cd8
+      cells: 7041
+      features: 17942
+      zero_hour_cells: 1048
+      genept_matrix: data/processed/genept_scpa/phase3/naive_cd8_genept_w.npy
+  genept:
+    reuse_phase2_artifact: true
+    model: text-embedding-ada-002
+    dimension: 1536
+    new_download_allowed: false
+    preprocessing_identical_to_phase2: true
+  primary_comparison:
+    hour: 0
+    seed: 20260810
+    sample_size: 500
+    sample_size_basis: SCPA_default_and_phase1_frozen_convention
+    same_cells_across_representations: true
+  original_expression:
+    assay: RNA
+    layer: counts
+    normalization_target: 10000
+    log_transform: log1p
+    normalization_order: normalize_each_dataset_over_all_genes_then_align_shared_symbols
+    alignment: exact_shared_gene_symbols
+    expected_shared_genes: 17085
+    role: population_difference_reference_not_representation_ranking
+  scpa_core:
+    scpa_version: 1.6.2
+    implementation: multicross::mcm
+    multicross_version: 2.1.0
+    input_orientation: cells_by_features
+    standard_pathway_analysis: false
+    adapter_label: SCPA-core multivariate framework adaptation
+    distance: euclidean
+    hidden_downsampling: false
+  outputs:
+    qc: data/interim/genept_scpa/phase3_cd4_cd8_qc.json
+    summary: data/interim/genept_scpa/phase3_cd4_cd8_summary.md
+    sampling_directory: data/interim/genept_scpa/phase3_sampling
+  prohibited:
+    - classifier_training
+    - pathway_gene_interpretation
+    - timepoint_extension_beyond_frozen_phase4_validation
+    - robustness_analysis
+    - Phase4
+
+phase4:
+  status: passed
+  stage: cd4_activation_passed
+  scope: pathway_specific_vanilla_vs_genept_informed_scpa_comparison
+  primary_comparison:
+    cd4_definition: naive_cd4 AND Hour=0
+    cd8_definition: naive_cd8 AND Hour=0
+    seed: 20260810
+    sample_size: 500
+    canonical_sampling_reused: true
+    rank_delta: genept_rank_minus_vanilla_rank
+  expression:
+    assay: RNA
+    layer: counts
+    normalization: cell_wise_total_count
+    normalization_target: 10000
+    log_transform: log1p
+    order: normalize_full_transcriptome_then_subset_pathway
+    pathway_renormalization: false
+  pathways:
+    file: data/reference/genept_scpa/combined_metabolic_pathways.csv
+    collection: SCPA combined metabolic pathways
+    components: [Hallmark, KEGG, Reactome]
+    source_ref: v1.6.2
+    min_genes: 15
+    max_genes: 500
+    preflight_input_count: 243
+    preflight_eligible_paired_count: 123
+    preflight_excluded_count: 120
+  paired_gene_policy:
+    formula: pathway_genes_intersect_cd4_intersect_cd8_intersect_genept
+    identical_between_branches: true
+  genept_projection:
+    model: text-embedding-ada-002
+    dimension: 1536
+    formula: X_P @ E_P
+    primary_l2_normalization: false
+    l2_sensitivity_available: true
+  scpa_core:
+    implementation: multicross::mcm
+    scpa_version: 1.6.2
+    multiple_testing: bonferroni_over_identical_eligible_pathway_universe
+    qval_formula: sqrt(-log10(adjusted_p))
+  outputs:
+    directory: data/processed/genept_scpa/phase4
+    comparison: vanilla_vs_genept_pathway_comparison.csv
+    manifest: pathway_projection_manifest.json
+    qc: data/interim/genept_scpa/phase4_pathway_qc.json
+    summary: data/interim/genept_scpa/phase4_pathway_summary.md
+  prohibited:
+    - Phase5_gene_contribution
+    - semantic_controls
+    - classifier_training
+    - timepoint_extension
+  validation_extension:
+    status: passed
+    stage: completed_ready_for_gpt_review
+    primary_comparison_set: cd4_activation
+    default_comparison_set: cd4_activation
+    optional_comparison_set: all_9
+    source_status: ALREADY_PRESENT_IN_RDS
+    download_required: false
+    seed: 20260810
+    sample_size_per_group: 500
+    groups: [cd4_0h, cd4_12h, cd4_24h]
+    comparisons: [cd4_0h_vs_12h, cd4_12h_vs_24h, cd4_0h_vs_24h]
+    comparison_count: 3
+    preserved_all_9_capability: true
+    cd8_current_production: false
+    pathway_count: 123
+    paired_universe_reused: true
+    qval_formula: sqrt(-log10(adjusted_p))
+    qval_log_base: 10
+    tie_ranking: average
+    positive_control: cd4_0h_vs_24h
+    official_raw_p_crosscheck: required
+    outputs:
+      directory: data/processed/genept_scpa/phase4_cd4_activation
+      qc: data/processed/genept_scpa/phase4_cd4_activation/phase4_cd4_activation_qc.json
+      summary: data/processed/genept_scpa/phase4_cd4_activation/phase4_cd4_activation_summary.md
+
+phase5:
+  status: in_progress
+  stage: gene_masking_method_frozen
+  target_rule: phase4b_vanilla_only_plus_genept_only_pathway_comparison_pairs
+  expected_target_count: 30
+  expected_by_comparison:
+    cd4_0h_vs_12h: 11
+    cd4_12h_vs_24h: 9
+    cd4_0h_vs_24h: 10
+  cells: reuse_phase4b_cd4_0h_12h_24h_500_each
+  pathways: reuse_phase4b_123_exact_paired_gene_lists_and_order
+  preprocessing: whole_transcriptome_total_10000_log1p_then_pathway_subset
+  masking:
+    vanilla: set_same_gene_expression_column_to_zero
+    genept_non_l2: Z_minus_outer_Xg_Eg
+    same_gene_between_branches: true
+    genept_l2_deferred: true
+  contribution_metric:
+    formula: delta[-log10(raw_p)]_full_minus_masked
+    raw_p_clip: 1.0e-300
+    primary_rank: descending_signed_delta_average_ties
+    absolute_rank: descending_absolute_delta_average_ties
+  checkpoint: pathway_comparison_atomic_resume
+  outputs:
+    directory: data/processed/genept_scpa/phase5_gene_contribution
+    qc: data/processed/genept_scpa/phase5_gene_contribution/phase5_gene_contribution_qc.json
+    summary: data/processed/genept_scpa/phase5_gene_contribution/phase5_gene_contribution_summary.md
+  prohibited:
+    - Phase6_true_permuted_random
+    - CD8_generalization
+    - classifier_training
+    - GenePT_L2_gene_masking

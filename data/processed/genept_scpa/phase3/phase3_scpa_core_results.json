@@ -1,0 +1,98 @@
+{
+  "toy_test": {
+    "seed": 20260810,
+    "nearly_identical": {
+      "implementation_source": {
+        "scpa_version": "1.6.2",
+        "scpa_function": "SCPA::single_comparison -> multicross::mcm",
+        "multicross_version": "2.1.0",
+        "called_function": "multicross::mcm",
+        "level": 0.05
+      },
+      "adapter_name": "SCPA-core multivariate framework adaptation",
+      "standard_pathway_analysis": false,
+      "input_orientation": "cells_by_features",
+      "population_cells": [40, 40],
+      "aligned_features": 4,
+      "distance": "Euclidean (inside multicross::mcm)",
+      "p_value": 1,
+      "decision": "Accept",
+      "scpa_style_qval": 0,
+      "p_value_underflow": false,
+      "finite_reporting_qval": 0,
+      "multiple_testing": "one global hypothesis; Bonferroni factor = 1",
+      "warnings": []
+    },
+    "shifted": {
+      "implementation_source": {
+        "scpa_version": "1.6.2",
+        "scpa_function": "SCPA::single_comparison -> multicross::mcm",
+        "multicross_version": "2.1.0",
+        "called_function": "multicross::mcm",
+        "level": 0.05
+      },
+      "adapter_name": "SCPA-core multivariate framework adaptation",
+      "standard_pathway_analysis": false,
+      "input_orientation": "cells_by_features",
+      "population_cells": [40, 40],
+      "aligned_features": 4,
+      "distance": "Euclidean (inside multicross::mcm)",
+      "p_value": 4.8614e-09,
+      "decision": "Reject",
+      "scpa_style_qval": 2.8833,
+      "p_value_underflow": false,
+      "finite_reporting_qval": 2.8833,
+      "multiple_testing": "one global hypothesis; Bonferroni factor = 1",
+      "warnings": []
+    },
+    "criterion": "shifted finite_reporting_qval > nearly_identical finite_reporting_qval",
+    "passed": true
+  },
+  "analyses": {
+    "genept_w_cd4_vs_cd8": {
+      "implementation_source": {
+        "scpa_version": "1.6.2",
+        "scpa_function": "SCPA::single_comparison -> multicross::mcm",
+        "multicross_version": "2.1.0",
+        "called_function": "multicross::mcm",
+        "level": 0.05
+      },
+      "adapter_name": "SCPA-core multivariate framework adaptation",
+      "standard_pathway_analysis": false,
+      "input_orientation": "cells_by_features",
+      "population_cells": [500, 500],
+      "aligned_features": 1536,
+      "distance": "Euclidean (inside multicross::mcm)",
+      "p_value": 4.6605e-12,
+      "decision": "Reject",
+      "scpa_style_qval": 3.3662,
+      "p_value_underflow": false,
+      "finite_reporting_qval": 3.3662,
+      "multiple_testing": "one global hypothesis; Bonferroni factor = 1",
+      "warnings": []
+    },
+    "original_expression_cd4_vs_cd8": {
+      "implementation_source": {
+        "scpa_version": "1.6.2",
+        "scpa_function": "SCPA::single_comparison -> multicross::mcm",
+        "multicross_version": "2.1.0",
+        "called_function": "multicross::mcm",
+        "level": 0.05
+      },
+      "adapter_name": "SCPA-core multivariate framework adaptation",
+      "standard_pathway_analysis": false,
+      "input_orientation": "cells_by_features",
+      "population_cells": [500, 500],
+      "aligned_features": 17085,
+      "distance": "Euclidean (inside multicross::mcm)",
+      "p_value": 5.5516e-60,
+      "decision": "Reject",
+      "scpa_style_qval": 7.6978,
+      "p_value_underflow": false,
+      "finite_reporting_qval": 7.6978,
+      "multiple_testing": "one global hypothesis; Bonferroni factor = 1",
+      "warnings": []
+    }
+  },
+  "interpretation_limit": "The two raw p/q values are not representation-quality scores and must not be compared as evidence that one representation is better."
+}

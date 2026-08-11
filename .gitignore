@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.env
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Raw biological data
+data/raw/
+*.rds
+*.rds.gz
+*.h5
+*.h5ad
+
+# Large GenePT artifacts / embeddings
+*.pickle
+*.pkl
+
+# Large/intermediate generated files
+data/interim/
+
+# Cache / checkpoints / temp
+.cache/
+checkpoints/
+*.tmp
+*.log
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# Generated GenePT matrices
+data/processed/genept_scpa/phase2/*_genept_w.npy
+
+# Downloaded GenePT reference artifacts
+data/reference/genept_scpa/*.zip
