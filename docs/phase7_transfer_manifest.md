@@ -1,8 +1,6 @@
 # Phase 7 transfer manifest
 
-Generated: `2026-08-14T03:15:56.324209+00:00`
-
-Repository root at snapshot: `/home/node00/nhy_python/GenePT_SCPA`
+Generated: `2026-08-14T03:40:08.384765+00:00`
 
 Schema: `phase7.transfer.v1`
 
@@ -13,8 +11,8 @@ restore each file at its exact repository-relative path and run the integrity ch
 
 - Resources: 64
 - Required: 61
-- Required separate-transfer files: 6
-- Required separate-transfer bytes: 833580211
+- Required separate-transfer files: 2
+- Required separate-transfer bytes: 832572752
 - Optional source RDS is provenance only; the checksum-validated sparse export is the Phase 7 input.
 - The historical export manifest contains lab absolute paths. Phase 7 uses the exact
   repo-relative `source.counts_export_files` map and verifies each original manifest hash.
@@ -35,7 +33,7 @@ restore each file at its exact repository-relative path and run the integrity ch
 | required | false | true | 48737 | `scripts/phase4/run_timecourse_validation.py` | `2a759c9f39e03e98a084a3a1dfb1e73567e5356901f7603689935d5af718d09c` | Phase 7 implementation, protocol dependency, or regression test |
 | required | false | true | 7004 | `scripts/phase7/build_environment_snapshot.py` | `b5e430530f96ef4f08a5fbcf94dfcdd9c7803c88eb46eb808114831c72a01d9c` | Phase 7 implementation, protocol dependency, or regression test |
 | required | false | true | 4365 | `scripts/phase7/build_llm_requests.py` | `74c03c6d7ffc46ab690abc4c99bbf1ed64b62c38603b24a2010f10dbea387179` | Phase 7 implementation, protocol dependency, or regression test |
-| required | false | true | 9710 | `scripts/phase7/build_transfer_manifest.py` | `680797fc8dc184069581729896fb856d2e204f49c6412a14a2665b34968c1d76` | Phase 7 implementation, protocol dependency, or regression test |
+| required | false | true | 9501 | `scripts/phase7/build_transfer_manifest.py` | `d903147c46938ecdd4e3905ceb13335e3961e2e9a54d8a62854b87b04bf4b26d` | Phase 7 implementation, protocol dependency, or regression test |
 | required | false | true | 1221 | `scripts/phase7/check_gpt_oss_runtime.py` | `d8fc985aa2a2e147e6aecc07990d3e5c62165f1de1b3b6d8c46be7419ca024db` | Phase 7 implementation, protocol dependency, or regression test |
 | required | false | true | 1222 | `scripts/phase7/check_transfer_integrity.py` | `148789db19ffc6be2c43ef3d1ab6caf2c37caf9fb8a5d08baa0b6d65f1ca2211` | Phase 7 implementation, protocol dependency, or regression test |
 | required | false | true | 7386 | `scripts/phase7/evaluate_rankings.py` | `d1d792bfb026c8cc7e9ab72db168a8469bc83b59df9b0e463e9a06320541d7a5` | Phase 7 implementation, protocol dependency, or regression test |
@@ -75,12 +73,12 @@ restore each file at its exact repository-relative path and run the integrity ch
 | required | false | true | 3826 | `tests/test_phase7_synthetic.py` | `d18113db156eabce268f1d8e4a9312ead051c6b5b02a3baa86d54c909afc98fd` | Phase 7 implementation, protocol dependency, or regression test |
 | required | false | true | 810 | `tests/test_phase7_toy_smoke.py` | `95540591521f1e3c9a7b00f63c831e54e1c27839a8be5a72c9ae963524c78ba1` | Phase 7 implementation, protocol dependency, or regression test |
 | required | false | true | 4868 | `tests/test_phase7_transfer_integrity.py` | `3e16129d998f226b0eefda554cd5a2d1a93fe96a806a1222c0691bd6b6c342b3` | Phase 7 implementation, protocol dependency, or regression test |
-| optional | true | false | 4670 | `data/interim/genept_scpa/phase1_dataset_qc.json` | `d8936266b3dbcbd732e9874c3fa952d53c4389a618b061097d7e5f7af9902b72` | Optional source-dataset validation provenance |
-| optional | true | false | 414 | `data/interim/genept_scpa/phase1_download_metadata.json` | `51b402e940a29f166d903be585855955adb5ed21c16ca9809f5b327202934ced` | Optional GEO acquisition provenance |
-| required | true | false | 312774 | `data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_cell_ids.txt` | `670a1680d316e1f664daa88bfd550f719462d8bb9e7d6df00c1ce79ae54277ef` | Original source cell IDs |
-| required | true | false | 3390 | `data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_export_manifest.json` | `8b18bf6ae66f8a970ee913d8fff9ac73fcec0bd744fa0d6da4daeb890d9342af` | Frozen RNA/counts export dimensions and component hashes |
-| required | true | false | 131560 | `data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_gene_ids.txt` | `7a75f8cf23c63a87ca1ec5092a6aa7449c589d10f9cf28cf41ea3e5fa16ddf17` | RNA/counts gene axis |
-| required | true | false | 559735 | `data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_metadata.csv` | `9a36ce3d806727c559f4cb142e54b41ac2d4dc60ac983f17b5c5211a835b9ab7` | Cell metadata including Hour and Cell_Type |
+| optional | false | true | 4670 | `data/interim/genept_scpa/phase1_dataset_qc.json` | `d8936266b3dbcbd732e9874c3fa952d53c4389a618b061097d7e5f7af9902b72` | Optional source-dataset validation provenance |
+| optional | false | true | 414 | `data/interim/genept_scpa/phase1_download_metadata.json` | `51b402e940a29f166d903be585855955adb5ed21c16ca9809f5b327202934ced` | Optional GEO acquisition provenance |
+| required | false | true | 312774 | `data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_cell_ids.txt` | `670a1680d316e1f664daa88bfd550f719462d8bb9e7d6df00c1ce79ae54277ef` | Original source cell IDs |
+| required | false | true | 3390 | `data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_export_manifest.json` | `8b18bf6ae66f8a970ee913d8fff9ac73fcec0bd744fa0d6da4daeb890d9342af` | Frozen RNA/counts export dimensions and component hashes |
+| required | false | true | 131560 | `data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_gene_ids.txt` | `7a75f8cf23c63a87ca1ec5092a6aa7449c589d10f9cf28cf41ea3e5fa16ddf17` | RNA/counts gene axis |
+| required | false | true | 559735 | `data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_metadata.csv` | `9a36ce3d806727c559f4cb142e54b41ac2d4dc60ac983f17b5c5211a835b9ab7` | Cell metadata including Hour and Cell_Type |
 | required | true | false | 371775504 | `data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_rna_counts_genes_by_cells.mtx` | `6ea1626a0610d701fd23ae330ae384cfcbc90d013a458568f24d686d50ad9e88` | GSE212270 naïve CD4 RNA/counts sparse matrix |
 | required | false | true | 850546 | `data/processed/genept_scpa/phase4/pathway_projection_manifest.json` | `d7d7ffcbdf71649b96600997251dc1db307dfded862babbb82f2514290015611` | Frozen Phase 4 paired pathway universe |
 | optional | true | false | 2531273585 | `data/raw/genept_scpa/GSE212270_integrated_naive_cd4.rds` | `ee5e52b26ed39611007fd5522cc52e2aec23c83cf0c613032f814eef4140c358` | Optional source-object provenance; validated export is sufficient for Phase 7 |

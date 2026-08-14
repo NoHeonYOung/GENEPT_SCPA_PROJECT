@@ -42,8 +42,9 @@ merge local result directories into Git.
 
 Place every separately transferred file at the exact repository-relative path
 listed in `artifacts/phase7_transfer_manifest.json`. The required non-Git inputs
-are the CD4 sparse export files and GenePT embedding artifact. Do not rename files,
-edit the export manifest, or guess alternate locations.
+are only the CD4 sparse counts matrix and GenePT embedding artifact. The small CD4
+export manifest, gene IDs, cell IDs and metadata are tracked in Git. Do not rename
+files, edit the export manifest, or guess alternate locations.
 
 The optional source RDS is provenance only. Phase 7 consumes the validated sparse
 RNA/counts export.

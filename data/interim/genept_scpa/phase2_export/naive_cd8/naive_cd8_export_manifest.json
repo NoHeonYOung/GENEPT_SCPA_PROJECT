@@ -1,0 +1,33 @@
+{
+  "dataset": "naive_cd8",
+  "source_file": "/home/node00/nhy_python/GenePT_SCPA/data/raw/genept_scpa/GSE212270_integrated_naive_cd8.rds",
+  "source_object_modified": false,
+  "assay": "RNA",
+  "layer": "counts",
+  "matrix_orientation": "genes_by_cells",
+  "genes": 17942,
+  "cells": 7041,
+  "nonzero_values": 17432004,
+  "sparse_class": "dgCMatrix",
+  "files": {
+    "counts": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase2_export/naive_cd8/naive_cd8_rna_counts_genes_by_cells.mtx",
+    "genes": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase2_export/naive_cd8/naive_cd8_gene_ids.txt",
+    "cell_ids": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase2_export/naive_cd8/naive_cd8_cell_ids.txt",
+    "metadata": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase2_export/naive_cd8/naive_cd8_metadata.csv"
+  },
+  "sha256": {
+    "counts": "c838d6e7369f29d16547c27c965342619245947c26cc20f69428e69f6fd723df",
+    "genes": "b5c12427cd193b02c378bd16e22d049fd2de471222de830af224cc7a06683fdf",
+    "cell_ids": "3ffb5d2579a1ae498e111d29f61f01cd56e89c176ca67b9fde06e15cb8b4587d",
+    "metadata": "f794caa047d60059da5edcc61b81183200a23fc6dc8892bd2b3e00063dc05726"
+  },
+  "compatibility": {
+    "serialized_seurat_version": "3.1.5",
+    "update_required": true,
+    "update_applied_in_memory": true,
+    "current_object_version": "5.4.0",
+    "source_rds_modified": false,
+    "messages": ["Validating object structure\n", "Updating object slots\n", "Ensuring keys are in the proper structure\n", "Updating matrix keys for DimReduc ‘pca’\n", "Updating matrix keys for DimReduc ‘umap’\n", "Ensuring feature names don't have underscores or pipes\n", "Updating slots in RNA\n", "Updating slots in integrated\n", "Updating slots in integrated_nn\n", "Setting default assay of integrated_nn to integrated\n", "Updating slots in integrated_snn\n", "Setting default assay of integrated_snn to integrated\n", "Updating slots in pca\n", "Updating slots in umap\n", "Setting umap DimReduc to global\n", "No assay information could be found for FindIntegrationAnchors\n", "No assay information could be found for PairwiseIntegrateReference\n", "Setting assay used for ScaleData.RNA to RNA\n", "Setting assay used for ScaleData.integrated to integrated\n", "Setting assay used for RunPCA.integrated to integrated\n", "Setting assay used for RunUMAP.integrated.pca to integrated\n", "Setting assay used for FindNeighbors.integrated.pca to integrated\n", "No assay information could be found for FindClusters\n", "Validating object structure for Assay ‘RNA’\n", "Validating object structure for Assay ‘integrated’\n", "Validating object structure for Graph ‘integrated_nn’\n", "Validating object structure for Graph ‘integrated_snn’\n", "Validating object structure for DimReduc ‘pca’\n", "Validating object structure for DimReduc ‘umap’\n", "Object representation is consistent with the most current Seurat version\n"],
+    "warnings": ["Assay RNA changing from Assay to Assay", "Assay integrated changing from Assay to Assay", "Graph integrated_nn changing from Graph to Graph", "Graph integrated_snn changing from Graph to Graph", "DimReduc pca changing from DimReduc to DimReduc", "DimReduc umap changing from DimReduc to DimReduc", "Adding a command log without an assay associated with it"]
+  }
+}

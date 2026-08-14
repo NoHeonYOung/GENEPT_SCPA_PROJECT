@@ -1,0 +1,38 @@
+{
+  "source": {
+    "repository": "https://github.com/yiqunchen/GenePT",
+    "zenodo_record": "https://zenodo.org/records/10833191",
+    "doi": "10.5281/zenodo.10833191",
+    "archive_url": "https://zenodo.org/api/records/10833191/files/GenePT_emebdding_v2.zip/content",
+    "archive_filename": "GenePT_emebdding_v2.zip",
+    "archive_size_bytes": 574395233,
+    "archive_md5": "3f6ce4317e3a0091978ae5cb8fbf05a3",
+    "archive_sha256": "6193575dcbd7bbf214c8ca3eb518cb3d13272443f98ecd6c26402411a7ca745e"
+  },
+  "primary_embedding": {
+    "model": "text-embedding-ada-002",
+    "filename": "GenePT_gene_embedding_ada_text.pickle",
+    "path": "/home/node00/nhy_python/GenePT_SCPA/data/reference/genept_scpa/genept_ada002/GenePT_gene_embedding_ada_text.pickle",
+    "size_bytes": 460797248,
+    "sha256": "fd297510ddd3040744033fde0b0f2cf15a40ac8b2fd2fb02f10667295e55c862",
+    "embedding_gene_key_count": 93800,
+    "primary_ncbi_gene_key_count": 33703,
+    "official_alias_key_count": 60097,
+    "dimension": 1536,
+    "dtype_after_load": "float32",
+    "finite_embeddings": true,
+    "embedding_key_schema": "uppercase human gene symbols plus official HGNC alias keys",
+    "identifier_fields": {
+      "artifact": "dictionary key (gene symbol or official HGNC alias)",
+      "primary_reference": "NCBI_summary_of_genes.json object key"
+    },
+    "embedding_side_duplicate_keys": 0
+  },
+  "primary_gene_summaries": {
+    "filename": "NCBI_summary_of_genes.json",
+    "path": "/home/node00/nhy_python/GenePT_SCPA/data/reference/genept_scpa/genept_ada002/NCBI_summary_of_genes.json",
+    "size_bytes": 10982188,
+    "sha256": "3db721b7cfbc35795428c6a7ab4e8a9c59fb5f5ccb8c64af50dd3c97c2d4de2e"
+  },
+  "openai_api_called": false
+}

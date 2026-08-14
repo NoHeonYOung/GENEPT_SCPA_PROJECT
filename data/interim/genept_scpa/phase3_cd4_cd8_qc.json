@@ -1,0 +1,244 @@
+{
+  "phase": "Phase 3 - Primary CD4 0h vs CD8 0h GenePT-w benchmark",
+  "generated_at_utc": "2026-08-11T02:05:59.005152+00:00",
+  "datasets": {
+    "cd4": {
+      "accession": "GSE212270",
+      "cells": 14894,
+      "features": 17856
+    },
+    "cd8": {
+      "accession": "GSE212270",
+      "cells": 7041,
+      "features": 17942
+    }
+  },
+  "genept": {
+    "embedding_model": "text-embedding-ada-002",
+    "dimension": 1536,
+    "artifact_sha256": "fd297510ddd3040744033fde0b0f2cf15a40ac8b2fd2fb02f10667295e55c862"
+  },
+  "cd4_genept": {
+    "cells": 14894,
+    "matched_genes": 14409,
+    "expression_coverage": {
+      "min": 0.8961352657004831,
+      "q1": 0.9227907895710438,
+      "median": 0.9319668134452442,
+      "mean": 0.9313064609302197,
+      "q3": 0.9401377126645982,
+      "max": 0.9970489038785835
+    }
+  },
+  "cd8_genept": {
+    "cells": 7041,
+    "matched_genes": 14547,
+    "expression_coverage": {
+      "min": 0.897535139539621,
+      "q1": 0.9160095989029825,
+      "median": 0.924673784104389,
+      "mean": 0.9251688761737864,
+      "q3": 0.9336362161285089,
+      "max": 0.9951311874492832
+    }
+  },
+  "coverage_comparison": {
+    "cd4_median": 0.9319668134452442,
+    "cd8_median": 0.924673784104389,
+    "cd8_minus_cd4_median": -0.007293029340855184,
+    "exclusion_threshold_applied": false
+  },
+  "primary_comparison": {
+    "cd4_definition": "naive_cd4 AND Hour=0",
+    "cd8_definition": "naive_cd8 AND Hour=0",
+    "full_cell_counts": {
+      "cd4": 4428,
+      "cd8": 1048
+    },
+    "sampled_cell_counts": {
+      "cd4": 500,
+      "cd8": 500
+    },
+    "seed": 20260810,
+    "sampling_method": "numpy Generator(PCG64), without replacement, from sorted 0h IDs",
+    "sample_size_basis": "SCPA default and frozen Phase 1 convention: 500 cells/group",
+    "canonical_cell_id_files": {
+      "cd4_all_0h": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase3_sampling/cd4_0h_all_cells.txt",
+      "cd8_all_0h": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase3_sampling/cd8_0h_all_cells.txt",
+      "cd4_canonical": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase3_sampling/cd4_0h_cells.txt",
+      "cd8_canonical": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase3_sampling/cd8_0h_cells.txt"
+    }
+  },
+  "scpa_core": {
+    "implementation_source": "SCPA 1.6.2 single_comparison calls multicross::mcm; adapter calls the same multicross::mcm directly",
+    "adapter": "SCPA-core multivariate framework adaptation, not standard pathway analysis",
+    "input_orientation": "cells_by_features",
+    "feature_handling": "no pathway min/max filter; use all 1536 GenePT dimensions or all 17085 aligned shared genes within each separate global test",
+    "sampling": "explicit canonical 500/group before adapter; no hidden random_cells call",
+    "toy_test": {
+      "seed": 20260810,
+      "nearly_identical": {
+        "implementation_source": {
+          "scpa_version": "1.6.2",
+          "scpa_function": "SCPA::single_comparison -> multicross::mcm",
+          "multicross_version": "2.1.0",
+          "called_function": "multicross::mcm",
+          "level": 0.05
+        },
+        "adapter_name": "SCPA-core multivariate framework adaptation",
+        "standard_pathway_analysis": false,
+        "input_orientation": "cells_by_features",
+        "population_cells": [
+          40,
+          40
+        ],
+        "aligned_features": 4,
+        "distance": "Euclidean (inside multicross::mcm)",
+        "p_value": 1,
+        "decision": "Accept",
+        "scpa_style_qval": 0,
+        "p_value_underflow": false,
+        "finite_reporting_qval": 0,
+        "multiple_testing": "one global hypothesis; Bonferroni factor = 1",
+        "warnings": []
+      },
+      "shifted": {
+        "implementation_source": {
+          "scpa_version": "1.6.2",
+          "scpa_function": "SCPA::single_comparison -> multicross::mcm",
+          "multicross_version": "2.1.0",
+          "called_function": "multicross::mcm",
+          "level": 0.05
+        },
+        "adapter_name": "SCPA-core multivariate framework adaptation",
+        "standard_pathway_analysis": false,
+        "input_orientation": "cells_by_features",
+        "population_cells": [
+          40,
+          40
+        ],
+        "aligned_features": 4,
+        "distance": "Euclidean (inside multicross::mcm)",
+        "p_value": 4.8614e-09,
+        "decision": "Reject",
+        "scpa_style_qval": 2.8833,
+        "p_value_underflow": false,
+        "finite_reporting_qval": 2.8833,
+        "multiple_testing": "one global hypothesis; Bonferroni factor = 1",
+        "warnings": []
+      },
+      "criterion": "shifted finite_reporting_qval > nearly_identical finite_reporting_qval",
+      "passed": true
+    },
+    "warnings": []
+  },
+  "analyses": {
+    "genept_w_cd4_vs_cd8": {
+      "implementation_source": {
+        "scpa_version": "1.6.2",
+        "scpa_function": "SCPA::single_comparison -> multicross::mcm",
+        "multicross_version": "2.1.0",
+        "called_function": "multicross::mcm",
+        "level": 0.05
+      },
+      "adapter_name": "SCPA-core multivariate framework adaptation",
+      "standard_pathway_analysis": false,
+      "input_orientation": "cells_by_features",
+      "population_cells": [
+        500,
+        500
+      ],
+      "aligned_features": 1536,
+      "distance": "Euclidean (inside multicross::mcm)",
+      "p_value": 4.6605e-12,
+      "decision": "Reject",
+      "scpa_style_qval": 3.3662,
+      "p_value_underflow": false,
+      "finite_reporting_qval": 3.3662,
+      "multiple_testing": "one global hypothesis; Bonferroni factor = 1",
+      "warnings": []
+    },
+    "original_expression_cd4_vs_cd8": {
+      "implementation_source": {
+        "scpa_version": "1.6.2",
+        "scpa_function": "SCPA::single_comparison -> multicross::mcm",
+        "multicross_version": "2.1.0",
+        "called_function": "multicross::mcm",
+        "level": 0.05
+      },
+      "adapter_name": "SCPA-core multivariate framework adaptation",
+      "standard_pathway_analysis": false,
+      "input_orientation": "cells_by_features",
+      "population_cells": [
+        500,
+        500
+      ],
+      "aligned_features": 17085,
+      "distance": "Euclidean (inside multicross::mcm)",
+      "p_value": 5.5516e-60,
+      "decision": "Reject",
+      "scpa_style_qval": 7.6978,
+      "p_value_underflow": false,
+      "finite_reporting_qval": 7.6978,
+      "multiple_testing": "one global hypothesis; Bonferroni factor = 1",
+      "warnings": []
+    }
+  },
+  "original_expression_reference": {
+    "source": "sparse RNA/counts",
+    "preprocessing": "per-cell total-count normalization to 10000 over all genes, then log1p, then exact shared-symbol alignment",
+    "shared_gene_count": 17085,
+    "feature_order": "lexicographically sorted exact shared gene symbols",
+    "gene_file": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase3_adapter_inputs/original_expression_shared_genes.txt",
+    "role": "confirm population difference in original space; not rank representation quality"
+  },
+  "adapter_inputs": {
+    "genept_cd4": {
+      "path": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase3_adapter_inputs/genept_w_cd4_0h_cells_by_features.mtx",
+      "sha256": "c5105b969873337dad8bb78bb09cf5f4011ad2e0ddb89e46cb44e5d341cfb678"
+    },
+    "genept_cd8": {
+      "path": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase3_adapter_inputs/genept_w_cd8_0h_cells_by_features.mtx",
+      "sha256": "a60a1c8254ce631372529290029f6a5d41dfb6cd17cf71d9ae35243b7615a0e8"
+    },
+    "expression_cd4": {
+      "path": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase3_adapter_inputs/expression_cd4_0h_cells_by_genes.mtx",
+      "sha256": "a8187984dc2877014a2ac2aadfe529a56c612f367d7769a1489640f6d5afb3b6"
+    },
+    "expression_cd8": {
+      "path": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase3_adapter_inputs/expression_cd8_0h_cells_by_genes.mtx",
+      "sha256": "77d166311bf7e4a6fa20b0c34b8b800197321ce72e45117d6d1c38db50395ce2"
+    },
+    "shared_genes": {
+      "path": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase3_adapter_inputs/original_expression_shared_genes.txt",
+      "sha256": "4cdfa4973e5708531e6721f5a1ccbf64b8910ec1c530fb031c972dbe2e24acc9"
+    }
+  },
+  "scope": {
+    "classifier_run": false,
+    "pathway_gene_interpretation_run": false,
+    "timepoint_extension_run": false,
+    "robustness_analysis_run": false
+  },
+  "gate": {
+    "status": "READY_FOR_GPT_REVIEW",
+    "failed_checks": [],
+    "warnings": [],
+    "criteria": {
+      "phase2_pass": true,
+      "cd8_genept_ready_for_review": true,
+      "cd4_0h_cell_count": true,
+      "cd8_0h_cell_count": true,
+      "canonical_sample_size": true,
+      "same_cells_across_representations": true,
+      "genept_dimensions": true,
+      "selected_genept_values_finite": true,
+      "original_expression_exact_shared_genes": true,
+      "scpa_core_toy_test": true,
+      "scpa_core_runtime_warnings_absent": true,
+      "source_objects_unmodified": true,
+      "classifier_not_run": true,
+      "pathway_gene_interpretation_not_run": true
+    }
+  }
+}

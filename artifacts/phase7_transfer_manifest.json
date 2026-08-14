@@ -1,12 +1,10 @@
 {
   "schema_version": "phase7.transfer.v1",
-  "generated_at_utc": "2026-08-14T03:15:56.324209+00:00",
-  "repository_root_at_snapshot": "/home/node00/nhy_python/GenePT_SCPA",
+  "generated_at_utc": "2026-08-14T03:40:08.384765+00:00",
   "resources": [
     {
       "id": "code_config_genept_scpa_yaml",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/config/genept_scpa.yaml",
       "repository_relative_path": "config/genept_scpa.yaml",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -18,7 +16,6 @@
     {
       "id": "code_config_phase7_gpt_oss_synthetic_yaml",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/config/phase7_gpt_oss_synthetic.yaml",
       "repository_relative_path": "config/phase7_gpt_oss_synthetic.yaml",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -30,7 +27,6 @@
     {
       "id": "code_docs_genept_scpa_decision_log_md",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/docs/genept_scpa_decision_log.md",
       "repository_relative_path": "docs/genept_scpa_decision_log.md",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -42,7 +38,6 @@
     {
       "id": "code_docs_phase7_gpt_oss_synthetic_protocol_md",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/docs/phase7_gpt_oss_synthetic_protocol.md",
       "repository_relative_path": "docs/phase7_gpt_oss_synthetic_protocol.md",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -54,7 +49,6 @@
     {
       "id": "code_genept_scpa_experiment_plan_md",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/genept_scpa_experiment_plan.md",
       "repository_relative_path": "genept_scpa_experiment_plan.md",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -66,7 +60,6 @@
     {
       "id": "code_pyproject_toml",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/pyproject.toml",
       "repository_relative_path": "pyproject.toml",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -78,7 +71,6 @@
     {
       "id": "code_scripts_genept_build_genept_w_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/genept/build_genept_w.py",
       "repository_relative_path": "scripts/genept/build_genept_w.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -90,7 +82,6 @@
     {
       "id": "code_scripts_phase3_run_cd4_cd8_benchmark_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase3/run_cd4_cd8_benchmark.py",
       "repository_relative_path": "scripts/phase3/run_cd4_cd8_benchmark.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -102,7 +93,6 @@
     {
       "id": "code_scripts_phase4_run_pathway_comparison_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase4/run_pathway_comparison.py",
       "repository_relative_path": "scripts/phase4/run_pathway_comparison.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -114,7 +104,6 @@
     {
       "id": "code_scripts_phase4_run_timecourse_validation_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase4/run_timecourse_validation.py",
       "repository_relative_path": "scripts/phase4/run_timecourse_validation.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -126,7 +115,6 @@
     {
       "id": "code_scripts_phase7_build_environment_snapshot_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase7/build_environment_snapshot.py",
       "repository_relative_path": "scripts/phase7/build_environment_snapshot.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -138,7 +126,6 @@
     {
       "id": "code_scripts_phase7_build_llm_requests_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase7/build_llm_requests.py",
       "repository_relative_path": "scripts/phase7/build_llm_requests.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -150,19 +137,17 @@
     {
       "id": "code_scripts_phase7_build_transfer_manifest_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase7/build_transfer_manifest.py",
       "repository_relative_path": "scripts/phase7/build_transfer_manifest.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
       "must_transfer_separately": false,
-      "size_bytes": 9710,
-      "sha256": "680797fc8dc184069581729896fb856d2e204f49c6412a14a2665b34968c1d76",
+      "size_bytes": 9501,
+      "sha256": "d903147c46938ecdd4e3905ceb13335e3961e2e9a54d8a62854b87b04bf4b26d",
       "required_status": "required"
     },
     {
       "id": "code_scripts_phase7_check_gpt_oss_runtime_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase7/check_gpt_oss_runtime.py",
       "repository_relative_path": "scripts/phase7/check_gpt_oss_runtime.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -174,7 +159,6 @@
     {
       "id": "code_scripts_phase7_check_transfer_integrity_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase7/check_transfer_integrity.py",
       "repository_relative_path": "scripts/phase7/check_transfer_integrity.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -186,7 +170,6 @@
     {
       "id": "code_scripts_phase7_evaluate_rankings_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase7/evaluate_rankings.py",
       "repository_relative_path": "scripts/phase7/evaluate_rankings.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -198,7 +181,6 @@
     {
       "id": "code_scripts_phase7_prepare_synthetic_benchmark_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase7/prepare_synthetic_benchmark.py",
       "repository_relative_path": "scripts/phase7/prepare_synthetic_benchmark.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -210,7 +192,6 @@
     {
       "id": "code_scripts_phase7_run_gpt_oss_inference_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase7/run_gpt_oss_inference.py",
       "repository_relative_path": "scripts/phase7/run_gpt_oss_inference.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -222,7 +203,6 @@
     {
       "id": "code_scripts_phase7_run_mock_llm_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase7/run_mock_llm.py",
       "repository_relative_path": "scripts/phase7/run_mock_llm.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -234,7 +214,6 @@
     {
       "id": "code_scripts_phase7_run_scpa_masking_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase7/run_scpa_masking.py",
       "repository_relative_path": "scripts/phase7/run_scpa_masking.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -246,7 +225,6 @@
     {
       "id": "code_scripts_phase7_run_toy_smoke_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase7/run_toy_smoke.py",
       "repository_relative_path": "scripts/phase7/run_toy_smoke.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -258,7 +236,6 @@
     {
       "id": "code_scripts_phase7_validate_llm_rankings_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/phase7/validate_llm_rankings.py",
       "repository_relative_path": "scripts/phase7/validate_llm_rankings.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -270,7 +247,6 @@
     {
       "id": "code_scripts_scpa_run_phase7_synthetic_masking_core_R",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/scpa/run_phase7_synthetic_masking_core.R",
       "repository_relative_path": "scripts/scpa/run_phase7_synthetic_masking_core.R",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -282,7 +258,6 @@
     {
       "id": "code_scripts_scpa_scpa_core_adapter_R",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/scpa/scpa_core_adapter.R",
       "repository_relative_path": "scripts/scpa/scpa_core_adapter.R",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -294,7 +269,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_config_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/config.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/config.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -306,7 +280,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_gene_mapping_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/gene_mapping.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/gene_mapping.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -318,7 +291,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_genept_projection_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/genept_projection.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/genept_projection.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -330,7 +302,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_io_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/io.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/io.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -342,7 +313,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_pathway_projection_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/pathway_projection.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/pathway_projection.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -354,7 +324,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_phase7___init___py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/phase7/__init__.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/phase7/__init__.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -366,7 +335,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_phase7_cohort_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/phase7/cohort.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/phase7/cohort.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -378,7 +346,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_phase7_evaluation_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/phase7/evaluation.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/phase7/evaluation.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -390,7 +357,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_phase7_gpt_oss_backend_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/phase7/gpt_oss_backend.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/phase7/gpt_oss_backend.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -402,7 +368,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_phase7_llm_backend_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/phase7/llm_backend.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/phase7/llm_backend.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -414,7 +379,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_phase7_llm_prompts_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/phase7/llm_prompts.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/phase7/llm_prompts.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -426,7 +390,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_phase7_pathway_selection_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/phase7/pathway_selection.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/phase7/pathway_selection.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -438,7 +401,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_phase7_ranking_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/phase7/ranking.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/phase7/ranking.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -450,7 +412,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_phase7_runtime_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/phase7/runtime.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/phase7/runtime.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -462,7 +423,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_phase7_schemas_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/phase7/schemas.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/phase7/schemas.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -474,7 +434,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_phase7_synthetic_perturbation_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/phase7/synthetic_perturbation.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/phase7/synthetic_perturbation.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -486,7 +445,6 @@
     {
       "id": "code_src_gene_embedding_project_genept_scpa_phase7_transfer_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/src/gene_embedding_project/genept_scpa/phase7/transfer.py",
       "repository_relative_path": "src/gene_embedding_project/genept_scpa/phase7/transfer.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -498,7 +456,6 @@
     {
       "id": "code_tests_test_config_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/tests/test_config.py",
       "repository_relative_path": "tests/test_config.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -510,7 +467,6 @@
     {
       "id": "code_tests_test_phase7_cohort_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/tests/test_phase7_cohort.py",
       "repository_relative_path": "tests/test_phase7_cohort.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -522,7 +478,6 @@
     {
       "id": "code_tests_test_phase7_execution_gates_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/tests/test_phase7_execution_gates.py",
       "repository_relative_path": "tests/test_phase7_execution_gates.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -534,7 +489,6 @@
     {
       "id": "code_tests_test_phase7_gpt_oss_backend_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/tests/test_phase7_gpt_oss_backend.py",
       "repository_relative_path": "tests/test_phase7_gpt_oss_backend.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -546,7 +500,6 @@
     {
       "id": "code_tests_test_phase7_gpt_oss_runtime_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/tests/test_phase7_gpt_oss_runtime.py",
       "repository_relative_path": "tests/test_phase7_gpt_oss_runtime.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -558,7 +511,6 @@
     {
       "id": "code_tests_test_phase7_llm_pipeline_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/tests/test_phase7_llm_pipeline.py",
       "repository_relative_path": "tests/test_phase7_llm_pipeline.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -570,7 +522,6 @@
     {
       "id": "code_tests_test_phase7_ranking_metrics_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/tests/test_phase7_ranking_metrics.py",
       "repository_relative_path": "tests/test_phase7_ranking_metrics.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -582,7 +533,6 @@
     {
       "id": "code_tests_test_phase7_scpa_masking_R",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/tests/test_phase7_scpa_masking.R",
       "repository_relative_path": "tests/test_phase7_scpa_masking.R",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -594,7 +544,6 @@
     {
       "id": "code_tests_test_phase7_synthetic_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/tests/test_phase7_synthetic.py",
       "repository_relative_path": "tests/test_phase7_synthetic.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -606,7 +555,6 @@
     {
       "id": "code_tests_test_phase7_toy_smoke_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/tests/test_phase7_toy_smoke.py",
       "repository_relative_path": "tests/test_phase7_toy_smoke.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -618,7 +566,6 @@
     {
       "id": "code_tests_test_phase7_transfer_integrity_py",
       "category": "code_or_protocol",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/tests/test_phase7_transfer_integrity.py",
       "repository_relative_path": "tests/test_phase7_transfer_integrity.py",
       "purpose": "Phase 7 implementation, protocol dependency, or regression test",
       "tracked_by_git_at_snapshot": true,
@@ -630,11 +577,10 @@
     {
       "id": "phase1_dataset_qc",
       "category": "data",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase1_dataset_qc.json",
       "repository_relative_path": "data/interim/genept_scpa/phase1_dataset_qc.json",
       "purpose": "Optional source-dataset validation provenance",
-      "tracked_by_git_at_snapshot": false,
-      "must_transfer_separately": true,
+      "tracked_by_git_at_snapshot": true,
+      "must_transfer_separately": false,
       "size_bytes": 4670,
       "sha256": "d8936266b3dbcbd732e9874c3fa952d53c4389a618b061097d7e5f7af9902b72",
       "required_status": "optional"
@@ -642,11 +588,10 @@
     {
       "id": "phase1_download_metadata",
       "category": "data",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase1_download_metadata.json",
       "repository_relative_path": "data/interim/genept_scpa/phase1_download_metadata.json",
       "purpose": "Optional GEO acquisition provenance",
-      "tracked_by_git_at_snapshot": false,
-      "must_transfer_separately": true,
+      "tracked_by_git_at_snapshot": true,
+      "must_transfer_separately": false,
       "size_bytes": 414,
       "sha256": "51b402e940a29f166d903be585855955adb5ed21c16ca9809f5b327202934ced",
       "required_status": "optional"
@@ -654,11 +599,10 @@
     {
       "id": "cd4_cells",
       "category": "data",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_cell_ids.txt",
       "repository_relative_path": "data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_cell_ids.txt",
       "purpose": "Original source cell IDs",
-      "tracked_by_git_at_snapshot": false,
-      "must_transfer_separately": true,
+      "tracked_by_git_at_snapshot": true,
+      "must_transfer_separately": false,
       "size_bytes": 312774,
       "sha256": "670a1680d316e1f664daa88bfd550f719462d8bb9e7d6df00c1ce79ae54277ef",
       "required_status": "required"
@@ -666,11 +610,10 @@
     {
       "id": "cd4_export_manifest",
       "category": "data",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_export_manifest.json",
       "repository_relative_path": "data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_export_manifest.json",
       "purpose": "Frozen RNA/counts export dimensions and component hashes",
-      "tracked_by_git_at_snapshot": false,
-      "must_transfer_separately": true,
+      "tracked_by_git_at_snapshot": true,
+      "must_transfer_separately": false,
       "size_bytes": 3390,
       "sha256": "8b18bf6ae66f8a970ee913d8fff9ac73fcec0bd744fa0d6da4daeb890d9342af",
       "required_status": "required"
@@ -678,11 +621,10 @@
     {
       "id": "cd4_genes",
       "category": "data",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_gene_ids.txt",
       "repository_relative_path": "data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_gene_ids.txt",
       "purpose": "RNA/counts gene axis",
-      "tracked_by_git_at_snapshot": false,
-      "must_transfer_separately": true,
+      "tracked_by_git_at_snapshot": true,
+      "must_transfer_separately": false,
       "size_bytes": 131560,
       "sha256": "7a75f8cf23c63a87ca1ec5092a6aa7449c589d10f9cf28cf41ea3e5fa16ddf17",
       "required_status": "required"
@@ -690,11 +632,10 @@
     {
       "id": "cd4_metadata",
       "category": "data",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_metadata.csv",
       "repository_relative_path": "data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_metadata.csv",
       "purpose": "Cell metadata including Hour and Cell_Type",
-      "tracked_by_git_at_snapshot": false,
-      "must_transfer_separately": true,
+      "tracked_by_git_at_snapshot": true,
+      "must_transfer_separately": false,
       "size_bytes": 559735,
       "sha256": "9a36ce3d806727c559f4cb142e54b41ac2d4dc60ac983f17b5c5211a835b9ab7",
       "required_status": "required"
@@ -702,7 +643,6 @@
     {
       "id": "cd4_counts",
       "category": "data",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_rna_counts_genes_by_cells.mtx",
       "repository_relative_path": "data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_rna_counts_genes_by_cells.mtx",
       "purpose": "GSE212270 naïve CD4 RNA/counts sparse matrix",
       "tracked_by_git_at_snapshot": false,
@@ -714,7 +654,6 @@
     {
       "id": "phase4_pathway_manifest",
       "category": "data",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/data/processed/genept_scpa/phase4/pathway_projection_manifest.json",
       "repository_relative_path": "data/processed/genept_scpa/phase4/pathway_projection_manifest.json",
       "purpose": "Frozen Phase 4 paired pathway universe",
       "tracked_by_git_at_snapshot": true,
@@ -726,7 +665,6 @@
     {
       "id": "source_cd4_rds",
       "category": "data",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/data/raw/genept_scpa/GSE212270_integrated_naive_cd4.rds",
       "repository_relative_path": "data/raw/genept_scpa/GSE212270_integrated_naive_cd4.rds",
       "purpose": "Optional source-object provenance; validated export is sufficient for Phase 7",
       "tracked_by_git_at_snapshot": false,
@@ -738,7 +676,6 @@
     {
       "id": "metabolic_pathways",
       "category": "data",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/data/reference/genept_scpa/combined_metabolic_pathways.csv",
       "repository_relative_path": "data/reference/genept_scpa/combined_metabolic_pathways.csv",
       "purpose": "Source pathway/gene collection and provenance",
       "tracked_by_git_at_snapshot": true,
@@ -750,7 +687,6 @@
     {
       "id": "genept_embeddings",
       "category": "data",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/data/reference/genept_scpa/genept_ada002/GenePT_gene_embedding_ada_text.pickle",
       "repository_relative_path": "data/reference/genept_scpa/genept_ada002/GenePT_gene_embedding_ada_text.pickle",
       "purpose": "Official GenePT ada-002 gene embeddings",
       "tracked_by_git_at_snapshot": false,
@@ -762,7 +698,6 @@
     {
       "id": "ncbi_descriptions",
       "category": "data",
-      "current_absolute_path": "/home/node00/nhy_python/GenePT_SCPA/data/reference/genept_scpa/genept_ada002/NCBI_summary_of_genes.json",
       "repository_relative_path": "data/reference/genept_scpa/genept_ada002/NCBI_summary_of_genes.json",
       "purpose": "Primary gene keys and sanitized LLM descriptions",
       "tracked_by_git_at_snapshot": true,
@@ -777,13 +712,9 @@
     "required_count": 61,
     "optional_count": 3,
     "separately_transferable_required": {
-      "file_count": 6,
-      "total_size_bytes": 833580211,
+      "file_count": 2,
+      "total_size_bytes": 832572752,
       "paths": [
-        "data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_cell_ids.txt",
-        "data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_export_manifest.json",
-        "data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_gene_ids.txt",
-        "data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_metadata.csv",
         "data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_rna_counts_genes_by_cells.mtx",
         "data/reference/genept_scpa/genept_ada002/GenePT_gene_embedding_ada_text.pickle"
       ]

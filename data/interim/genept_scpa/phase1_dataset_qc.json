@@ -1,0 +1,71 @@
+{
+  "phase": "Phase 1A - Dataset acquisition / validation gate",
+  "generated_at_utc": "2026-08-10 07:22:35 UTC",
+  "dataset": {
+    "geo_accession": "GSE212270",
+    "filename": "GSE212270_integrated_naive_cd4.rds.gz",
+    "file_size_bytes": 2530955413,
+    "sha256": "f9ad7cfbe8bee87a28cec76dd66d442ad2c5ddb243942c51d905713b9b2b7842",
+    "gzip_integrity": true,
+    "extracted_rds": "GSE212270_integrated_naive_cd4.rds"
+  },
+  "object": {
+    "rds_read_success": true,
+    "read_error": null,
+    "class": "Seurat",
+    "serialized_seurat_version": "3.1.5",
+    "seurat_object_version": "5.4.0",
+    "installed_seurat_version": "5.5.1",
+    "installed_seuratobject_version": "5.4.0",
+    "compatibility": {
+      "update_required": true,
+      "update_applied_in_memory": true,
+      "update_success": true,
+      "source_rds_modified": false,
+      "messages": ["Validating object structure\n", "Updating object slots\n", "Ensuring keys are in the proper structure\n", "Updating matrix keys for DimReduc ‘pca’\n", "Updating matrix keys for DimReduc ‘umap’\n", "Ensuring feature names don't have underscores or pipes\n", "Updating slots in RNA\n", "Updating slots in integrated\n", "Updating slots in integrated_nn\n", "Setting default assay of integrated_nn to integrated\n", "Updating slots in integrated_snn\n", "Setting default assay of integrated_snn to integrated\n", "Updating slots in pca\n", "Updating slots in umap\n", "Setting umap DimReduc to global\n", "No assay information could be found for FindIntegrationAnchors\n", "No assay information could be found for PairwiseIntegrateReference\n", "Setting assay used for ScaleData.RNA to RNA\n", "Setting assay used for ScaleData.integrated to integrated\n", "Setting assay used for RunPCA.integrated to integrated\n", "Setting assay used for RunUMAP.integrated.pca to integrated\n", "Setting assay used for FindNeighbors.integrated.pca to integrated\n", "No assay information could be found for FindClusters\n", "Validating object structure for Assay ‘RNA’\n", "Validating object structure for Assay ‘integrated’\n", "Validating object structure for Graph ‘integrated_nn’\n", "Validating object structure for Graph ‘integrated_snn’\n", "Validating object structure for DimReduc ‘pca’\n", "Validating object structure for DimReduc ‘umap’\n", "Object representation is consistent with the most current Seurat version\n"],
+      "warnings": ["Assay RNA changing from Assay to Assay", "Assay integrated changing from Assay to Assay", "Graph integrated_nn changing from Graph to Graph", "Graph integrated_snn changing from Graph to Graph", "DimReduc pca changing from DimReduc to DimReduc", "DimReduc umap changing from DimReduc to DimReduc", "Adding a command log without an assay associated with it"],
+      "error": null
+    },
+    "cells": 14894,
+    "features": 17856,
+    "assays": ["RNA", "integrated"],
+    "active_assay": "RNA"
+  },
+  "metadata": {
+    "columns": ["orig.ident", "nCount_RNA", "nFeature_RNA", "percent.mt", "Hour", "S.Score", "G2M.Score", "Phase", "old.ident", "integrated_snn_res.0.1", "integrated_snn_res.0.2", "integrated_snn_res.0.3", "integrated_snn_res.0.4", "integrated_snn_res.0.5", "integrated_snn_res.0.6", "integrated_snn_res.0.7", "integrated_snn_res.0.8", "integrated_snn_res.0.9", "integrated_snn_res.1", "seurat_clusters", "integrated_snn_res.0.16", "integrated_snn_res.0.25", "integrated_snn_res.0.22", "integrated_snn_res.0.15", "integrated_snn_res.0.17", "integrated_snn_res.0.18", "integrated_snn_res.0.19", "integrated_snn_res.0.12", "integrated_snn_res.0.14", "integrated_snn_res.0.13", "integrated_snn_res.0.185", "Cell_Type"],
+    "time_column": "Hour",
+    "candidate_time_columns": "Hour",
+    "detected_time_labels": {
+      "0h": "0",
+      "12h": "12",
+      "24h": "24"
+    },
+    "cells_per_timepoint": {
+      "0h": 4428,
+      "12h": 4547,
+      "24h": 5919
+    }
+  },
+  "identity": {
+    "expected": "integrated naive CD4 T cells",
+    "evidence": "official GEO filename contains integrated_naive_cd4",
+    "matched": true,
+    "internal_metadata_or_project_evidence_detected": false
+  },
+  "expression": {
+    "available_layers": {
+      "RNA": ["counts", "data", "scale.data"],
+      "integrated": ["data", "scale.data"]
+    },
+    "counts_available": true,
+    "normalized_expression_available": true,
+    "feature_identifier_type": "gene_symbol_like",
+    "duplicate_features": 0,
+    "missing_feature_names": 0
+  },
+  "gate": {
+    "status": "PASS",
+    "failed_checks": [],
+    "warnings": ["legacy_seurat_object_updated_in_memory:3.1.5->5.4.0", "naive_cd4_internal_metadata_or_project_evidence_not_detected"]
+  }
+}

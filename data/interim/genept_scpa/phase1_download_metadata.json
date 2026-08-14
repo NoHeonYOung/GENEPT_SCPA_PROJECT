@@ -1,0 +1,9 @@
+{
+  "geo_accession": "GSE212270",
+  "filename": "GSE212270_integrated_naive_cd4.rds.gz",
+  "download_source": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE212nnn/GSE212270/suppl/GSE212270_integrated_naive_cd4.rds.gz",
+  "file_size_bytes": 2530955413,
+  "sha256": "f9ad7cfbe8bee87a28cec76dd66d442ad2c5ddb243942c51d905713b9b2b7842",
+  "gzip_integrity": true,
+  "recorded_at_utc": "2026-08-10T07:07:58.654807+00:00"
+}

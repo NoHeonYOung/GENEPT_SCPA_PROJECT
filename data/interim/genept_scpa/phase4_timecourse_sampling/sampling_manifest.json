@@ -1,0 +1,24 @@
+{
+  "generated_at_utc": "2026-08-12T05:22:46.688832+00:00",
+  "seed": 20260810,
+  "sample_size_per_group": 500,
+  "sampling": "numpy Generator(PCG64), without replacement, from sorted IDs",
+  "phase3_zero_hour_reused": true,
+  "groups": {
+    "cd4_0h": {
+      "cell_count": 500,
+      "file": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase4_timecourse_sampling/cd4_0h_cells.txt",
+      "sha256": "a6b8ba2773af9fe30a94cd60a12102953d9b78db59ffd19aa548e1ac376c1aa1"
+    },
+    "cd4_12h": {
+      "cell_count": 500,
+      "file": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase4_timecourse_sampling/cd4_12h_cells.txt",
+      "sha256": "39dd6c351baf198e80872373503e82aa8e4efa78c625efa69e59f742b26a4b11"
+    },
+    "cd4_24h": {
+      "cell_count": 500,
+      "file": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase4_timecourse_sampling/cd4_24h_cells.txt",
+      "sha256": "897f936fc5ba85753efd30d96e46e8437e21785bde66446d511b470d1920c860"
+    }
+  }
+}

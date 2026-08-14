@@ -1,0 +1,205 @@
+{
+  "phase": "Phase 2 - Published GenePT-w reproduction",
+  "generated_at_utc": "2026-08-11T00:52:55.414612+00:00",
+  "dataset": {
+    "accession": "GSE212270",
+    "source_file": "/home/node00/nhy_python/GenePT_SCPA/data/raw/genept_scpa/GSE212270_integrated_naive_cd4.rds",
+    "cells": 14894,
+    "features": 17856
+  },
+  "genept_embedding": {
+    "source": {
+      "repository": "https://github.com/yiqunchen/GenePT",
+      "zenodo_record": "https://zenodo.org/records/10833191",
+      "doi": "10.5281/zenodo.10833191",
+      "archive_url": "https://zenodo.org/api/records/10833191/files/GenePT_emebdding_v2.zip/content",
+      "archive_filename": "GenePT_emebdding_v2.zip",
+      "archive_size_bytes": 574395233,
+      "archive_md5": "3f6ce4317e3a0091978ae5cb8fbf05a3",
+      "archive_sha256": "6193575dcbd7bbf214c8ca3eb518cb3d13272443f98ecd6c26402411a7ca745e"
+    },
+    "model": "text-embedding-ada-002",
+    "dimension": 1536,
+    "gene_count": 93800,
+    "sha256": "fd297510ddd3040744033fde0b0f2cf15a40ac8b2fd2fb02f10667295e55c862",
+    "file": "/home/node00/nhy_python/GenePT_SCPA/data/reference/genept_scpa/genept_ada002/GenePT_gene_embedding_ada_text.pickle"
+  },
+  "expression_input": {
+    "assay": "RNA",
+    "layer": "counts",
+    "source_dimensions": {
+      "genes": 17856,
+      "cells": 14894
+    },
+    "sparse": true,
+    "matrix_market_manifest": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_export_manifest.json"
+  },
+  "preprocessing": {
+    "normalization_target": 10000,
+    "log_transform": "log1p",
+    "gene_filtering_order": "normalize_all_dataset_genes_then_project_exact_official_lookup_matches",
+    "aggregation": "log_normalized_expression_weighted_sum_divided_by_total_dataset_gene_count",
+    "l2_normalization": "rowwise_unit_norm_for_nonzero_vectors",
+    "unmatched_gene_handling": "included_in_library_size_normalization_then_zero_projection_contribution",
+    "alias_policy": "exact artifact-key match only; official HGNC alias keys distinguished using NCBI primary keys"
+  },
+  "gene_matching": {
+    "dataset_genes": 17856,
+    "exact_matches": 14087,
+    "alias_matches": 322,
+    "unmatched_dataset_genes": 3447,
+    "dataset_duplicate_genes": 0,
+    "embedding_duplicate_keys": 0,
+    "duplicate_mapping_count": 0,
+    "embedding_genes": 93800,
+    "matched_dataset_genes": 14409,
+    "unmatched": 3447,
+    "duplicates": 0,
+    "expression_coverage_summary": {
+      "min": 0.8961352657004831,
+      "q1": 0.9227907895710438,
+      "median": 0.9319668134452442,
+      "mean": 0.9313064609302197,
+      "q3": 0.9401377126645982,
+      "max": 0.9970489038785835
+    },
+    "mapping_file": "/home/node00/nhy_python/GenePT_SCPA/data/processed/genept_scpa/phase2/genept_gene_mapping.csv"
+  },
+  "output": {
+    "matrix_file": "/home/node00/nhy_python/GenePT_SCPA/data/processed/genept_scpa/phase2/naive_cd4_genept_w.npy",
+    "matrix_sha256": "47074e483df3af0d5c208c16d637964a1f35db0042c63e3778590065d023ad71",
+    "cell_ids_file": "/home/node00/nhy_python/GenePT_SCPA/data/processed/genept_scpa/phase2/naive_cd4_genept_w_cell_ids.txt",
+    "metadata_file": "/home/node00/nhy_python/GenePT_SCPA/data/processed/genept_scpa/phase2/naive_cd4_genept_w_metadata.csv",
+    "cells": 14894,
+    "dimensions": 1536,
+    "dtype": "float32",
+    "finite_values": 22877184,
+    "expected_values": 22877184,
+    "zero_vectors": 0,
+    "pre_l2_norm_summary": {
+      "min": 0.07295259811936075,
+      "q1": 0.10132621984494247,
+      "median": 0.11339400176150675,
+      "mean": 0.1181107182666953,
+      "q3": 0.13483007508578504,
+      "max": 0.1797898463510884
+    },
+    "post_l2_norm_summary": {
+      "min": 0.9999999999999997,
+      "q1": 0.9999999999999999,
+      "median": 1.0,
+      "mean": 1.0,
+      "q3": 1.0,
+      "max": 1.0000000000000004
+    },
+    "l2_norm_summary": {
+      "min": 0.9999999999999997,
+      "q1": 0.9999999999999999,
+      "median": 1.0,
+      "mean": 1.0,
+      "q3": 1.0,
+      "max": 1.0000000000000004
+    },
+    "l2_tolerance": 1e-05
+  },
+  "correctness": {
+    "synthetic_preflight": {
+      "hand_calculation_max_abs_error": 1.2101617152815436e-08,
+      "optimized_vs_direct_max_abs_error": 1.2101617152815436e-08,
+      "batch_determinism_max_abs_error": 0.0
+    },
+    "optimized_vs_direct_cells": 3,
+    "optimized_vs_direct_max_abs_error": 2.714240399104284e-08,
+    "deterministic_max_abs_error": 0.0
+  },
+  "compatibility": {
+    "seurat_export": {
+      "serialized_seurat_version": "3.1.5",
+      "update_required": true,
+      "update_applied_in_memory": true,
+      "current_object_version": "5.4.0",
+      "source_rds_modified": false,
+      "messages": [
+        "Validating object structure\n",
+        "Updating object slots\n",
+        "Ensuring keys are in the proper structure\n",
+        "Updating matrix keys for DimReduc ‘pca’\n",
+        "Updating matrix keys for DimReduc ‘umap’\n",
+        "Ensuring feature names don't have underscores or pipes\n",
+        "Updating slots in RNA\n",
+        "Updating slots in integrated\n",
+        "Updating slots in integrated_nn\n",
+        "Setting default assay of integrated_nn to integrated\n",
+        "Updating slots in integrated_snn\n",
+        "Setting default assay of integrated_snn to integrated\n",
+        "Updating slots in pca\n",
+        "Updating slots in umap\n",
+        "Setting umap DimReduc to global\n",
+        "No assay information could be found for FindIntegrationAnchors\n",
+        "No assay information could be found for PairwiseIntegrateReference\n",
+        "Setting assay used for ScaleData.RNA to RNA\n",
+        "Setting assay used for ScaleData.integrated to integrated\n",
+        "Setting assay used for RunPCA.integrated to integrated\n",
+        "Setting assay used for RunUMAP.integrated.pca to integrated\n",
+        "Setting assay used for FindNeighbors.integrated.pca to integrated\n",
+        "No assay information could be found for FindClusters\n",
+        "Validating object structure for Assay ‘RNA’\n",
+        "Validating object structure for Assay ‘integrated’\n",
+        "Validating object structure for Graph ‘integrated_nn’\n",
+        "Validating object structure for Graph ‘integrated_snn’\n",
+        "Validating object structure for DimReduc ‘pca’\n",
+        "Validating object structure for DimReduc ‘umap’\n",
+        "Object representation is consistent with the most current Seurat version\n"
+      ],
+      "warnings": [
+        "Assay RNA changing from Assay to Assay",
+        "Assay integrated changing from Assay to Assay",
+        "Graph integrated_nn changing from Graph to Graph",
+        "Graph integrated_snn changing from Graph to Graph",
+        "DimReduc pca changing from DimReduc to DimReduc",
+        "DimReduc umap changing from DimReduc to DimReduc",
+        "Adding a command log without an assay associated with it"
+      ]
+    },
+    "official_notebook_adaptation": "The notebook reads preprocessed AnnData.X and performs X@E/number_of_dataset_genes. This pipeline makes the paper's preceding counts->normalize_total(10000)->log1p and final rowwise L2 steps explicit while preserving the notebook aggregation."
+  },
+  "reproducibility": {
+    "Python_version": "3.9.18",
+    "package_versions": {
+      "numpy": "1.26.4",
+      "scipy": "1.12.0",
+      "PyYAML": "6.0.1"
+    },
+    "code_path": "/home/node00/nhy_python/GenePT_SCPA/scripts/genept/build_genept_w.py",
+    "batch_size": 512
+  },
+  "scope": {
+    "SCPA_run": false,
+    "CD4_vs_CD8_comparison": false,
+    "classifier_training": false,
+    "downstream_metrics": false
+  },
+  "gate": {
+    "status": "READY_FOR_GPT_REVIEW",
+    "failed_checks": [],
+    "warnings": [],
+    "criteria": {
+      "phase1b_pass": true,
+      "official_embedding_dimension": true,
+      "rna_counts_source": true,
+      "source_cell_count_preserved": true,
+      "source_feature_count_preserved": true,
+      "cell_ids_unique_and_complete": true,
+      "dataset_gene_ids_unique": true,
+      "duplicate_mapping_absent": true,
+      "finite_output": true,
+      "unexpected_zero_vectors_absent": true,
+      "post_l2_norms": true,
+      "optimized_vs_direct": true,
+      "deterministic_reproduction": true,
+      "synthetic_correctness": true,
+      "source_object_unmodified": true,
+      "no_downstream_analysis": true
+    }
+  }
+}

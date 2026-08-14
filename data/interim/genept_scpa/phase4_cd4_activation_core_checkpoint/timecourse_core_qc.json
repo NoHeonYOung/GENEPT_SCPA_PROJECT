@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "scpa_version": "1.6.2",
+  "multicross_version": "2.1.0",
+  "raw_p_source": "multicross::mcm result[[1]]",
+  "multiple_testing": "Bonferroni within each comparison/method over frozen pathway universe",
+  "qval_formula": "sqrt(-log10(adjusted_p))",
+  "log_base": 10,
+  "tie_method": "average",
+  "comparison_count": 3,
+  "pathway_count": 123,
+  "official_scpa_crosscheck": [
+    {
+      "pathway": "HALLMARK_BILE_ACID_METABOLISM",
+      "adapter_raw_p": 1.8817e-22,
+      "official_raw_p": 1.8817e-22,
+      "absolute_difference": 0,
+      "tolerance": 1e-12,
+      "passed": true,
+      "warnings": []
+    },
+    {
+      "pathway": "REACTOME_FATTY_ACID_METABOLISM",
+      "adapter_raw_p": 1.7404e-33,
+      "official_raw_p": 1.7404e-33,
+      "absolute_difference": 0,
+      "tolerance": 1e-12,
+      "passed": true,
+      "warnings": []
+    },
+    {
+      "pathway": "REACTOME_VITAMIN_B5_PANTOTHENATE_METABOLISM",
+      "adapter_raw_p": 3.5234e-06,
+      "official_raw_p": 3.5234e-06,
+      "absolute_difference": 0,
+      "tolerance": 1e-12,
+      "passed": true,
+      "warnings": []
+    }
+  ],
+  "warnings": []
+}

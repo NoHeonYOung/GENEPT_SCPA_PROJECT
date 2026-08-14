@@ -1,0 +1,156 @@
+{
+  "phase": "Phase 6 semantic-specific controls",
+  "status": "READY_FOR_GPT_REVIEW",
+  "generated_at_utc": "2026-08-12T05:25:52.632029+00:00",
+  "mcm_counts": {
+    "pathway_controls": 6000,
+    "gene_masks": 11960,
+    "gene_control_baselines": 240,
+    "robustness": 900,
+    "total_including_control_baselines": 19100
+  },
+  "preflight": {
+    "status": "PASS",
+    "checks": {
+      "true_baseline_reproduced": true,
+      "permuted_vector_multiset_preserved": true,
+      "permuted_mapping_changed_gt_0_9": true,
+      "permuted_not_identity": true,
+      "random_dimension_1536": true,
+      "row_norms_preserved": true,
+      "same_seed_deterministic": true,
+      "different_seed_changes_control": true,
+      "same_cells_and_gene_order": true,
+      "no_l2_normalization": true,
+      "direct_projection_sanity": true
+    },
+    "true_raw_p_expected": 0,
+    "true_raw_p_observed": 0,
+    "true_raw_p_absolute_difference": 0,
+    "permutation_changed_fraction": 1,
+    "permuted_norm_max_difference": 0,
+    "random_norm_max_difference": 2.2204e-16,
+    "direct_projection_max_difference": 4.4409e-16,
+    "warnings": [],
+    "scpa_version": "1.6.2",
+    "multicross_version": "2.1.0",
+    "raw_p_source": "multicross::mcm result[[1]]"
+  },
+  "core": {
+    "pathway": {
+      "status": "PASS",
+      "mode": "pathway",
+      "task_count": 6000,
+      "completed_task_count": 6000,
+      "reused_checkpoint_count": 366,
+      "failed_mcm_calls": 0,
+      "warnings": [],
+      "cores": 12,
+      "elapsed_seconds": 2633.687,
+      "checkpoint_resume": true,
+      "scpa_version": "1.6.2",
+      "multicross_version": "2.1.0"
+    },
+    "gene": {
+      "status": "PASS",
+      "mode": "gene",
+      "task_count": 240,
+      "completed_task_count": 240,
+      "reused_checkpoint_count": 224,
+      "failed_mcm_calls": 0,
+      "warnings": [],
+      "cores": 12,
+      "elapsed_seconds": 1732.39,
+      "checkpoint_resume": true,
+      "scpa_version": "1.6.2",
+      "multicross_version": "2.1.0"
+    },
+    "robustness": {
+      "status": "PASS",
+      "mode": "robustness",
+      "task_count": 900,
+      "completed_task_count": 900,
+      "reused_checkpoint_count": 900,
+      "failed_mcm_calls": 0,
+      "warnings": [],
+      "cores": 12,
+      "elapsed_seconds": 18.59,
+      "checkpoint_resume": true,
+      "scpa_version": "1.6.2",
+      "multicross_version": "2.1.0"
+    }
+  },
+  "robustness": {
+    "median_true_rank_stability": -0.17993292372228806,
+    "true_rank_stability_by_resample": [
+      -0.29802224280345824,
+      -0.17867969300226597,
+      -0.09797980382566576,
+      -0.25800667359024376,
+      -0.13199478948289653,
+      -0.07816154291824765,
+      -0.27996828653307365,
+      -0.0982143861969159,
+      -0.27272019489584753,
+      -0.18118615444231015
+    ],
+    "true_minus_permuted_sign_consistency": 0.4666666666666667,
+    "true_minus_random_sign_consistency": 0.5666666666666667
+  },
+  "figures": [
+    "/home/node00/nhy_python/GenePT_SCPA/data/processed/genept_scpa/phase6_semantic_controls/figures/01_true_vs_control_pathway_scores.png",
+    "/home/node00/nhy_python/GenePT_SCPA/data/processed/genept_scpa/phase6_semantic_controls/figures/02_true_percentile_distributions.png",
+    "/home/node00/nhy_python/GenePT_SCPA/data/processed/genept_scpa/phase6_semantic_controls/figures/03_control_difference_heatmap.png",
+    "/home/node00/nhy_python/GenePT_SCPA/data/processed/genept_scpa/phase6_semantic_controls/figures/04_gene_rank_control_comparison.png",
+    "/home/node00/nhy_python/GenePT_SCPA/data/processed/genept_scpa/phase6_semantic_controls/figures/05_top_gene_overlap_controls.png",
+    "/home/node00/nhy_python/GenePT_SCPA/data/processed/genept_scpa/phase6_semantic_controls/figures/06_resampling_robustness.png"
+  ],
+  "scope": {
+    "phase7_run": false,
+    "cd8_generalization_run": false,
+    "classifier_run": false,
+    "genept_l2_gene_masking_run": false,
+    "external_network_run": false,
+    "new_pathway_database_run": false
+  },
+  "phase5_artifact_sha256_before": {
+    "qc": "4d1fe90c0950b0392bae6db52794c01e50f727e64dece4fef2471bd3dca8a786",
+    "manifest": "e4e2cf5350389a28dcf523e65584e2438d2f1b38d656a72e18ce405a3f0b0e2d",
+    "all_results": "83c4271366b177bc4c4d127465637efff8d2119b1ad5033524170f07dd7b401d",
+    "summary": "60134fb4b31ce182ae07cbddd417de5a5f83eaa64b75c3eaa2ac0b5a8c24be95",
+    "targets": "0e52fcf1752169372f89f168718038a589d2d76f4421e84c3523c98255342d89"
+  },
+  "phase5_artifact_sha256_after": {
+    "qc": "4d1fe90c0950b0392bae6db52794c01e50f727e64dece4fef2471bd3dca8a786",
+    "manifest": "e4e2cf5350389a28dcf523e65584e2438d2f1b38d656a72e18ce405a3f0b0e2d",
+    "all_results": "83c4271366b177bc4c4d127465637efff8d2119b1ad5033524170f07dd7b401d",
+    "summary": "60134fb4b31ce182ae07cbddd417de5a5f83eaa64b75c3eaa2ac0b5a8c24be95",
+    "targets": "0e52fcf1752169372f89f168718038a589d2d76f4421e84c3523c98255342d89"
+  },
+  "gate": {
+    "status": "READY_FOR_GPT_REVIEW",
+    "criteria": {
+      "phase5_pass": true,
+      "exact_30_pathway_targets": true,
+      "true_baseline_reproduced": true,
+      "permuted_vector_multiset_preserved": true,
+      "permuted_mapping_changed_gt_0_9": true,
+      "random_dimension_1536": true,
+      "row_norms_preserved": true,
+      "seed_determinism": true,
+      "same_cells_genes_order": true,
+      "no_l2": true,
+      "pathway_control_complete_6000": true,
+      "gene_mask_control_complete_11960": true,
+      "gene_control_baseline_complete_240": true,
+      "resampling_complete_900": true,
+      "failed_mcm_zero": true,
+      "runtime_warnings_absent": true,
+      "checkpoint_resume_pass": true,
+      "historical_phase5_outputs_unmodified": true,
+      "scope_respected": true
+    },
+    "failed_checks": [],
+    "warnings": []
+  }
+}

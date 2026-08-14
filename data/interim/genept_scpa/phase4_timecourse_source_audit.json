@@ -1,0 +1,79 @@
+{
+  "phase": "Phase 4B CD4 activation source audit",
+  "generated_at_utc": "2026-08-12T05:22:46.543766+00:00",
+  "source_status": "ALREADY_PRESENT_IN_RDS",
+  "download_performed": false,
+  "official_source": "NCBI GEO GSE212270",
+  "datasets": {
+    "naive_cd4": {
+      "source_rds": "/home/node00/nhy_python/GenePT_SCPA/data/raw/genept_scpa/GSE212270_integrated_naive_cd4.rds",
+      "source_rds_size_bytes": 2531273585,
+      "source_archive": "/home/node00/nhy_python/GenePT_SCPA/data/raw/genept_scpa/GSE212270_integrated_naive_cd4.rds.gz",
+      "source_archive_size_bytes": 2530955413,
+      "archive_sha256": "f9ad7cfbe8bee87a28cec76dd66d442ad2c5ddb243942c51d905713b9b2b7842",
+      "gzip_integrity": true,
+      "rds_read_success": true,
+      "cells": 14894,
+      "genes": 17856,
+      "hour_counts": {
+        "0h": 4428,
+        "12h": 4547,
+        "24h": 5919
+      },
+      "rna_layers": [
+        "counts",
+        "data",
+        "scale.data"
+      ],
+      "export_manifest": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_export_manifest.json",
+      "checks": {
+        "source_rds_exists": true,
+        "source_archive_exists": true,
+        "rds_read_success": true,
+        "all_hours_present": true,
+        "rna_counts_present": true,
+        "rna_data_present": true,
+        "export_includes_all_cells": true,
+        "source_object_unmodified": true
+      }
+    },
+    "naive_cd8": {
+      "source_rds": "/home/node00/nhy_python/GenePT_SCPA/data/raw/genept_scpa/GSE212270_integrated_naive_cd8.rds",
+      "source_rds_size_bytes": 1194703193,
+      "source_archive": "/home/node00/nhy_python/GenePT_SCPA/data/raw/genept_scpa/GSE212270_integrated_naive_cd8.rds.gz",
+      "source_archive_size_bytes": 1194420110,
+      "archive_sha256": "4715390432e2d7862b6c0272f4477e6d7aa868cd004727bf8bfd29848f65e3a4",
+      "gzip_integrity": true,
+      "rds_read_success": true,
+      "cells": 7041,
+      "genes": 17942,
+      "hour_counts": {
+        "0h": 1048,
+        "12h": 2066,
+        "24h": 3927
+      },
+      "rna_layers": [
+        "counts",
+        "data",
+        "scale.data"
+      ],
+      "export_manifest": "/home/node00/nhy_python/GenePT_SCPA/data/interim/genept_scpa/phase2_export/naive_cd8/naive_cd8_export_manifest.json",
+      "checks": {
+        "source_rds_exists": true,
+        "source_archive_exists": true,
+        "rds_read_success": true,
+        "all_hours_present": true,
+        "rna_counts_present": true,
+        "rna_data_present": true,
+        "export_includes_all_cells": true,
+        "source_object_unmodified": true
+      }
+    }
+  },
+  "existing_source_objects_modified": false,
+  "gate": {
+    "status": "PASS",
+    "failed_checks": [],
+    "warnings": []
+  }
+}

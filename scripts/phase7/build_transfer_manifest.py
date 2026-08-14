@@ -77,7 +77,6 @@ def _resource(
     return {
         "id": identifier,
         "category": category,
-        "current_absolute_path": str(path.resolve()),
         "repository_relative_path": relative,
         "purpose": purpose,
         "tracked_by_git_at_snapshot": tracked,
@@ -123,8 +122,6 @@ def markdown(manifest: dict[str, Any]) -> str:
         "# Phase 7 transfer manifest",
         "",
         f"Generated: `{manifest['generated_at_utc']}`",
-        "",
-        f"Repository root at snapshot: `{manifest['repository_root_at_snapshot']}`",
         "",
         f"Schema: `{manifest['schema_version']}`",
         "",
@@ -181,7 +178,6 @@ def main() -> int:
     manifest = {
         "schema_version": TRANSFER_SCHEMA_VERSION,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
-        "repository_root_at_snapshot": str(PROJECT_ROOT),
         "resources": resources,
         "summary": {
             "resource_count": len(resources),

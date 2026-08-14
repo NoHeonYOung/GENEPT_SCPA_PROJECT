@@ -1,0 +1,155 @@
+{
+  "phase": "Future Phase 3 preparation - naïve CD8 acquisition / validation",
+  "generated_at_utc": "2026-08-10 09:05:32 UTC",
+  "dataset": {
+    "geo_accession": "GSE212270",
+    "filename": "GSE212270_integrated_naive_cd8.rds.gz",
+    "official_geo_record": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE212270",
+    "official_download_source": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE212nnn/GSE212270/suppl/GSE212270_integrated_naive_cd8.rds.gz",
+    "file_size_bytes": 1194420110,
+    "sha256": "4715390432e2d7862b6c0272f4477e6d7aa868cd004727bf8bfd29848f65e3a4",
+    "gzip_integrity": true,
+    "extracted_rds": "GSE212270_integrated_naive_cd8.rds"
+  },
+  "object": {
+    "rds_read_success": true,
+    "read_error": null,
+    "class": "Seurat",
+    "serialized_seurat_version": "3.1.5",
+    "seurat_object_version": "5.4.0",
+    "installed_seurat_version": "5.5.1",
+    "installed_seuratobject_version": "5.4.0",
+    "compatibility": {
+      "update_required": true,
+      "update_applied_in_memory": true,
+      "update_success": true,
+      "source_rds_modified": false,
+      "messages": ["Validating object structure\n", "Updating object slots\n", "Ensuring keys are in the proper structure\n", "Updating matrix keys for DimReduc ‘pca’\n", "Updating matrix keys for DimReduc ‘umap’\n", "Ensuring feature names don't have underscores or pipes\n", "Updating slots in RNA\n", "Updating slots in integrated\n", "Updating slots in integrated_nn\n", "Setting default assay of integrated_nn to integrated\n", "Updating slots in integrated_snn\n", "Setting default assay of integrated_snn to integrated\n", "Updating slots in pca\n", "Updating slots in umap\n", "Setting umap DimReduc to global\n", "No assay information could be found for FindIntegrationAnchors\n", "No assay information could be found for PairwiseIntegrateReference\n", "Setting assay used for ScaleData.RNA to RNA\n", "Setting assay used for ScaleData.integrated to integrated\n", "Setting assay used for RunPCA.integrated to integrated\n", "Setting assay used for RunUMAP.integrated.pca to integrated\n", "Setting assay used for FindNeighbors.integrated.pca to integrated\n", "No assay information could be found for FindClusters\n", "Validating object structure for Assay ‘RNA’\n", "Validating object structure for Assay ‘integrated’\n", "Validating object structure for Graph ‘integrated_nn’\n", "Validating object structure for Graph ‘integrated_snn’\n", "Validating object structure for DimReduc ‘pca’\n", "Validating object structure for DimReduc ‘umap’\n", "Object representation is consistent with the most current Seurat version\n"],
+      "warnings": ["Assay RNA changing from Assay to Assay", "Assay integrated changing from Assay to Assay", "Graph integrated_nn changing from Graph to Graph", "Graph integrated_snn changing from Graph to Graph", "DimReduc pca changing from DimReduc to DimReduc", "DimReduc umap changing from DimReduc to DimReduc", "Adding a command log without an assay associated with it"],
+      "error": null
+    },
+    "cells": 7041,
+    "features": 17942,
+    "assays": ["RNA", "integrated"],
+    "active_assay": "RNA"
+  },
+  "metadata": {
+    "columns": ["orig.ident", "nCount_RNA", "nFeature_RNA", "percent.mt", "Hour", "S.Score", "G2M.Score", "Phase", "old.ident", "integrated_snn_res.0.1", "integrated_snn_res.0.2", "integrated_snn_res.0.3", "integrated_snn_res.0.4", "integrated_snn_res.0.5", "integrated_snn_res.0.6", "integrated_snn_res.0.7", "integrated_snn_res.0.8", "integrated_snn_res.0.9", "integrated_snn_res.1", "seurat_clusters", "integrated_snn_res.0.25", "Cell_Type"],
+    "time_column": "Hour",
+    "candidate_time_columns": "Hour",
+    "detected_time_labels": {
+      "0h": "0",
+      "12h": "12",
+      "24h": "24"
+    },
+    "cells_per_timepoint": {
+      "0h": 1048,
+      "12h": 2066,
+      "24h": 3927
+    },
+    "cell_type": {
+      "column_present": true,
+      "column": "Cell_Type",
+      "unique_values": ["Activated", "Intermediate", "Resting", "TEMRA", "Undefined1", "Undefined2"],
+      "counts": {
+        "Activated": 1051,
+        "Intermediate": 2459,
+        "Resting": 2546,
+        "TEMRA": 915,
+        "Undefined1": 37,
+        "Undefined2": 33
+      }
+    }
+  },
+  "identity": {
+    "expected": "integrated naïve CD8 T cells",
+    "official_geo_source_evidence": true,
+    "filename_evidence": true,
+    "internal_metadata_or_project_evidence": [],
+    "internal_evidence_detected": false,
+    "evidence": ["official GEO GSE212270 download metadata", "official filename: GSE212270_integrated_naive_cd8.rds.gz"],
+    "matched": true
+  },
+  "expression": {
+    "available_layers": {
+      "RNA": ["counts", "data", "scale.data"],
+      "integrated": ["data", "scale.data"]
+    },
+    "counts_available": true,
+    "normalized_expression_available": true,
+    "rna_feature_count": 17942,
+    "feature_identifier_type": "gene_symbol_like",
+    "duplicate_features": 0,
+    "missing_feature_names": 0
+  },
+  "comparison_with_naive_cd4": {
+    "status": "COMPARED",
+    "cd4_qc_gate_status": "PASS",
+    "cd4_feature_count": 17856,
+    "cd8_feature_count": 17942,
+    "exact_shared_gene_count": 17085,
+    "cd4_only_gene_count": 771,
+    "cd8_only_gene_count": 857,
+    "gene_order_identical": false,
+    "rna_assay_present": {
+      "cd4": true,
+      "cd8": true
+    },
+    "normalized_expression_available": {
+      "cd4": true,
+      "cd8": true
+    },
+    "time_points_present": {
+      "cd4": {
+        "0h": true,
+        "12h": true,
+        "24h": true
+      },
+      "cd8": {
+        "0h": true,
+        "12h": true,
+        "24h": true
+      }
+    },
+    "feature_naming": {
+      "cd4": "gene_symbol_like",
+      "cd8": "gene_symbol_like",
+      "compatible": true
+    },
+    "cell_type": {
+      "cd4": {
+        "column_present": true,
+        "column": "Cell_Type",
+        "unique_values": ["Activated", "Intermediate", "Resting", "Treg"],
+        "counts": {
+          "Activated": 3335,
+          "Intermediate": 4436,
+          "Resting": 6823,
+          "Treg": 300
+        }
+      },
+      "cd8": {
+        "column_present": true,
+        "column": "Cell_Type",
+        "unique_values": ["Activated", "Intermediate", "Resting", "TEMRA", "Undefined1", "Undefined2"],
+        "counts": {
+          "Activated": 1051,
+          "Intermediate": 2459,
+          "Resting": 2546,
+          "TEMRA": 915,
+          "Undefined1": 37,
+          "Undefined2": 33
+        }
+      }
+    },
+    "obvious_preprocessing_or_representation_mismatch": false,
+    "mismatch_reasons": [],
+    "intersection_matrix_created": false,
+    "source_objects_modified": false
+  },
+  "gate": {
+    "status": "PASS",
+    "failed_checks": [],
+    "warnings": ["legacy_seurat_object_updated_in_memory:3.1.5", "naive_cd8_internal_metadata_or_project_evidence_not_detected"]
+  }
+}

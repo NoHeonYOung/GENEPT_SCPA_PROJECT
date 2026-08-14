@@ -1,8 +1,8 @@
 # GenePT × SCPA
 
 GenePT의 문헌 기반 gene representation을 SCPA에 통합할 수 있는지 단계별로
-검증하는 연구 프로젝트입니다. 현재 단계는 **Phase 4 — pathway-specific Vanilla vs
-GenePT-informed SCPA comparison**입니다.
+검증하는 연구 프로젝트입니다. Phase 6 semantic controls까지 완료했고, 현재는
+**Phase 7 — gpt-oss synthetic ground-truth benchmark protocol/runtime handoff** 단계입니다.
 
 ## 현재 상태
 
@@ -14,8 +14,10 @@ GenePT-informed SCPA comparison**입니다.
 - Phase 4A exploratory lineage comparison 완료, historical output 보존
 - Phase 4B Naive CD4 activation 3-comparison production PASS
 - Phase 4C optional CD8 generalization NOT SCHEDULED
-- Phase 5 pathway-internal paired gene-masking sensitivity IN PROGRESS
-- Phase 6 이후 NOT STARTED
+- Phase 5 pathway-internal paired gene-masking production COMPLETED,
+  `READY_FOR_GPT_REVIEW`
+- Phase 6 True/Permuted/Random semantic controls COMPLETED
+- Phase 7 protocol/runtime scaffold FROZEN; model download와 production 실행은 잠금 상태
 
 설정 검증:
 
@@ -61,7 +63,12 @@ PYTHONPATH=src python scripts/phase4/run_timecourse_validation.py \
 Vanilla, GenePT non-L2 primary 및 L2 sensitivity를 정확히 3 comparisons에
 실행합니다(1,107 MCM calls). 이전 9-comparison 기능은 explicit `all_9` option으로
 보존하지만 현재 실행 대상이 아닙니다. CD8 generalization, Phase 5 gene contribution,
-semantic controls와 classifier는 실행하지 않습니다.
+semantic controls와 classifier는 이 Phase 5 명령에서 실행하지 않습니다.
+
+Phase 6 결과와 negative semantic-specific 결론을 포함한 산출물은
+`data/processed/genept_scpa/phase6_semantic_controls/`에 보존됩니다. Phase 7의
+홈 머신 이관, checksum 검증 및 실행 중단 지점은
+[`docs/phase7_home_server_handoff.md`](docs/phase7_home_server_handoff.md)를 따릅니다.
 
 Phase 5는 Phase 4B의 Vanilla-only/GenePT-only 30개 pathway-comparison pair에서
 동일 gene을 Vanilla와 GenePT non-L2에 masking합니다. Full production 명령은 다음

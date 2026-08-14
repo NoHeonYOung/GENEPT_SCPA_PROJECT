@@ -1,7 +1,9 @@
 # Phase 7 Git boundaries
 
-This file defines the exact selective-commit boundary for the handoff. Do not use
-`git add .`, `git add -A`, or a broad `git commit -a` in the current worktree.
+This file records the original selective Phase 7 handoff boundary. The later
+repository-portability audit intentionally extends the Git boundary to include
+small Phase 1--6 results, provenance, frozen IDs and export sidecars. Do not use
+`git add .`, `git add -A`, or a broad `git commit -a`.
 
 ## Phase 7 files safe to commit
 
@@ -30,7 +32,7 @@ This file defines the exact selective-commit boundary for the handoff. Do not us
 These shared changes record Phase 6 closure, unlock/freeze Phase 7 and validate the
 new active phase. They are part of the Phase 7 transition and handoff.
 
-## Unrelated or pre-existing dirty files to leave untouched
+## Files reviewed by the repository-portability audit
 
 - `README.md`
 - `data/processed/genept_scpa/phase5_gene_contribution/**`
@@ -39,6 +41,10 @@ new active phase. They are part of the Phase 7 transition and handoff.
 - `scripts/scpa/run_phase6_semantic_controls_core.R`
 - `tests/test_phase6_semantic_controls.py`
 
-Separately transferred ignored data such as the CD4 sparse export and GenePT
-embedding must not be force-added to Git. Their exact hashes and destination paths
-are recorded in `artifacts/phase7_transfer_manifest.json`.
+These were previously left out only because they pre-dated the Phase 7 selective
+commit. They are small, non-secret project state and are included by the later
+portability commit after fresh-clone validation.
+
+The CD4 counts matrix and GenePT embedding remain separate. The small CD4 export
+sidecars are Git-tracked. Exact hashes and destination paths are recorded in
+`artifacts/phase7_transfer_manifest.json`.
