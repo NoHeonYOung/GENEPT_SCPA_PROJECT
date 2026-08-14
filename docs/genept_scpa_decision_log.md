@@ -446,6 +446,146 @@
   same cells/genes/order, equivalence, deterministic 및 checkpoint/resume gate PASS 후에만
   허용하고 `READY_FOR_GPT_REVIEW`에서 멈춘다.
 
+## D-0026 — Phase 5 production completed, GPT review pending
+
+- 날짜: 2026-08-11
+- 상태: Accepted
+- 결과: Frozen 30 pathway-comparison targets에서 branch당 1,135 genes, Vanilla/GenePT
+  non-L2 합계 2,270 masking MCM evaluations를 완료했다. Failed MCM=0, warning=0,
+  Phase 4B baseline maximum raw-p absolute difference=0이다.
+- Correctness: Vanilla zero-mask/physical-removal difference=0, GenePT subtraction/direct
+  recomputation maximum difference=8.8818e-16, checkpoint/resume와 deterministic
+  average-tie ranking이 PASS했다. Phase 4A/4B artifact hash는 변경되지 않았다.
+- Gate: 모든 technical criteria가 true이므로 `READY_FOR_GPT_REVIEW`에서 멈춘다.
+  이는 biological superiority 또는 causal gene claim이 아니며 Phase 6은 열지 않는다.
+
+## D-0027 — Phase 5 final PASS after GPT review
+
+- 날짜: 2026-08-12
+- 상태: Accepted
+- 결정: GPT review에서 frozen target 30개(11/9/10), branch당 1,135 gene instances,
+  masking MCM 2,270회, failed MCM=0, warning=0, Phase 4B baseline difference=0 및 모든
+  QC criteria=true를 확인하여 Phase 5를 PASS/COMPLETED로 닫는다.
+- 해석 제한: 결과는 representation-dependent masking sensitivity이며 causal gene,
+  biological correctness 또는 GenePT superiority 근거가 아니다.
+
+## D-0028 — Phase 6 semantic-specific controls method freeze
+
+- 날짜: 2026-08-12
+- 상태: Accepted
+- Representations: True는 정확한 official GenePT gene-row correspondence다. Permuted는
+  pathway 내부 row vector multiset/value/dimension/norm을 보존하고 assignment를 90% 초과
+  변경한다. Random은 독립 Gaussian 1536D direction을 해당 True row norm으로 scaling한다.
+  같은 realization을 양 group과 full/masked 계산에 쓰며 L2는 금지한다.
+- Scope: Phase 6A는 frozen 30 targets × 2 controls × 100 replicates=6,000 MCM이다.
+  Phase 6B는 Phase 5에서 사전 선택한 representative 6 targets × 2 controls × 20
+  replicates의 gene masks 11,960 MCM 및 control baselines 240 MCM이다. Paired resampling은
+  10 × 30 × 3=900 MCM이다.
+- Seeds/checkpoint: control seed는 base + 1000×one-based target index + replicate id,
+  Permuted base=20260812, Random base=20270812로 고정한다. Target×control×replicate
+  atomic checkpoint/resume를 사용한다.
+- Runtime gate: Phase 5 실측 2.516 sec/MCM을 적용한 19,100 MCM single-core estimate
+  13.35시간은 24시간 미만이므로 preflight/smoke PASS 후 production을 허용한다.
+- Deferred: Phase 7, CD8 generalization, classifier, GenePT L2 gene masking, external
+  network와 새 pathway database는 실행하지 않는다. Superiority claim도 금지한다.
+
+## D-0029 — Phase 6 production completed, GPT review pending
+
+- 날짜: 2026-08-12
+- 상태: Accepted
+- 결과: Phase 6A pathway controls 6,000 MCM, Phase 6B gene masks 11,960 MCM 및
+  control baselines 240 MCM, paired resampling 900 MCM의 총 19,100 MCM을 완료했다.
+  Failed MCM=0, warning=0이며 모든 19개 technical criteria가 true다.
+- 산출물: Frozen pathway targets 30개, representative gene-control targets 6개,
+  pathway control rows 6,000개/summary 60개, gene-control rows 11,960개/summary 12개,
+  resampling rows 900개와 figures 6개를 생성했다. Phase 5 artifact hashes는 유지됐다.
+- Correctness: lowercase `true` representation label을 boolean으로 오인하던 후처리
+  parser 버그를 수정했다. 계산 checkpoint는 모두 보존했으며 재계산 없이 final
+  aggregation을 완료하고 regression test를 추가했다.
+- Gate: `READY_FOR_GPT_REVIEW`에서 멈춘다. Phase 7, CD8 generalization, classifier,
+  GenePT L2 gene masking, external network와 새 pathway database는 실행하지 않는다.
+  결과는 semantic-correspondence specificity control이며 biological correctness나
+  superiority를 확정하지 않는다.
+
+## D-0030 — Phase 6 final PASS after scientific review
+
+- 날짜: 2026-08-14
+- 상태: Accepted
+- 결정: Phase 6의 19,100 MCM technical gate와 최종 산출물을 검토해 Phase 6을
+  PASS/COMPLETED로 닫는다.
+- Reviewed conclusion (frozen wording): "GenePT-informed representation changes
+  pathway/gene sensitivity, but correct gene-to-embedding correspondence was not
+  distinguishable from within-pathway permutation controls. Differences from
+  Random are compatible with a possible structured embedding-geometry effect,
+  while resampling robustness was weak. Therefore semantic-specific superiority
+  is not supported."
+- 과학적 결론: GenePT-informed representation은 pathway/gene sensitivity를 바꾸지만,
+  정확한 gene-to-embedding correspondence는 pathway 내부 permutation control과
+  구분되지 않았다. Random과의 차이는 structured embedding-geometry effect 가능성과
+  양립하지만 이를 입증하지 않으며, resampling robustness는 약했다. 따라서
+  semantic-specific superiority는 현재 결과에서 지지되지 않는다.
+- 해석 제한: GenePT가 무의미하다고 결론 내리지 않으며 embedding geometry가
+  입증됐다고 주장하지 않는다. Biological correctness, causality 또는 superiority도
+  확정하지 않는다.
+
+## D-0031 — Phase 7 synthetic ground-truth and gpt-oss protocol freeze
+
+- 날짜: 2026-08-14
+- 상태: Accepted
+- RQ1: Vanilla SCPA, GenePT-informed SCPA 및 context-aware LLM이 known synthetic
+  perturbed pathway genes를 얼마나 회복하는지 비교한다.
+- RQ2: correct biological gene-description correspondence가 stats-only 및
+  shuffled-description control보다 LLM ground-truth recovery를 개선하는지 검증한다.
+- Cohort: GSE212270 naïve CD4 0h에서 sorted cell IDs를 기준으로 PCG64 seed
+  20260814로 1,000 unique cells를 without replacement 선택한 뒤 seeded permutation의
+  첫 500을 A, 나머지 500을 B로 둔다.
+- Preprocessing: RNA/counts를 full-transcriptome total=10,000으로 정규화하고 log1p한
+  뒤 pathway를 subset한다. Perturbation은 normalized log1p space의 B에만 주입하고
+  재정규화하지 않는다.
+- Pathways: frozen Phase 4 paired universe만 사용하고 Phase 4/5 결과는 selection에
+  사용하지 않는다. 15–60 genes, 모든 gene의 usable NCBI description을 요구한다.
+  Eligible HALLMARK가 없어 기준을 완화하지 않고, KEGG/REACTOME의 15–25/26–40/41–60
+  구간에서 각각 2개씩 선택하되 적격 pathway가 1개뿐인 REACTOME large는 1개를
+  선택하여 seed 20260815 기준 총 11개를 동결한다.
+- Perturbations: null, mean shift, seeded 30% cell subset, mixed direction을 사용하고
+  effect strength는 pooled baseline SD의 0.5 및 1.0이다. Mixed negative는 detection
+  fraction >=0.5와 median>0을 추가 요구하고 0 미만은 clip하며 clipping을 기록한다.
+- Methods: Vanilla zero mask, non-L2 GenePT subtraction mask 및 gpt-oss stats-only/
+  true-description/shuffled-description ranking을 비교한다. LLM에는 opaque candidate ID와
+  frozen numeric summaries만 제공하며 gene symbol과 ground truth는 노출하지 않는다.
+- Evaluation: Recall@truth-K, Average Precision, NDCG@N을 primary로, NDCG@truth-K와
+  prompt-order Spearman을 secondary로 동결한다.
+- Gate: Phase 7을 `in_progress`로 열되 현재는 mock backend와 toy smoke만 허용한다.
+  gpt-oss download, real LLM inference, production SCPA 및 production synthetic generation은
+  별도 승인 전까지 금지한다.
+
+## D-0032 — Phase 7 gpt-oss runtime and inference protocol freeze
+
+- 날짜: 2026-08-14
+- 상태: Accepted
+- Primary inference: `openai/gpt-oss-20b`를 Hugging Face Transformers와 official
+  `tokenizer.apply_chat_template`로 실행한다. Reasoning effort는 low, decoding은 greedy
+  (`do_sample=false`, `num_beams=1`, `max_new_tokens=2048`)로 고정하고 temperature/top-p
+  sampling은 사용하지 않는다.
+- Runtime safety: pretrained MXFP4를 dequantize하지 않고 단일 CUDA device에만 올린다.
+  Local-files-only lazy loading을 강제하며 CPU offload, precision/backend fallback 및
+  import-time loading을 금지한다. Primary gate는 CC>=7.5, VRAM>=16GiB, RAM>=32GiB,
+  free disk>=30GiB와 필수 runtime package를 요구한다.
+- Invalid output: initial attempt 이후 최대 retry 2회(총 3회)로 고정한다. Scientific
+  payload와 candidate order는 유지하고 모든 invalid raw response, failure reason,
+  retry index 및 prompt/scientific-content hash를 저장한다.
+- Replication: prompt-order 3회는 order stability이고 pseudo-split 반복은 sampling
+  robustness다. Pilot split seed는 20260814이며 production split seeds/count는 runtime-only
+  pilot 뒤 scientific metric을 보기 전에 동결한다.
+- Pilot: 1 split, frozen 11개 중 gene 수가 가장 작은/큰 2 pathways, stats-only 1조건,
+  candidate order 1개만 허용한다. Load/자원/latency/tokens/sec/JSON/retry만 측정하며
+  Recall/AP/NDCG/truth 위치/method 비교/과학적 ranking 해석은 출력하지 않는다.
+- Representativeness: 적격 HALLMARK가 없다는 한계를 유지하며 eligibility를 완화하지
+  않는다.
+- Current gate: RTX 2080 SUPER 8GiB는 primary 16GiB 기준을 충족하지 않는다. 현재
+  free disk 약 4GiB 및 필수 package 누락까지 있어 `UNSUPPORTED_PRIMARY`다. 이는
+  scientific result가 아닌 runtime capability 판정이다.
+
 ## Decision template
 
 ```text

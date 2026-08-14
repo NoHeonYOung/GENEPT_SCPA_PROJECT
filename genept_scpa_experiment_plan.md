@@ -39,8 +39,10 @@ Primary hypothesis to be tested:
 | Phase 4A — Exploratory CD4 0h vs CD8 0h lineage comparison | **COMPLETED / HISTORICAL PRESERVED** |
 | Phase 4B — Naive CD4 activation primary validation (3 comparisons) | **PASS / COMPLETED** |
 | Phase 4C — Optional CD8 generalization | **NOT SCHEDULED / NOT RUN** |
-| Phase 5 — Pathway-internal gene masking sensitivity | **IN PROGRESS / METHOD FROZEN** |
-| Phase 6 이후 | **NOT STARTED** |
+| Phase 5 — Pathway-internal gene masking sensitivity | **PASS / COMPLETED** |
+| Phase 6 — Semantic-specific controls | **PASS / COMPLETED** |
+| Phase 7 — Synthetic ground-truth + gpt-oss validation | **IN PROGRESS / PROTOCOL FROZEN / MOCK ONLY** |
+| Phase 8 이후 | **NOT STARTED** |
 | Naïve CD8 acquisition / QC | **PASS** |
 
 문서 변경만으로 어떤 Phase도 새로 PASS 처리하지 않는다.
@@ -187,9 +189,9 @@ Phase 3  Whole-cell GenePT-w CD4/CD8 SCPA-core feasibility       PASS
 Phase 4A Exploratory lineage pathway comparison                  COMPLETED / HISTORICAL PRESERVED
 Phase 4B Naive CD4 activation primary validation                 PASS / COMPLETED
 Phase 4C Optional CD8 0h-vs-24h generalization                   NOT SCHEDULED / NOT RUN
-Phase 5  Pathway-internal gene masking sensitivity               IN PROGRESS / METHOD FROZEN
-Phase 6  Semantic-specific controls and robustness               NOT STARTED
-Phase 7  External/biological/synthetic reference validation      NOT STARTED
+Phase 5  Pathway-internal gene masking sensitivity               PASS / COMPLETED
+Phase 6  Semantic-specific controls and robustness               PASS / COMPLETED
+Phase 7  Synthetic ground-truth + gpt-oss validation             IN PROGRESS / PROTOCOL FROZEN / MOCK ONLY
 Phase 8  Optional classifier/separability analysis               NOT STARTED
 Phase 9  Additional timepoint analyses                            NOT STARTED
 Phase 10 Final interpretation / presentation / report            NOT STARTED
@@ -504,7 +506,7 @@ default/primary production에 포함하지 않는다.
 
 ## Phase 5. Pathway-internal gene contribution analysis
 
-Status: **IN PROGRESS — METHOD FROZEN**
+Status: **PASS / COMPLETED**
 
 Phase 4B에서 adjusted p<0.05 기준 Vanilla-only 또는 GenePT-only였던 모든
 pathway-comparison pair를 target으로 고정한다. Expected target은 0h-vs-12h 11개,
@@ -521,21 +523,62 @@ GenePT L2 gene-level LOO, Phase 6 True/Permuted/Random, CD8 generalization과 cl
 실행하지 않는다. Pathway-comparison 단위 atomic checkpoint/resume와 baseline Phase 4B
 raw-p reproduction, masking equivalence, deterministic ranking을 production gate로 둔다.
 
+실제 production은 frozen 30 targets, branch당 1,135 gene masks(총 2,270 MCM calls)에서
+완료됐다. Failed MCM=0, warning=0, baseline maximum raw-p difference=0이며 모든 technical
+criteria가 true다. 2026-08-12 GPT review PASS에 따라 Phase 5를 닫고 Phase 6을 연다.
+
 ## Phase 6. Semantic-specific controls
 
-Status: **NOT STARTED**
+Status: **PASS / COMPLETED — SCIENTIFIC REVIEW RECORDED**
 
-True GenePT, gene↔embedding assignment만 바꾼 Permuted GenePT, dimension-matched
-Random embedding을 비교한다. Repeated sampling, seed/sample-size robustness와
-coverage/dimension controls를 함께 사전 고정한다.
+Phase 5의 정확한 30 pathway-comparison targets와 CD4 0h/12h/24h 각 500 frozen cells,
+전처리, pathway gene/order를 유지한다. True는 정확한 official GenePT correspondence,
+Permuted는 pathway 내부 embedding row multiset/value/dimension/norm을 그대로 둔 채
+gene assignment만 90% 초과 변경, Random은 각 True row norm으로 scaling한 독립 1536D
+Gaussian direction을 사용한다. 같은 replicate control을 양 group과 full/masked 계산에
+공유하고 L2 normalization은 사용하지 않는다.
+
+Phase 6A는 30 targets에서 Permuted/Random 각 100회(6,000 control baseline MCM),
+Phase 6B는 Phase 5의 고정 representative 6 targets에서 각 control 20회(11,960 gene-mask
+MCM와 240 control baseline MCM)를 실행한다. Robustness는 전체 available CD4 pool에서
+timepoint별 500 cells를 without replacement로 다시 뽑는 paired 10 replicates에 대해
+True/Permuted/Random 900 MCM을 수행한다. Seed scheme, empirical tails 및 control별
+30-target BH, atomic target×control×replicate checkpoint/resume를 결과 전에 고정한다.
+
+Phase 5 실측 기반 총 19,100 MCM single-core estimate는 13.35시간으로 24시간 runtime
+gate 미만이다. Phase 7, CD8 generalization, classifier, GenePT L2 gene masking, external
+network와 새 pathway database는 실행하지 않는다. 결과는 semantic correspondence
+specificity control로만 해석하며 biological correctness/superiority 주장을 허용하지 않는다.
+
+Production은 Phase 6A 6,000 pathway-control MCM, Phase 6B 11,960 gene-mask MCM와
+240 control baseline MCM, paired resampling 900 MCM의 총 19,100 MCM에서 완료됐다.
+Failed MCM=0, warning=0이며 19개 technical gate criteria가 모두 true다. 정확히 30
+pathway targets, 6 representative gene-control targets, 60 pathway summaries, 12 gene
+summaries와 6 figures를 생성했다. Scientific review에서 correct correspondence가
+within-pathway permutation과 구분되지 않고 resampling robustness가 약함을 확인했다.
+Random과의 차이는 structured geometry 가능성과 양립하지만 이를 입증하지 않는다.
+따라서 Phase 6은 semantic-specific superiority가 지지되지 않는다는 결론으로 PASS/
+COMPLETED 처리됐다.
 
 ## Phase 7. External, biological and synthetic reference validation
 
-Status: **NOT STARTED**
+Status: **IN PROGRESS — PROTOCOL FROZEN / MOCK-ONLY IMPLEMENTATION**
 
-Known biological reference 또는 injected synthetic perturbation ground truth와 평가
-기준을 결과 전에 고정한다. `more accurate`라는 결론은 이 Phase의 external criterion을
-통과한 경우에만 검토한다.
+RQ1은 Vanilla SCPA, non-L2 GenePT-informed SCPA와 context-aware LLM이 known synthetic
+perturbed pathway genes를 회복하는지 비교한다. RQ2는 correct gene-description
+correspondence가 stats-only와 within-pathway shuffled-description control보다 LLM
+recovery를 개선하는지 검증한다.
+
+Primary protocol은 `config/phase7_gpt_oss_synthetic.yaml`에 결과 전에 동결한다. Source는
+naïve CD4 0h, pseudo A/B 각 500 disjoint cells이며 full-transcriptome total=10,000
+normalization과 log1p 뒤 normalized space에 null/mean-shift/cell-subset/mixed-direction
+perturbation을 주입한다. Frozen Phase 4 paired universe에서 Phase 4/5 결과와 독립적으로
+15–60 genes 및 complete usable descriptions 조건을 만족하는 11 pathways를 size/source
+stratified selection한다. Recall@truth-K, Average Precision, NDCG@N이 primary metric이다.
+
+현재는 schema, synthetic generator, masking equivalence, opaque-ID prompt builder, mock LLM
+backend와 toy smoke만 허용한다. gpt-oss download, real inference, production SCPA 및 real
+GSE212270 synthetic production은 별도 승인 전까지 실행하지 않는다.
 
 ## Phase 8. Optional classifier/separability analysis
 

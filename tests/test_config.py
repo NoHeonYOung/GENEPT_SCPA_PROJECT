@@ -11,9 +11,9 @@ class ProtocolConfigTests(unittest.TestCase):
     def setUp(self):
         self.config = load_config(ROOT / "config/genept_scpa.yaml")
 
-    def test_phase_five_is_active_after_phase_four_pass(self):
-        self.assertEqual(self.config.active_phase, 5)
-        self.assertEqual(self.config.max_phase_allowed, 5)
+    def test_phase_seven_is_active_after_phase_six_pass(self):
+        self.assertEqual(self.config.active_phase, 7)
+        self.assertEqual(self.config.max_phase_allowed, 7)
         self.assertEqual(self.config.values["phase0"]["status"], "passed")
         self.assertEqual(self.config.values["phase1"]["status"], "passed")
         self.assertEqual(
@@ -29,8 +29,10 @@ class ProtocolConfigTests(unittest.TestCase):
         self.config.require_phase(3)
         self.config.require_phase(4)
         self.config.require_phase(5)
+        self.config.require_phase(6)
+        self.config.require_phase(7)
         with self.assertRaises(ConfigError):
-            self.config.require_phase(6)
+            self.config.require_phase(8)
 
     def test_phase_one_uses_full_official_geo_object(self):
         dataset = self.config.values["phase1"]["dataset"]
@@ -141,7 +143,8 @@ class ProtocolConfigTests(unittest.TestCase):
 
     def test_phase_five_gene_masking_protocol_is_frozen(self):
         phase5 = self.config.values["phase5"]
-        self.assertEqual(phase5["status"], "in_progress")
+        self.assertEqual(phase5["status"], "passed")
+        self.assertEqual(phase5["stage"], "passed_after_gpt_review")
         self.assertEqual(phase5["expected_target_count"], 30)
         self.assertEqual(phase5["expected_by_comparison"], {
             "cd4_0h_vs_12h": 11,
@@ -151,6 +154,34 @@ class ProtocolConfigTests(unittest.TestCase):
         self.assertTrue(phase5["masking"]["same_gene_between_branches"])
         self.assertTrue(phase5["masking"]["genept_l2_deferred"])
         self.assertEqual(float(phase5["contribution_metric"]["raw_p_clip"]), 1e-300)
+
+    def test_phase_six_semantic_control_protocol_is_frozen(self):
+        phase6 = self.config.values["phase6"]
+        self.assertEqual(phase6["status"], "passed")
+        self.assertEqual(phase6["stage"], "passed_after_scientific_review")
+        self.assertEqual(phase6["targets"]["pathway_control_count"], 30)
+        self.assertEqual(phase6["targets"]["gene_control_representative_count"], 6)
+        self.assertFalse(phase6["representations"]["l2_normalization"])
+        self.assertTrue(phase6["representations"]["same_realization_for_both_groups_full_and_masks"])
+        self.assertEqual(phase6["replicates"], {
+            "pathway_per_control": 100,
+            "gene_per_control": 20,
+            "paired_resampling": 10,
+        })
+        self.assertEqual(phase6["expected_mcm"]["total_including_control_baselines"], 19100)
+
+    def test_phase_seven_synthetic_protocol_is_frozen_and_mock_only(self):
+        phase7 = self.config.values["phase7"]
+        self.assertEqual(phase7["status"], "in_progress")
+        self.assertEqual(phase7["source_population"], "naive_cd4_0h")
+        self.assertEqual(phase7["pseudo_condition_cells"], 500)
+        self.assertEqual(phase7["pathway_universe"], "frozen_phase4_paired_pathways")
+        self.assertFalse(phase7["genept_primary_l2"])
+        self.assertEqual(phase7["llm_backend_current"], "mock_only")
+        self.assertEqual(
+            phase7["real_backend_adapter"],
+            "transformers_gpt_oss_mxfp4_v1_not_activated",
+        )
 
 
 if __name__ == "__main__":

@@ -2,8 +2,8 @@ schema_version: 1
 
 project:
   name: genept_scpa
-  active_phase: 5
-  max_phase_allowed: 5
+  active_phase: 7
+  max_phase_allowed: 7
   protocol: genept_scpa_experiment_plan.md
   decision_log: docs/genept_scpa_decision_log.md
 
@@ -292,8 +292,9 @@ phase4:
       summary: data/processed/genept_scpa/phase4_cd4_activation/phase4_cd4_activation_summary.md
 
 phase5:
-  status: in_progress
-  stage: gene_masking_method_frozen
+  status: passed
+  stage: passed_after_gpt_review
+  passed_on: 2026-08-12
   target_rule: phase4b_vanilla_only_plus_genept_only_pathway_comparison_pairs
   expected_target_count: 30
   expected_by_comparison:
@@ -323,3 +324,71 @@ phase5:
     - CD8_generalization
     - classifier_training
     - GenePT_L2_gene_masking
+
+phase6:
+  status: passed
+  stage: passed_after_scientific_review
+  passed_on: 2026-08-14
+  reviewed_conclusion: >-
+    GenePT-informed representation changes pathway/gene sensitivity, but correct
+    gene-to-embedding correspondence was not distinguishable from within-pathway
+    permutation controls. Differences from Random are compatible with a possible
+    structured embedding-geometry effect, while resampling robustness was weak.
+    Therefore semantic-specific superiority is not supported.
+  scope: semantic_specific_true_permuted_random_controls
+  targets:
+    pathway_control_count: 30
+    gene_control_representative_count: 6
+  representations:
+    true: correct_official_genept_gene_row_correspondence
+    permuted: within_pathway_row_assignment_permutation_vector_multiset_preserved
+    random: gaussian_1536d_direction_scaled_to_corresponding_true_row_norm
+    same_realization_for_both_groups_full_and_masks: true
+    l2_normalization: false
+  seeds:
+    base: 20260812
+    permuted: 20260812
+    random: 20270812
+    formula: control_base_plus_1000_times_target_index_plus_replicate_id
+  replicates:
+    pathway_per_control: 100
+    gene_per_control: 20
+    paired_resampling: 10
+  expected_mcm:
+    pathway_controls: 6000
+    gene_masks: 11960
+    gene_control_baselines: 240
+    robustness: 900
+    total_including_control_baselines: 19100
+  checkpoint: atomic_target_control_replicate_resume
+  outputs:
+    directory: data/processed/genept_scpa/phase6_semantic_controls
+    qc: data/processed/genept_scpa/phase6_semantic_controls/phase6_semantic_control_qc.json
+    summary: data/processed/genept_scpa/phase6_semantic_controls/phase6_semantic_control_summary.md
+  prohibited:
+    - CD8_generalization
+    - classifier_training
+    - GenePT_L2_gene_masking
+    - external_network
+    - new_pathway_database
+
+phase7:
+  status: in_progress
+  stage: protocol_frozen_implementation_scaffold
+  scope: synthetic_ground_truth_gene_recovery_with_gpt_oss_20b
+  protocol_config: config/phase7_gpt_oss_synthetic.yaml
+  source_population: naive_cd4_0h
+  pseudo_condition_cells: 500
+  pathway_universe: frozen_phase4_paired_pathways
+  genept_primary_l2: false
+  llm_model: openai/gpt-oss-20b
+  llm_backend_current: mock_only
+  real_backend_adapter: transformers_gpt_oss_mxfp4_v1_not_activated
+  outputs:
+    interim_directory: data/interim/genept_scpa/phase7_gpt_oss_synthetic
+    processed_directory: data/processed/genept_scpa/phase7_gpt_oss_synthetic
+  prohibited_until_explicit_approval:
+    - gpt_oss_download
+    - real_llm_inference
+    - production_scpa
+    - production_synthetic_generation

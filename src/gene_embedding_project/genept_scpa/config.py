@@ -208,4 +208,31 @@ def load_config(path: str | Path = "config/genept_scpa.yaml") -> ProtocolConfig:
         if float(metric.get("raw_p_clip", 0)) != 1e-300:
             raise ConfigError("Phase 5 raw-p clipping must remain 1e-300")
 
+    if active_phase >= 6:
+        phase6 = _require(values, "phase6", "root")
+        expected_status = "in_progress" if active_phase == 6 else "passed"
+        if _require(phase6, "status", "phase6") != expected_status:
+            raise ConfigError(
+                f"Phase 6 must be {expected_status} when Phase {active_phase} is active"
+            )
+        if int(phase6.get("expected_mcm", {}).get(
+            "total_including_control_baselines", 0
+        )) != 19100:
+            raise ConfigError("Phase 6 expected MCM total must remain 19100")
+
+    if active_phase >= 7:
+        phase7 = _require(values, "phase7", "root")
+        if _require(phase7, "status", "phase7") != "in_progress":
+            raise ConfigError("Active Phase 7 must remain in_progress until review")
+        if phase7.get("source_population") != "naive_cd4_0h":
+            raise ConfigError("Phase 7 source population must remain naive CD4 0h")
+        if int(phase7.get("pseudo_condition_cells", 0)) != 500:
+            raise ConfigError("Phase 7 must use 500 cells per pseudo-condition")
+        if phase7.get("pathway_universe") != "frozen_phase4_paired_pathways":
+            raise ConfigError("Phase 7 must reuse the frozen Phase 4 pathway universe")
+        if phase7.get("genept_primary_l2") is not False:
+            raise ConfigError("Phase 7 primary GenePT projection must remain non-L2")
+        if phase7.get("llm_backend_current") != "mock_only":
+            raise ConfigError("Phase 7 scaffolding must remain mock-only")
+
     return ProtocolConfig(path=config_path.resolve(), values=values)
