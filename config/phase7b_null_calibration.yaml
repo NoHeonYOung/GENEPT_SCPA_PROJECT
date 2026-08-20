@@ -1,0 +1,113 @@
+schema_version: 1
+phase: 7B
+status: protocol_frozen
+scope: phase7_matched_null_calibration_sensitivity
+
+source:
+  phase7_config: config/phase7_llmfree_synthetic.yaml
+  phase7_protocol: docs/phase7_llmfree_protocol.md
+  manifest: data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_manifest.json
+  scpa_qc: data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_scpa_qc.json
+  rankings: data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_rankings.csv
+  metrics: data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_metrics.csv
+  metrics_json: data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_metrics.json
+  aggregate: data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_aggregate.csv
+  statistics: data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_statistics.csv
+  expression_h5: data/interim/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_expression.h5
+
+execution:
+  reuse_existing_rankings_only: true
+  new_mcm_forbidden: true
+  phase7_artifact_writes_forbidden: true
+  figures_forbidden: true
+
+inference:
+  endpoint: average_precision
+  unit: pathway_scenario_draw_mean_across_strengths
+  strength_values_to_average: [0.5, 1.0]
+  non_null_scenarios: [mean_shift, cell_subset, mixed_direction]
+  null_match_keys: [pathway, draw_id, method]
+  method_names: [vanilla_scpa, genept_scpa]
+
+calibration:
+  vanilla: vanilla_nonnull_ap_minus_matched_vanilla_null_ap
+  genept: genept_nonnull_ap_minus_matched_genept_null_ap
+  did: genept_calibrated_ap_minus_vanilla_calibrated_ap
+  primary_test_scopes: [overall_non_null, mean_shift, cell_subset, mixed_direction]
+  paired_test: wilcoxon_signed_rank_two_sided_against_zero
+  effect_size: matched_pairs_rank_biserial_positive_is_genept
+  multiplicity: bonferroni_across_four_did_tests
+  descriptive_ci: normal_approximation_95_percent_for_mean
+
+fallback_sensitivity:
+  strata: [ALL, NO_FALLBACK, FALLBACK]
+  stratification_variable: non_null_truth_fallback_used
+  report_scopes: [overall_non_null, mean_shift, cell_subset, mixed_direction]
+  interpretation_priority: NO_FALLBACK
+
+null_truth_diagnostics:
+  seed: 20261001
+  resamples: 1000
+  rng: numpy_default_rng_pcg64
+  truth_count_rule: max_3_min_10_ceil_0.15_times_pathway_gene_count
+  replacement: false
+  eligibility:
+    pooled_conditions: [condition_A, condition_B_baseline]
+    detection_fraction_min: 0.10
+    pooled_sd_min_exclusive: 0.0
+  A_ELIGIBLE_POOL_MATCHED:
+    role: primary_expression_conditioned_null_diagnostic
+    pool: eligible_genes_only
+    feasible_pathways_only: true
+    expected_pathways: 9
+    expected_units: 180
+    insufficient_pool_status: NOT_ESTIMABLE
+    insufficient_pool_action: exclude_without_replacement_or_threshold_change
+  B_PATHWAY_WIDE_UNIFORM:
+    role: uniform_truth_reference_null
+    pool: all_pathway_genes
+    report_all_11_pathways: true
+    report_same_A_feasible_9_pathways: true
+  C_PHASE7_FALLBACK_MATCHED:
+    role: secondary_actual_phase7_truth_selection_mechanism_null
+    pool: eligible_if_sufficient_otherwise_all_pathway_genes
+    report_all_11_pathways: true
+  primary_direct_comparison:
+    contrast: A_ELIGIBLE_POOL_MATCHED_minus_B_PATHWAY_WIDE_UNIFORM
+    population: same_9_feasible_pathways_180_pathway_draw_units
+  infeasible_pathways:
+    - KEGG_GLYCOSPHINGOLIPID_BIOSYNTHESIS_LACTO_AND_NEOLACTO_SERIES
+    - REACTOME_COLLAGEN_BIOSYNTHESIS_AND_MODIFYING_ENZYMES
+  infeasible_reason: eligible_pool_size_less_than_truth_count_therefore_eligible_pool_null_is_not_identifiable
+
+expression_confounding:
+  baseline_source: pooled_condition_A_and_condition_B_baseline_before_perturbation
+  features: [mean_expression, detection_fraction, expression_sd]
+  within_pathway_scaling: average_rank_percentile
+  truth_diagnostic: target_minus_non_target_feature_rank_percentile
+  masking_diagnostics:
+    - spearman_masking_delta_vs_feature
+    - spearman_negative_rank_vs_feature
+  role: descriptive_non_causal_diagnostic
+
+artifacts:
+  processed_directory: data/processed/genept_scpa/phase7b_null_calibration
+  protocol_snapshot: phase7b_protocol_snapshot.json
+  calibrated_metrics: phase7b_null_calibrated_metrics.csv
+  did_statistics: phase7b_did_statistics.csv
+  fallback_sensitivity: phase7b_fallback_sensitivity.csv
+  null_truth_diagnostics: phase7b_null_truth_diagnostics.csv
+  expression_confounding: phase7b_expression_confounding.csv
+  summary_json: phase7b_summary.json
+  results_markdown: phase7b_results.md
+
+verdict_options:
+  - COMPLETED_WITH_WARNING
+  - COMPLETED_WITH_NULL_EXPLAINED
+  - INVALID
+
+interpretation_limits:
+  - This is a sensitivity analysis of the frozen Phase 7 synthetic benchmark.
+  - It does not establish biological superiority, causality, or general validity.
+  - Phase 6 correspondence specificity and Phase 7 recovery remain separate questions.
+  - A vanished calibrated advantage is a valid negative result, not an INVALID result.

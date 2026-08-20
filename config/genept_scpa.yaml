@@ -374,21 +374,26 @@ phase6:
 
 phase7:
   status: in_progress
-  stage: protocol_frozen_implementation_scaffold
-  scope: synthetic_ground_truth_gene_recovery_with_gpt_oss_20b
-  protocol_config: config/phase7_gpt_oss_synthetic.yaml
+  stage: llm_free_preparation_pass_smoke_pass_full_run_pending
+  scope: vanilla_vs_genept_synthetic_ground_truth_recovery
+  protocol_config: config/phase7_llmfree_synthetic.yaml
   source_population: naive_cd4_0h
   pseudo_condition_cells: 500
-  pathway_universe: frozen_phase4_paired_pathways
+  cohort_seed: 20260810
+  perturbation_seed_base: 20260901
+  draws: 20
+  pathway_universe: frozen_11_pathways_6_kegg_5_reactome
   genept_primary_l2: false
-  llm_model: openai/gpt-oss-20b
-  llm_backend_current: mock_only
-  real_backend_adapter: transformers_gpt_oss_mxfp4_v1_not_activated
+  methods:
+    - vanilla_scpa_zero_mask
+    - genept_scpa_non_l2_subtraction_mask
+  llm_backend: prohibited_and_removed
+  expected_experiments: 1540
+  expected_mcm: 101920
   outputs:
-    interim_directory: data/interim/genept_scpa/phase7_gpt_oss_synthetic
-    processed_directory: data/processed/genept_scpa/phase7_gpt_oss_synthetic
-  prohibited_until_explicit_approval:
-    - gpt_oss_download
-    - real_llm_inference
-    - production_scpa
-    - production_synthetic_generation
+    interim_directory: data/interim/genept_scpa/phase7_llmfree_synthetic
+    processed_directory: data/processed/genept_scpa/phase7_llmfree_synthetic
+  runtime:
+    gpu_required: false
+    checkpoint_resume: true
+    full_run_not_yet_completed: true

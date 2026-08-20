@@ -528,63 +528,52 @@
   입증됐다고 주장하지 않는다. Biological correctness, causality 또는 superiority도
   확정하지 않는다.
 
-## D-0031 — Phase 7 synthetic ground-truth and gpt-oss protocol freeze
+## D-0031/D-0032 — 이전 Phase 7 LLM 설계
 
 - 날짜: 2026-08-14
-- 상태: Accepted
-- RQ1: Vanilla SCPA, GenePT-informed SCPA 및 context-aware LLM이 known synthetic
-  perturbed pathway genes를 얼마나 회복하는지 비교한다.
-- RQ2: correct biological gene-description correspondence가 stats-only 및
-  shuffled-description control보다 LLM ground-truth recovery를 개선하는지 검증한다.
-- Cohort: GSE212270 naïve CD4 0h에서 sorted cell IDs를 기준으로 PCG64 seed
-  20260814로 1,000 unique cells를 without replacement 선택한 뒤 seeded permutation의
-  첫 500을 A, 나머지 500을 B로 둔다.
-- Preprocessing: RNA/counts를 full-transcriptome total=10,000으로 정규화하고 log1p한
-  뒤 pathway를 subset한다. Perturbation은 normalized log1p space의 B에만 주입하고
-  재정규화하지 않는다.
-- Pathways: frozen Phase 4 paired universe만 사용하고 Phase 4/5 결과는 selection에
-  사용하지 않는다. 15–60 genes, 모든 gene의 usable NCBI description을 요구한다.
-  Eligible HALLMARK가 없어 기준을 완화하지 않고, KEGG/REACTOME의 15–25/26–40/41–60
-  구간에서 각각 2개씩 선택하되 적격 pathway가 1개뿐인 REACTOME large는 1개를
-  선택하여 seed 20260815 기준 총 11개를 동결한다.
-- Perturbations: null, mean shift, seeded 30% cell subset, mixed direction을 사용하고
-  effect strength는 pooled baseline SD의 0.5 및 1.0이다. Mixed negative는 detection
-  fraction >=0.5와 median>0을 추가 요구하고 0 미만은 clip하며 clipping을 기록한다.
-- Methods: Vanilla zero mask, non-L2 GenePT subtraction mask 및 gpt-oss stats-only/
-  true-description/shuffled-description ranking을 비교한다. LLM에는 opaque candidate ID와
-  frozen numeric summaries만 제공하며 gene symbol과 ground truth는 노출하지 않는다.
-- Evaluation: Recall@truth-K, Average Precision, NDCG@N을 primary로, NDCG@truth-K와
-  prompt-order Spearman을 secondary로 동결한다.
-- Gate: Phase 7을 `in_progress`로 열되 현재는 mock backend와 toy smoke만 허용한다.
-  gpt-oss download, real LLM inference, production SCPA 및 production synthetic generation은
-  별도 승인 전까지 금지한다.
+- 상태: **Superseded and removed by D-0033**
+- 결정: 이전 Phase 7의 LLM protocol/runtime 구현은 더 이상 active protocol이 아니다.
+  관련 설정, backend, runner, artifact 및 test scaffold를 저장소 현재 상태에서 제거한다.
+  과거 Git history만 historical provenance로 남는다.
 
-## D-0032 — Phase 7 gpt-oss runtime and inference protocol freeze
+## D-0033 — Phase 7 LLM-free Vanilla vs GenePT ground-truth benchmark
 
-- 날짜: 2026-08-14
+- 날짜: 2026-08-19
 - 상태: Accepted
-- Primary inference: `openai/gpt-oss-20b`를 Hugging Face Transformers와 official
-  `tokenizer.apply_chat_template`로 실행한다. Reasoning effort는 low, decoding은 greedy
-  (`do_sample=false`, `num_beams=1`, `max_new_tokens=2048`)로 고정하고 temperature/top-p
-  sampling은 사용하지 않는다.
-- Runtime safety: pretrained MXFP4를 dequantize하지 않고 단일 CUDA device에만 올린다.
-  Local-files-only lazy loading을 강제하며 CPU offload, precision/backend fallback 및
-  import-time loading을 금지한다. Primary gate는 CC>=7.5, VRAM>=16GiB, RAM>=32GiB,
-  free disk>=30GiB와 필수 runtime package를 요구한다.
-- Invalid output: initial attempt 이후 최대 retry 2회(총 3회)로 고정한다. Scientific
-  payload와 candidate order는 유지하고 모든 invalid raw response, failure reason,
-  retry index 및 prompt/scientific-content hash를 저장한다.
-- Replication: prompt-order 3회는 order stability이고 pseudo-split 반복은 sampling
-  robustness다. Pilot split seed는 20260814이며 production split seeds/count는 runtime-only
-  pilot 뒤 scientific metric을 보기 전에 동결한다.
-- Pilot: 1 split, frozen 11개 중 gene 수가 가장 작은/큰 2 pathways, stats-only 1조건,
-  candidate order 1개만 허용한다. Load/자원/latency/tokens/sec/JSON/retry만 측정하며
-  Recall/AP/NDCG/truth 위치/method 비교/과학적 ranking 해석은 출력하지 않는다.
-- Representativeness: 적격 HALLMARK가 없다는 한계를 유지하며 eligibility를 완화하지
-  않는다.
-- Current gate: RTX 2080 SUPER 8GiB는 primary 16GiB 기준을 충족하지 않는다. 현재
-  free disk 약 4GiB 및 필수 package 누락까지 있어 `UNSUPPORTED_PRIMARY`다. 이는
-  scientific result가 아닌 runtime capability 판정이다.
+- 연구 질문: known synthetic perturbed genes에 대해 Vanilla SCPA zero-mask와 GenePT
+  non-L2 exact subtraction-mask의 full ranking recovery를 직접 비교한다. Phase 6의
+  semantic-correspondence specificity와는 별도 질문이다.
+- Cohort: GSE212270 Naïve CD4 0h, PCG64 seed 20260810, A/B 각 500 disjoint cells.
+- Preprocessing: raw counts → full-transcriptome total=10,000 → log1p → pathway subset →
+  B perturbation. 주입 후 재정규화하지 않는다.
+- Pathways: 기존 동결 선택의 정확한 11개 이름(KEGG 6, REACTOME 5, HALLMARK 0)을 사용한다.
+- Perturbation: base seed 20260901, null/mean shift/30% subset/mixed direction, 비-null
+  0.5×/1.0× pooled SD, scale floor 0.1, truth 수
+  `max(3,min(10,ceil(0.15*p)))`. Strength 간 truth/subset/direction 구조를 공유한다.
+- Mixed negative feasibility: production MCM 전에 actual-data preparation을 점검한 결과
+  한 frozen pathway의 strict negative pool이 2개로 필요한 3개보다 작았다. Pathway/truth 수를
+  사후 변경하지 않고, strict pool 부족 시 실제 B에서 검출된 pool로 fallback하도록
+  동결한다. 이어 저발현 pathway에서 detection≥0.1/SD>0 truth gene이 1개뿐인 것도 확인해,
+  truth 수가 부족하면 전체 pathway gene pool을 사용하고 scale floor 0.1을 적용하도록
+  동결했다. 두 결정 모두 MCM/scientific result를 보기 전에 이루어졌으며, gene별 rule,
+  fallback experiment count와 clipped-cell count를 기록한다.
+- Null convention: 표현값은 바꾸지 않고 동일 규칙의 uninjected evaluation-target을
+  별도 표시하여 exact chance sanity check를 계산한다. 이를 perturbed gene이라 부르지 않는다.
+- Replication: pathway×scenario당 20 draws. 총 1,540 experiments, 101,920 MCM.
+- Masking: Phase 5와 `scripts/scpa/gene_masking_lib.R`을 공유한다. Primary rank는
+  `S_full-S_minus`, `S=-log10(raw_p)`의 signed descending rank다.
+- Evaluation: Recall@3/5/10, AP(primary), NDCG@3/5/10. Paired Wilcoxon은 strength를
+  pathway×scenario×draw 안에서 평균한 뒤 시행하며 scenario별 3개 p-value만 Bonferroni
+  보정한다. Rank-biserial effect를 함께 보고한다.
+- Runtime: CPU-only, experiment atomic checkpoint/resume. Full run은 구현/cheap test 후
+  사용자가 명시적으로 runner를 실행한다.
+- 실행 상태: actual-data preparation 1,540 experiments PASS. 첫 42-gene null experiment
+  86 MCM smoke는 3.7분, warning/failed MCM 0으로 `SMOKE_PASS`; hash/protocol checkpoint
+  재사용도 PASS. Full 101,920 MCM은 아직 실행하지 않았다. Fallback audit은 560
+  experiments/1,800 target-gene rows이며 결과에서 별도 집계한다.
+- 해석: synthetic recovery 차이를 biological superiority, general validity, causality로
+  일반화하지 않는다. Null warning을 먼저 해결하고, GenePT 열세 시 1,536D geometry
+  confounding 가능성을 병기한다.
 
 ## Decision template
 

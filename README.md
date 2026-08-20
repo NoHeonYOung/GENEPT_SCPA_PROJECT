@@ -2,7 +2,7 @@
 
 GenePT의 문헌 기반 gene representation을 SCPA에 통합할 수 있는지 단계별로
 검증하는 연구 프로젝트입니다. Phase 6 semantic controls까지 완료했고, 현재는
-**Phase 7 — gpt-oss synthetic ground-truth benchmark protocol/runtime handoff** 단계입니다.
+**Phase 7 — LLM-free synthetic ground-truth recovery benchmark** 단계입니다.
 
 ## 현재 상태
 
@@ -17,7 +17,8 @@ GenePT의 문헌 기반 gene representation을 SCPA에 통합할 수 있는지 �
 - Phase 5 pathway-internal paired gene-masking production COMPLETED,
   `READY_FOR_GPT_REVIEW`
 - Phase 6 True/Permuted/Random semantic controls COMPLETED
-- Phase 7 protocol/runtime scaffold FROZEN; model download와 production 실행은 잠금 상태
+- Phase 7 LLM-free synthetic preparation PASS, real-data smoke `SMOKE_PASS`;
+  full 1,540-experiment CPU run은 아직 실행하지 않음
 
 설정 검증:
 
@@ -66,9 +67,30 @@ Vanilla, GenePT non-L2 primary 및 L2 sensitivity를 정확히 3 comparisons에
 semantic controls와 classifier는 이 Phase 5 명령에서 실행하지 않습니다.
 
 Phase 6 결과와 negative semantic-specific 결론을 포함한 산출물은
-`data/processed/genept_scpa/phase6_semantic_controls/`에 보존됩니다. Phase 7의
-홈 머신 이관, checksum 검증 및 실행 중단 지점은
-[`docs/phase7_home_server_handoff.md`](docs/phase7_home_server_handoff.md)를 따릅니다.
+`data/processed/genept_scpa/phase6_semantic_controls/`에 보존됩니다. Phase 7은 LLM/GPU를
+사용하지 않고 동일 synthetic draw에서 Vanilla zero-mask와 GenePT non-L2 subtraction
+mask의 ground-truth recovery를 비교합니다. 프로토콜은
+[`docs/phase7_llmfree_protocol.md`](docs/phase7_llmfree_protocol.md)에 기록되어 있습니다.
+
+Phase 7 실행 순서:
+
+```bash
+PYTHONPATH=src python scripts/phase7/prepare_llmfree_benchmark.py
+
+# 먼저 1 experiment smoke (결과 해석용이 아님)
+PYTHONPATH=src python scripts/phase7/run_llmfree_masking.py \
+  --max-experiments 1 --cores 1
+
+# smoke 성공 후 full resumable CPU run
+PYTHONPATH=src python scripts/phase7/run_llmfree_masking.py --cores 12
+
+PYTHONPATH=src python scripts/phase7/evaluate_llmfree_benchmark.py
+```
+
+Full design은 1,540 experiments와 101,920 MCM calls이므로 자동 실행하지 않습니다.
+현재 첫 experiment의 86 MCM checkpoint는 완료됐고 full 명령이 이를 재사용합니다.
+실측 3.7분을 단순 환산하면 single-core 약 74시간, 12-core는 overhead를 포함해 대략
+7–10시간을 예상합니다.
 
 Phase 5는 Phase 4B의 Vanilla-only/GenePT-only 30개 pathway-comparison pair에서
 동일 gene을 Vanilla와 GenePT non-L2에 masking합니다. Full production 명령은 다음

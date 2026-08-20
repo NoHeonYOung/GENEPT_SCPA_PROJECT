@@ -41,7 +41,7 @@ Primary hypothesis to be tested:
 | Phase 4C — Optional CD8 generalization | **NOT SCHEDULED / NOT RUN** |
 | Phase 5 — Pathway-internal gene masking sensitivity | **PASS / COMPLETED** |
 | Phase 6 — Semantic-specific controls | **PASS / COMPLETED** |
-| Phase 7 — Synthetic ground-truth + gpt-oss validation | **IN PROGRESS / PROTOCOL FROZEN / MOCK ONLY** |
+| Phase 7 — LLM-free synthetic ground-truth recovery | **PREPARATION PASS / SMOKE PASS / FULL RUN PENDING** |
 | Phase 8 이후 | **NOT STARTED** |
 | Naïve CD8 acquisition / QC | **PASS** |
 
@@ -191,7 +191,7 @@ Phase 4B Naive CD4 activation primary validation                 PASS / COMPLETE
 Phase 4C Optional CD8 0h-vs-24h generalization                   NOT SCHEDULED / NOT RUN
 Phase 5  Pathway-internal gene masking sensitivity               PASS / COMPLETED
 Phase 6  Semantic-specific controls and robustness               PASS / COMPLETED
-Phase 7  Synthetic ground-truth + gpt-oss validation             IN PROGRESS / PROTOCOL FROZEN / MOCK ONLY
+Phase 7  LLM-free synthetic ground-truth recovery                PREP PASS / SMOKE PASS / FULL RUN PENDING
 Phase 8  Optional classifier/separability analysis               NOT STARTED
 Phase 9  Additional timepoint analyses                            NOT STARTED
 Phase 10 Final interpretation / presentation / report            NOT STARTED
@@ -560,25 +560,28 @@ Random과의 차이는 structured geometry 가능성과 양립하지만 이를 �
 따라서 Phase 6은 semantic-specific superiority가 지지되지 않는다는 결론으로 PASS/
 COMPLETED 처리됐다.
 
-## Phase 7. External, biological and synthetic reference validation
+## Phase 7. LLM-free synthetic ground-truth recovery benchmark
 
-Status: **IN PROGRESS — PROTOCOL FROZEN / MOCK-ONLY IMPLEMENTATION**
+Status: **IN PROGRESS — PREPARATION PASS / REAL-DATA SMOKE PASS / FULL RUN PENDING**
 
-RQ1은 Vanilla SCPA, non-L2 GenePT-informed SCPA와 context-aware LLM이 known synthetic
-perturbed pathway genes를 회복하는지 비교한다. RQ2는 correct gene-description
-correspondence가 stats-only와 within-pathway shuffled-description control보다 LLM
-recovery를 개선하는지 검증한다.
+Vanilla SCPA와 non-L2 GenePT-informed SCPA가 known synthetic perturbed pathway genes를
+얼마나 잘 회복하는지 직접 비교한다. LLM 방법과 GPU runtime은 Phase 7 범위에서 제거됐다.
 
-Primary protocol은 `config/phase7_gpt_oss_synthetic.yaml`에 결과 전에 동결한다. Source는
-naïve CD4 0h, pseudo A/B 각 500 disjoint cells이며 full-transcriptome total=10,000
-normalization과 log1p 뒤 normalized space에 null/mean-shift/cell-subset/mixed-direction
-perturbation을 주입한다. Frozen Phase 4 paired universe에서 Phase 4/5 결과와 독립적으로
-15–60 genes 및 complete usable descriptions 조건을 만족하는 11 pathways를 size/source
-stratified selection한다. Recall@truth-K, Average Precision, NDCG@N이 primary metric이다.
+`config/phase7_llmfree_synthetic.yaml`과 `docs/phase7_llmfree_protocol.md`가 authoritative
+protocol이다. Naïve CD4 0h에서 seed 20260810으로 pseudo A/B 각 500 disjoint cells를
+고정하고, full-transcriptome total=10,000 normalization/log1p 뒤 B의 pathway 값에만
+null/mean-shift/30%-subset/mixed-direction perturbation을 주입한다. Perturbation base seed는
+20260901이며 주입 후 재정규화하지 않는다.
 
-현재는 schema, synthetic generator, masking equivalence, opaque-ID prompt builder, mock LLM
-backend와 toy smoke만 허용한다. gpt-oss download, real inference, production SCPA 및 real
-GSE212270 synthetic production은 별도 승인 전까지 실행하지 않는다.
+Pathway는 기존 동결 결과의 11개(KEGG 6, REACTOME 5, HALLMARK 0)를 정확한 이름으로
+고정했다. 각 pathway×scenario에서 20 draws, 비-null strength 0.5×/1.0× pooled SD를
+사용한다. Phase 5 shared masking helper로 full gene ranking을 만들고 Recall@3/5/10,
+Average Precision, NDCG@3/5/10을 평가한다. 총 1,540 experiments, 101,920 MCM이며
+experiment checkpoint/resume를 지원한다. Actual-data preparation은 1,540 experiments로
+PASS했고 첫 null experiment 86 MCM smoke도 warning 없이 3.7분에 `SMOKE_PASS`했다.
+입력 hash/protocol-version checkpoint 재사용도 검증했다. Truth fallback은 560 experiments,
+1,800 target-gene rows에서 사용되므로 evaluator가 FALLBACK/NO_FALLBACK을 별도 집계한다.
+Full production과 scientific 결과 생성은 아직 완료되지 않았다.
 
 ## Phase 8. Optional classifier/separability analysis
 
@@ -790,7 +793,8 @@ Tests:
   no pathway renormalization, official qval correction, effective rank, rank metrics
 - Phase 5: matched gene removal/contribution-method wiring and regeneration manifest
 - Phase 6: True/Permuted/Random mapping, paired sampling, seed determinism, rank stability
-- Phase 7: injected pathway/null records and locked biological/synthetic references
+- Phase 7: disjoint cohort, perturbation seed reuse, injected/null evaluation targets,
+  Phase 5 shared masking algebra, Recall/AP/NDCG 및 paired-test aggregation
 - Phase 8: identical classifier folds, leakage prevention and frozen supervised metrics
 - Phase 9: time point 고정 및 cell-type/activation task 분리
 

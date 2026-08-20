@@ -17,6 +17,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import textwrap
 import time
 from typing import Any, Sequence
 
@@ -636,74 +637,101 @@ def create_validation_figures(
     count_rows = list(overview)
     if historical_reference is not None:
         count_rows = [historical_reference, *count_rows]
-    labels = [row["comparison"] for row in count_rows]
+    def comparison_label(value: str) -> str:
+        labels = {
+            "cd4_vs_cd8_0h": "CD4 vs CD8\n(resting, 0 h)",
+            "cd4_0h_vs_12h": "CD4 activation\n0 h vs 12 h",
+            "cd4_12h_vs_24h": "CD4 activation\n12 h vs 24 h",
+            "cd4_0h_vs_24h": "CD4 activation\n0 h vs 24 h",
+        }
+        return labels.get(value, value.replace("_", " "))
+
+    def pathway_label(value: str, width: int = 34) -> str:
+        return "\n".join(textwrap.wrap(value.replace("_", " "), width=width))
+
+    def save(path: Path, fig: Any) -> None:
+        fig.savefig(path, dpi=180, bbox_inches="tight", pad_inches=0.15)
+        plt.close(fig)
+        files.append(path)
+
+    labels = [comparison_label(row["comparison"]) for row in count_rows]
     x = np.arange(len(labels))
-    width = 0.25
+    width = 0.36
     files: list[Path] = []
 
     path = output_dir / "01_qval_zero_counts.png"
-    fig, ax = plt.subplots(figsize=(11, 6))
-    for index, method in enumerate(("vanilla", "genept", "l2")):
-        ax.bar(x + (index - 1) * width, [row[f"{method}_qval_zero_count"] for row in count_rows], width, label=method)
-    ax.set(xticks=x, xticklabels=labels, ylabel="Pathways with qval = 0", title="Qval-floor counts: historical lineage vs CD4 activation")
-    ax.tick_params(axis="x", rotation=45); ax.legend(); fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    fig, ax = plt.subplots(figsize=(11, 6), layout="constrained")
+    for index, (method, label) in enumerate((("vanilla", "Vanilla"), ("genept", "GenePT-informed"))):
+        ax.bar(x + (index - .5) * width, [row[f"{method}_qval_zero_count"] for row in count_rows], width, label=label)
+    ax.set(xticks=x, xticklabels=labels, ylabel="Pathways with qval = 0", title="Qval-floor counts")
+    ax.legend(); save(path, fig)
 
     path = output_dir / "02_bonferroni_significant_counts.png"
-    fig, ax = plt.subplots(figsize=(11, 6))
-    for index, method in enumerate(("vanilla", "genept", "l2")):
-        ax.bar(x + (index - 1) * width, [row[f"{method}_adj_p_lt_0_05"] for row in count_rows], width, label=method)
+    fig, ax = plt.subplots(figsize=(11, 6), layout="constrained")
+    for index, (method, label) in enumerate((("vanilla", "Vanilla"), ("genept", "GenePT-informed"))):
+        ax.bar(x + (index - .5) * width, [row[f"{method}_adj_p_lt_0_05"] for row in count_rows], width, label=label)
     ax.set(xticks=x, xticklabels=labels, ylabel="Pathways with adjusted p < 0.05", title="Bonferroni-significant pathway counts")
-    ax.tick_params(axis="x", rotation=45); ax.legend(); fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    ax.legend(); save(path, fig)
 
     states = ("Neither significant", "GenePT-only significant", "Vanilla-only significant", "Both significant")
     state_code = {state: index for index, state in enumerate(states)}
     primary_labels = [row["comparison"] for row in overview]
-    pathways = sorted({row["pathway"] for row in detection})
+    all_pathways = sorted({row["pathway"] for row in detection})
     detection_lookup = {
         (row["pathway"], row["comparison"]): row["detection_state"] for row in detection
     }
+    pathways = [
+        pathway for pathway in all_pathways
+        if any(
+            detection_lookup[(pathway, comparison)] in {"GenePT-only significant", "Vanilla-only significant"}
+            for comparison in primary_labels
+        )
+    ]
+    heatmap_title = "Detection states for pathways discordant in at least one comparison"
+    if not pathways:
+        pathways = all_pathways
+        heatmap_title = "Pathway detection states"
     state_matrix = np.asarray([
         [state_code[detection_lookup[(pathway, comparison)]] for comparison in primary_labels]
         for pathway in pathways
     ])
     path = output_dir / "03_detection_state_heatmap.png"
-    fig, ax = plt.subplots(figsize=(8, max(8, len(pathways) * 0.08)))
+    fig, ax = plt.subplots(figsize=(10, max(9, len(pathways) * 0.32)), layout="constrained")
     image = ax.imshow(state_matrix, aspect="auto", cmap="viridis", vmin=0, vmax=3)
     ax.set(
-        yticks=np.arange(len(pathways)), yticklabels=pathways,
-        xticks=np.arange(len(primary_labels)), xticklabels=primary_labels,
-        title="Pathway detection states (Vanilla vs GenePT non-L2)",
+        yticks=np.arange(len(pathways)), yticklabels=[pathway_label(item, 42) for item in pathways],
+        xticks=np.arange(len(primary_labels)), xticklabels=[comparison_label(item) for item in primary_labels],
+        title=heatmap_title,
     )
-    ax.tick_params(axis="y", labelsize=3)
-    ax.tick_params(axis="x", rotation=30)
+    ax.tick_params(axis="y", labelsize=7)
     colorbar = fig.colorbar(image, ax=ax, ticks=range(4))
     colorbar.ax.set_yticklabels(states)
-    fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    save(path, fig)
 
     by_key = {(row["comparison"], row["pathway"]): row for row in rows}
     contrasts = tuple(item["id"] for item in PRIMARY_COMPARISONS)
     if all(any(row["comparison"] == contrast for row in rows) for contrast in contrasts):
         representative = sorted(
-            pathways,
+            all_pathways,
             key=lambda pathway: -max(
                 max(by_key[(contrast, pathway)]["vanilla_qval"], by_key[(contrast, pathway)]["genept_qval"])
                 for contrast in contrasts
             ),
         )[:8]
         path = output_dir / "04_representative_pathways.png"
-        fig, axes = plt.subplots(2, 4, figsize=(15, 8), sharex=True)
+        fig, axes = plt.subplots(2, 4, figsize=(18, 10), sharex=True, layout="constrained")
         for ax, pathway in zip(axes.flat, representative):
             ax.plot(range(3), [by_key[(contrast, pathway)]["vanilla_qval"] for contrast in contrasts], marker="o", label="Vanilla")
-            ax.plot(range(3), [by_key[(contrast, pathway)]["genept_qval"] for contrast in contrasts], marker="o", label="GenePT non-L2")
-            ax.set_title(pathway, fontsize=8)
+            ax.plot(range(3), [by_key[(contrast, pathway)]["genept_qval"] for contrast in contrasts], marker="o", label="GenePT-informed")
+            ax.set_title(pathway_label(pathway, 28), fontsize=9)
             ax.set_xticks(range(3), ("0→12", "12→24", "0→24"))
         axes.flat[0].legend(fontsize=7)
         fig.supylabel("qval")
         fig.suptitle("Representative CD4 activation pathways (descriptive)")
-        fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+        save(path, fig)
 
         path = output_dir / "optional_05_rank_scatter.png"
-        fig, axes = plt.subplots(1, 3, figsize=(14, 4.5))
+        fig, axes = plt.subplots(1, 3, figsize=(15, 5), layout="constrained")
         for ax, contrast in zip(axes, contrasts):
             subset = [row for row in rows if row["comparison"] == contrast]
             ax.scatter(
@@ -711,9 +739,9 @@ def create_validation_figures(
                 [row["genept_rank"] for row in subset],
                 s=12, alpha=0.65,
             )
-            ax.set(title=contrast, xlabel="Vanilla average rank", ylabel="GenePT average rank")
+            ax.set(title=comparison_label(contrast), xlabel="Vanilla average rank", ylabel="GenePT average rank")
         fig.suptitle("Tie-aware ranks (secondary/descriptive)")
-        fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+        save(path, fig)
     return files
 
 

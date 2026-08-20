@@ -12,6 +12,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import textwrap
 import time
 from typing import Any, Sequence
 
@@ -402,20 +403,28 @@ def create_figures(rows: Sequence[dict[str, Any]], figure_dir: Path) -> list[Pat
     delta = genept_rank - vanilla_rank
     files: list[Path] = []
 
+    def pathway_label(value: str, width: int = 34) -> str:
+        return "\n".join(textwrap.wrap(value.replace("_", " "), width=width))
+
+    def save(path: Path, fig: Any) -> None:
+        fig.savefig(path, dpi=180, bbox_inches="tight", pad_inches=0.15)
+        plt.close(fig)
+        files.append(path)
+
     path = figure_dir / "01_vanilla_vs_genept_rank_scatter.png"
-    fig, ax = plt.subplots(figsize=(7, 7))
+    fig, ax = plt.subplots(figsize=(7, 7), layout="constrained")
     ax.scatter(vanilla_rank, genept_rank, alpha=0.7)
     limit = max(len(rows), 1)
     ax.plot([1, limit], [1, limit], linestyle="--", color="grey")
     ax.set(xlabel="Vanilla rank", ylabel="GenePT-informed rank",
            title="Vanilla vs GenePT-informed pathway ranks")
-    fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    save(path, fig)
 
     top_indices = np.argsort(np.minimum(vanilla_rank, genept_rank))[: min(15, len(rows))]
     path = figure_dir / "02_top_pathways_rank_qval_comparison.png"
-    fig, axes = plt.subplots(1, 2, figsize=(13, 7))
+    fig, axes = plt.subplots(1, 2, figsize=(15, 8), layout="constrained")
     y = np.arange(len(top_indices))
-    labels = [names[index] for index in top_indices]
+    labels = [pathway_label(names[index]) for index in top_indices]
     axes[0].scatter(vanilla_rank[top_indices], y, label="Vanilla")
     axes[0].scatter(genept_rank[top_indices], y, label="GenePT-informed")
     axes[0].invert_xaxis(); axes[0].set(xlabel="Rank (lower is stronger)", yticks=y, yticklabels=labels)
@@ -424,25 +433,26 @@ def create_figures(rows: Sequence[dict[str, Any]], figure_dir: Path) -> list[Pat
     axes[1].scatter(genept_q[top_indices], y, label="GenePT-informed")
     axes[1].set(xlabel="SCPA qval (relationship only)", yticks=y, yticklabels=[])
     axes[1].legend(); fig.suptitle("Top pathway rank and qval comparison")
-    fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    save(path, fig)
 
     shift_indices = np.argsort(np.abs(delta))[::-1][: min(20, len(rows))]
     path = figure_dir / "03_largest_rank_shifts.png"
-    fig, ax = plt.subplots(figsize=(10, 7))
+    fig, ax = plt.subplots(figsize=(12, 9), layout="constrained")
     colors = np.where(delta[shift_indices] < 0, "#2878B5", "#D95F02")
     ax.barh(np.arange(len(shift_indices)), delta[shift_indices], color=colors)
-    ax.set(yticks=np.arange(len(shift_indices)), yticklabels=[names[i] for i in shift_indices],
+    ax.set(yticks=np.arange(len(shift_indices)), yticklabels=[pathway_label(names[i], 38) for i in shift_indices],
            xlabel="Rank delta = GenePT rank - Vanilla rank",
-           title="Largest pathway rank shifts after GenePT-informed projection")
+           title="Largest pathway rank shifts")
+    ax.tick_params(axis="y", labelsize=8)
     ax.axvline(0, color="black", linewidth=0.8); ax.invert_yaxis()
-    fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    save(path, fig)
 
     path = figure_dir / "04_vanilla_vs_genept_qval_relationship.png"
-    fig, ax = plt.subplots(figsize=(7, 7))
+    fig, ax = plt.subplots(figsize=(7, 7), layout="constrained")
     ax.scatter(vanilla_q, genept_q, alpha=0.7)
     ax.set(xlabel="Vanilla qval", ylabel="GenePT-informed qval",
            title="Vanilla and GenePT-informed qval relationship\n(not an accuracy comparison)")
-    fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    save(path, fig)
     return files
 
 

@@ -1,0 +1,122 @@
+schema_version: 2
+phase: 7
+status: protocol_frozen_ready_to_run
+scope: vanilla_vs_genept_synthetic_ground_truth_recovery
+
+source:
+  dataset: GSE212270
+  population: naive_cd4_0h
+  counts_export: data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_export_manifest.json
+  counts_export_files:
+    counts: data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_rna_counts_genes_by_cells.mtx
+    genes: data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_gene_ids.txt
+    cell_ids: data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_cell_ids.txt
+    metadata: data/interim/genept_scpa/phase2_export/naive_cd4/naive_cd4_metadata.csv
+  phase4_manifest: data/processed/genept_scpa/phase4/pathway_projection_manifest.json
+  embeddings: data/reference/genept_scpa/genept_ada002/GenePT_gene_embedding_ada_text.pickle
+
+cohort:
+  cells_per_pseudo_condition: 500
+  total_selected_cells: 1000
+  split_seed: 20260810
+  candidate_order: sorted_source_cell_ids
+  require_disjoint: true
+
+normalization:
+  source_layer: RNA_counts
+  full_transcriptome_total: 10000
+  transform: log1p
+  order: raw_counts_to_total_count_10000_to_log1p_to_pathway_subset_to_B_perturbation
+  injection_space: normalized_log1p_expression
+  post_injection_renormalization: false
+
+pathways:
+  expected_count: 11
+  hallmark_count: 0
+  names:
+    - KEGG_GLYCOLYSIS_GLUCONEOGENESIS
+    - KEGG_INOSITOL_PHOSPHATE_METABOLISM
+    - KEGG_BUTANOATE_METABOLISM
+    - KEGG_GLUTATHIONE_METABOLISM
+    - KEGG_GLYCOSPHINGOLIPID_BIOSYNTHESIS_LACTO_AND_NEOLACTO_SERIES
+    - KEGG_PORPHYRIN_AND_CHLOROPHYLL_METABOLISM
+    - REACTOME_METABOLISM_OF_POLYAMINES
+    - REACTOME_COLLAGEN_BIOSYNTHESIS_AND_MODIFYING_ENZYMES
+    - REACTOME_MITOCHONDRIAL_FATTY_ACID_BETA_OXIDATION
+    - REACTOME_BILE_ACID_AND_BILE_SALT_METABOLISM
+    - REACTOME_SYNTHESIS_OF_GLYCOSYLPHOSPHATIDYLINOSITOL_GPI
+
+ground_truth:
+  draw_count: 20
+  count_formula: max(3,min(10,ceil(0.15*pathway_gene_count)))
+  perturbation_seed_base: 20260901
+  seed_formula: base_plus_100000_times_pathway_index_plus_1000_times_scenario_index_plus_draw_id
+  detection_fraction_min: 0.10
+  truth_pool_fallback: all_pathway_genes_if_detection_sd_pool_is_too_small
+  negative_detection_fraction_min: 0.50
+  negative_median_min_exclusive: 0.0
+  mixed_negative_pool_fallback: condition_B_detected_pool_if_strict_pool_is_too_small
+  scale_floor: 0.10
+  reuse_truth_and_random_structure_across_strengths: true
+  null_evaluation_target: >-
+    Select an uninjected pseudo-truth set with the same eligibility/count rule.
+    It is an evaluation target, never a perturbed-gene claim, and permits an
+    exact chance-level negative-control check.
+
+perturbations:
+  scenarios: ["null", mean_shift, cell_subset, mixed_direction]
+  strengths_sd: [0.5, 1.0]
+  null_strengths_sd: [0.0]
+  cell_subset_fraction: 0.30
+
+methods:
+  - vanilla_scpa_zero_mask
+  - genept_scpa_non_l2_subtraction_mask
+scpa_masking:
+  protocol_version: phase5_shared_non_l2_v1
+  shared_r_implementation: scripts/scpa/gene_masking_lib.R
+  raw_p_clip: 1.0e-300
+  score: minus_log10_raw_p
+  delta: full_score_minus_masked_score
+  primary_rank: descending_signed_delta_then_gene_symbol
+  keep_q_score_available: true
+  q_score: sqrt_minus_log10_adjusted_p
+
+evaluation:
+  recall_k: [3, 5, 10]
+  ndcg_k: [3, 5, 10]
+  primary_metric: average_precision
+  paired_test: wilcoxon_signed_rank_two_sided
+  effect_size: matched_pairs_rank_biserial_genept_minus_vanilla
+  scenario_p_adjustment: bonferroni_across_three_non_null_scenarios
+  null_warning_rule: absolute_mean_observed_minus_exact_chance_greater_than_2_standard_errors
+
+artifacts:
+  interim_directory: data/interim/genept_scpa/phase7_llmfree_synthetic
+  processed_directory: data/processed/genept_scpa/phase7_llmfree_synthetic
+  manifest: phase7_llmfree_manifest.json
+  cell_assignments: phase7_llmfree_cell_assignments.csv
+  ground_truth: phase7_llmfree_ground_truth.csv
+  expression_h5: phase7_llmfree_expression.h5
+  checkpoints: masking_checkpoints
+  core_qc: phase7_llmfree_scpa_qc.json
+  smoke_qc: phase7_llmfree_scpa_smoke_qc.json
+  rankings_csv: phase7_llmfree_rankings.csv
+  metrics_csv: phase7_llmfree_metrics.csv
+  metrics_json: phase7_llmfree_metrics.json
+  aggregate_csv: phase7_llmfree_aggregate.csv
+  statistics_csv: phase7_llmfree_statistics.csv
+  summary: phase7_llmfree_results.md
+
+execution:
+  no_gpu_required: true
+  llm_backend_forbidden: true
+  checkpoint_resume: true
+  production_authorized_by_protocol_replacement: true
+
+interpretation:
+  - Results measure injected-signal recovery only in this synthetic Naive-CD4-0h setup.
+  - Do not claim biological superiority, general validity, or causality.
+  - Keep the Phase-6 semantic-correspondence conclusion separate.
+  - GenePT underperformance may reflect the K-gene versus 1536-dimensional geometry.
+  - Resolve any null warning before interpreting non-null results.

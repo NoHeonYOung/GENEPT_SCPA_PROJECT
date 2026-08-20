@@ -170,18 +170,19 @@ class ProtocolConfigTests(unittest.TestCase):
         })
         self.assertEqual(phase6["expected_mcm"]["total_including_control_baselines"], 19100)
 
-    def test_phase_seven_synthetic_protocol_is_frozen_and_mock_only(self):
+    def test_phase_seven_llmfree_synthetic_protocol_is_frozen(self):
         phase7 = self.config.values["phase7"]
         self.assertEqual(phase7["status"], "in_progress")
         self.assertEqual(phase7["source_population"], "naive_cd4_0h")
         self.assertEqual(phase7["pseudo_condition_cells"], 500)
-        self.assertEqual(phase7["pathway_universe"], "frozen_phase4_paired_pathways")
+        self.assertEqual(phase7["cohort_seed"], 20260810)
+        self.assertEqual(phase7["perturbation_seed_base"], 20260901)
+        self.assertEqual(phase7["draws"], 20)
+        self.assertEqual(phase7["pathway_universe"], "frozen_11_pathways_6_kegg_5_reactome")
         self.assertFalse(phase7["genept_primary_l2"])
-        self.assertEqual(phase7["llm_backend_current"], "mock_only")
-        self.assertEqual(
-            phase7["real_backend_adapter"],
-            "transformers_gpt_oss_mxfp4_v1_not_activated",
-        )
+        self.assertEqual(phase7["llm_backend"], "prohibited_and_removed")
+        self.assertEqual(phase7["expected_experiments"], 1540)
+        self.assertEqual(phase7["expected_mcm"], 101920)
 
 
 if __name__ == "__main__":

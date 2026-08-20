@@ -1,6 +1,6 @@
-phase1b_display_name <- function(pathway) {
+phase1b_display_name <- function(pathway, width = 42L) {
   text <- gsub("_", " ", pathway, fixed = TRUE)
-  vapply(text, function(value) paste(strwrap(value, width = 48L), collapse = "\n"), character(1))
+  vapply(text, function(value) paste(strwrap(value, width = width), collapse = "\n"), character(1))
 }
 
 phase1b_required_results <- function() {
@@ -126,18 +126,19 @@ build_phase1b_comparison_plots <- function(results, top_n = 30L) {
     ggplot2::theme(
       panel.grid = ggplot2::element_blank(),
       axis.text.x = ggplot2::element_text(face = "bold"),
-      axis.text.y = ggplot2::element_text(size = 7.5)
+      axis.text.y = ggplot2::element_text(size = 8),
+      plot.margin = ggplot2::margin(8, 12, 8, 8)
     )
 
   combined <- patchwork::wrap_plots(
     p_global, p_scatter, p_heatmap,
-    design = "AB\nCC",
-    heights = c(1, 1.8)
+    design = "A\nB\nC",
+    heights = c(1, 1, 2)
   ) + patchwork::plot_annotation(
     title = "Phase 1B Vanilla SCPA - comparison with the paper/tutorial",
-    subtitle = paste(
-      "Qualitative comparison only: this run uses all cells grouped by real Hour;",
-      "the paper uses Cell_Type-specific and pseudotime-milestone populations."
+    subtitle = paste0(
+      "Qualitative comparison only. Current run: all cells grouped by real Hour.\n",
+      "Paper/tutorial: Cell_Type-specific or pseudotime-milestone populations."
     )
   )
 
@@ -164,13 +165,13 @@ render_phase1b_figures <- function(results, output_dir, top_n = 30L) {
       plots$pairwise_0_vs_24, file.path(output_dir, "02_0_vs_24_enrichment_qval.png"), 7, 5
     ),
     four_analysis_heatmap_png = save_phase1b_plot_atomic(
-      plots$four_analysis_heatmap, file.path(output_dir, "03_four_analysis_qval_heatmap.png"), 8, 10
+      plots$four_analysis_heatmap, file.path(output_dir, "03_four_analysis_qval_heatmap.png"), 10, 10
     ),
     combined_png = save_phase1b_plot_atomic(
-      plots$combined, file.path(output_dir, "phase1b_paper_comparison.png"), 14, 13
+      plots$combined, file.path(output_dir, "phase1b_paper_comparison.png"), 10.5, 17
     ),
     combined_pdf = save_phase1b_plot_atomic(
-      plots$combined, file.path(output_dir, "phase1b_paper_comparison.pdf"), 14, 13
+      plots$combined, file.path(output_dir, "phase1b_paper_comparison.pdf"), 10.5, 17
     )
   )
 

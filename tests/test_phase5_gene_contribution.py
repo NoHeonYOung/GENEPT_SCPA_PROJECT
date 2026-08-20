@@ -54,8 +54,12 @@ class Phase5GeneContributionTests(unittest.TestCase):
 
     def test_r_core_freezes_paired_masking_and_checkpoint(self):
         core = (ROOT / "scripts/scpa/run_phase5_gene_masking_core.R").read_text()
-        self.assertIn("xa_masked[, gene_index] <- 0", core)
-        self.assertIn("za - tcrossprod(xa[, gene_index], ep[gene_index, ])", core)
+        shared = (ROOT / "scripts/scpa/gene_masking_lib.R").read_text()
+        self.assertIn('source(file.path(dirname(script_path), "gene_masking_lib.R"))', core)
+        self.assertIn("vanilla_zero_mask_pair(xa, xb, gene_index)", core)
+        self.assertIn("genept_non_l2_subtraction_mask_pair(", core)
+        self.assertIn("xa_masked[, gene_index] <- 0", shared)
+        self.assertIn("za - tcrossprod(xa[, gene_index], embeddings[gene_index, ])", shared)
         self.assertIn("CHECKPOINT SAVED", core)
         self.assertIn("RESUME checkpoint reused", core)
         self.assertNotIn("row_l2", core)

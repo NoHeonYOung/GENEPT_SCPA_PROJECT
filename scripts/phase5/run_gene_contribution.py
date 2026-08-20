@@ -14,6 +14,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import textwrap
 import time
 from typing import Any, Sequence
 
@@ -351,22 +352,34 @@ def create_figures(
 
     output_dir.mkdir(parents=True, exist_ok=True)
     files: list[Path] = []
+
+    def pathway_label(value: str, width: int = 30) -> str:
+        return "\n".join(textwrap.wrap(value.replace("_", " "), width=width))
+
+    def comparison_label(value: str) -> str:
+        return value.replace("cd4_", "CD4 ").replace("h_vs_", "–").replace("h", " h")
+
+    def save(path: Path, fig: Any) -> None:
+        fig.savefig(path, dpi=180, bbox_inches="tight", pad_inches=0.15)
+        plt.close(fig)
+        files.append(path)
+
     comparisons = [item["id"] for item in PRIMARY_COMPARISONS]
-    labels = [item.replace("cd4_", "CD4 ").replace("h_vs_", "-").replace("h", "") for item in comparisons]
+    labels = [comparison_label(item) for item in comparisons]
 
     path = output_dir / "01_target_overview.png"
-    fig, ax = plt.subplots(figsize=(9, 5))
+    fig, ax = plt.subplots(figsize=(9, 5), layout="constrained")
     x = np.arange(3)
     vanilla = [sum(t["comparison"] == c and t["detection_state"].startswith("Vanilla") for t in targets) for c in comparisons]
     genept = [sum(t["comparison"] == c and t["detection_state"].startswith("GenePT") for t in targets) for c in comparisons]
     ax.bar(x - 0.2, vanilla, 0.4, label="Vanilla-only")
     ax.bar(x + 0.2, genept, 0.4, label="GenePT-only")
     ax.set(xticks=x, xticklabels=labels, ylabel="Target pathway-comparison count", title="Phase 5 frozen discordant targets")
-    ax.legend(); fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    ax.legend(); save(path, fig)
 
     rep_keys = [(item["comparison"], item["pathway"]) for item in representatives]
     path = output_dir / "02_gene_contribution_scatter.png"
-    fig, axes = plt.subplots(2, 3, figsize=(16, 10))
+    fig, axes = plt.subplots(2, 3, figsize=(18, 12), layout="constrained")
     for ax, key in zip(axes.flat, rep_keys):
         subset = [r for r in rows if (r["comparison"], r["pathway"]) == key]
         ax.scatter([r["vanilla_delta_score"] for r in subset], [r["genept_delta_score"] for r in subset], s=18, alpha=.65)
@@ -374,22 +387,22 @@ def create_figures(
         for row in divergent:
             ax.annotate(row["gene"], (row["vanilla_delta_score"], row["genept_delta_score"]), fontsize=7)
         ax.axhline(0, color="grey", lw=.5); ax.axvline(0, color="grey", lw=.5)
-        ax.set(title=f"{key[0]}\n{key[1]}", xlabel="Vanilla delta score", ylabel="GenePT delta score")
+        ax.set(title=f"{comparison_label(key[0])}\n{pathway_label(key[1], 34)}", xlabel="Vanilla delta score", ylabel="GenePT delta score")
     fig.suptitle("Representative within-pathway masking sensitivity")
-    fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    save(path, fig)
 
     path = output_dir / "03_top_gene_contributions.png"
-    fig, axes = plt.subplots(2, 3, figsize=(17, 11))
+    fig, axes = plt.subplots(2, 3, figsize=(18, 12), layout="constrained")
     for ax, key in zip(axes.flat, rep_keys):
         subset = [r for r in rows if (r["comparison"], r["pathway"]) == key]
         chosen = sorted(subset, key=lambda r: -max(abs(r["vanilla_delta_score"]), abs(r["genept_delta_score"])))[:8]
         y = np.arange(len(chosen))
         ax.barh(y - .18, [r["vanilla_delta_score"] for r in chosen], .36, label="Vanilla")
         ax.barh(y + .18, [r["genept_delta_score"] for r in chosen], .36, label="GenePT")
-        ax.set(yticks=y, yticklabels=[r["gene"] for r in chosen], title=f"{key[0]}\n{key[1]}")
+        ax.set(yticks=y, yticklabels=[r["gene"] for r in chosen], title=f"{comparison_label(key[0])}\n{pathway_label(key[1], 34)}")
         ax.invert_yaxis()
     axes.flat[0].legend(); fig.suptitle("Top absolute gene-masking effects")
-    fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    save(path, fig)
 
     divergent_rows: list[dict[str, Any]] = []
     for key in rep_keys:
@@ -397,29 +410,29 @@ def create_figures(
         divergent_rows.extend(sorted(subset, key=lambda r: -abs(r["absolute_percentile_difference_genept_minus_vanilla"]))[:4])
     matrix = np.asarray([[r["vanilla_absolute_percentile"], r["genept_absolute_percentile"]] for r in divergent_rows])
     path = output_dir / "04_rank_divergence_heatmap.png"
-    fig, ax = plt.subplots(figsize=(8, max(7, len(divergent_rows) * .3)))
+    fig, ax = plt.subplots(figsize=(12, max(9, len(divergent_rows) * .42)), layout="constrained")
     image = ax.imshow(matrix, aspect="auto", cmap="coolwarm", vmin=0, vmax=1)
     ax.set(xticks=(0, 1), xticklabels=("Vanilla", "GenePT"), yticks=np.arange(len(divergent_rows)),
-           yticklabels=[f"{r['comparison']} | {r['pathway']} | {r['gene']}" for r in divergent_rows],
+           yticklabels=[f"{comparison_label(r['comparison'])} | {pathway_label(r['pathway'], 38)} | {r['gene']}" for r in divergent_rows],
            title="Absolute-influence percentile divergence")
-    ax.tick_params(axis="y", labelsize=6); fig.colorbar(image, ax=ax)
-    fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    ax.tick_params(axis="y", labelsize=7); fig.colorbar(image, ax=ax)
+    save(path, fig)
 
     correlations = [row["absolute_rank_spearman"] for row in summary if row["absolute_rank_spearman"] is not None]
     path = output_dir / "05_pathway_rank_agreement.png"
-    fig, ax = plt.subplots(figsize=(8, 5))
+    fig, ax = plt.subplots(figsize=(8, 5), layout="constrained")
     ax.hist(correlations, bins=min(12, max(3, len(correlations))), edgecolor="black")
     ax.set(xlabel="Vanilla vs GenePT absolute-rank Spearman", ylabel="Target count", title="Pathway-level gene-rank agreement")
-    fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    save(path, fig)
 
     path = output_dir / "06_detection_flip_counts.png"
-    fig, ax = plt.subplots(figsize=(15, 6))
-    x = np.arange(len(summary))
-    ax.bar(x - .2, [r["n_vanilla_detection_flip_genes"] for r in summary], .4, label="Vanilla")
-    ax.bar(x + .2, [r["n_genept_detection_flip_genes"] for r in summary], .4, label="GenePT")
-    ax.set(xticks=x, xticklabels=[f"{r['comparison']} | {r['pathway']}" for r in summary], ylabel="Genes causing threshold flip", title="Detection-state sensitivity to single-gene masking")
-    ax.tick_params(axis="x", rotation=90, labelsize=5); ax.legend()
-    fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+    fig, ax = plt.subplots(figsize=(13, max(9, len(summary) * .38)), layout="constrained")
+    y = np.arange(len(summary))
+    ax.barh(y - .18, [r["n_vanilla_detection_flip_genes"] for r in summary], .36, label="Vanilla")
+    ax.barh(y + .18, [r["n_genept_detection_flip_genes"] for r in summary], .36, label="GenePT-informed")
+    ax.set(yticks=y, yticklabels=[f"{comparison_label(r['comparison'])} | {pathway_label(r['pathway'], 40)}" for r in summary], xlabel="Genes causing threshold flip", title="Detection-state sensitivity to single-gene masking")
+    ax.tick_params(axis="y", labelsize=7); ax.invert_yaxis(); ax.legend()
+    save(path, fig)
     return files
 
 

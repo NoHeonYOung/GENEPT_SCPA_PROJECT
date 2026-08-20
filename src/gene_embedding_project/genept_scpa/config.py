@@ -228,11 +228,21 @@ def load_config(path: str | Path = "config/genept_scpa.yaml") -> ProtocolConfig:
             raise ConfigError("Phase 7 source population must remain naive CD4 0h")
         if int(phase7.get("pseudo_condition_cells", 0)) != 500:
             raise ConfigError("Phase 7 must use 500 cells per pseudo-condition")
-        if phase7.get("pathway_universe") != "frozen_phase4_paired_pathways":
-            raise ConfigError("Phase 7 must reuse the frozen Phase 4 pathway universe")
+        if int(phase7.get("cohort_seed", 0)) != 20260810:
+            raise ConfigError("Phase 7 cohort seed must remain 20260810")
+        if int(phase7.get("perturbation_seed_base", 0)) != 20260901:
+            raise ConfigError("Phase 7 perturbation seed base must remain 20260901")
+        if int(phase7.get("draws", 0)) < 20:
+            raise ConfigError("Phase 7 must use at least 20 draws")
+        if phase7.get("pathway_universe") != "frozen_11_pathways_6_kegg_5_reactome":
+            raise ConfigError("Phase 7 must use the frozen 11-pathway universe")
         if phase7.get("genept_primary_l2") is not False:
             raise ConfigError("Phase 7 primary GenePT projection must remain non-L2")
-        if phase7.get("llm_backend_current") != "mock_only":
-            raise ConfigError("Phase 7 scaffolding must remain mock-only")
+        if phase7.get("llm_backend") != "prohibited_and_removed":
+            raise ConfigError("Phase 7 LLM backend must remain removed")
+        if int(phase7.get("expected_experiments", 0)) != 1540:
+            raise ConfigError("Phase 7 expected experiment count must remain 1540")
+        if int(phase7.get("expected_mcm", 0)) != 101920:
+            raise ConfigError("Phase 7 expected MCM count must remain 101920")
 
     return ProtocolConfig(path=config_path.resolve(), values=values)

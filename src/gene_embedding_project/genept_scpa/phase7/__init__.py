@@ -1,14 +1,5 @@
-"""Phase 7 synthetic benchmark and lazy LLM runtime helpers."""
+"""LLM-free Phase 7 synthetic ground-truth benchmark."""
 
-from .cohort import PseudoConditionSplit, split_pseudo_conditions
-from .evaluation import evaluate_ranking
-from .gpt_oss_backend import TransformersGPTOSSBackend
-from .synthetic_perturbation import inject_perturbation
+from .synthetic_benchmark_llmfree.metrics import average_precision, ndcg_at_k, recall_at_k
 
-__all__ = [
-    "PseudoConditionSplit",
-    "TransformersGPTOSSBackend",
-    "evaluate_ranking",
-    "inject_perturbation",
-    "split_pseudo_conditions",
-]
+__all__ = ["average_precision", "ndcg_at_k", "recall_at_k"]

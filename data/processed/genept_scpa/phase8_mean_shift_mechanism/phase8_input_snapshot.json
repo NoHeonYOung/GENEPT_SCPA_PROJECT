@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "phase": 8,
+  "generated_at_utc": "2026-08-20T02:20:51.134507+00:00",
+  "note": "Files containing evaluation labels were byte-hashed only; labels were not parsed during control generation.",
+  "input_sha256": {
+    "phase8_config": {
+      "path": "config/phase8_mean_shift_mechanism.yaml",
+      "sha256": "a5d5b31e6a96961b7bd43fd74022caafa25a1bb7e691abb0f112770b69c26653"
+    },
+    "phase8_protocol": {
+      "path": "docs/phase8_mean_shift_mechanism_protocol.md",
+      "sha256": "ea00ea14be20b21e76ceb6d6d31b72dba2816136f8b12271211be9925c43cd49"
+    },
+    "phase7_config": {
+      "path": "config/phase7_llmfree_synthetic.yaml",
+      "sha256": "b54677e4b5b0368bb938b09398c95da69360d6f669b6220093788d8c46998b66"
+    },
+    "phase7_protocol": {
+      "path": "docs/phase7_llmfree_protocol.md",
+      "sha256": "62b5e58ee3820d3eadd6f0a8dbda70a8db2a0a300084d47ce747e10b7a47f92e"
+    },
+    "phase7_manifest": {
+      "path": "data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_manifest.json",
+      "sha256": "e18a6e1959093bfad4b01a894a9dc55763241723632661b5e0480828ad3d8d73"
+    },
+    "phase7_scpa_qc": {
+      "path": "data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_scpa_qc.json",
+      "sha256": "17ffc9020cefbe1d06a2b2263d9844818d0a48d800720018646a8cfb6af46111"
+    },
+    "phase7_rankings": {
+      "path": "data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_rankings.csv",
+      "sha256": "077f674442b8438e3600880df236d13f8a3c2772e63b77a15595b69ed522ad60"
+    },
+    "phase7_metrics": {
+      "path": "data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_metrics.csv",
+      "sha256": "bc71ed3f17a9125fa273a8e82c98820367a72628b93dc304f2fa63411734a813"
+    },
+    "phase7_expression_h5": {
+      "path": "data/interim/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_expression.h5",
+      "sha256": "4407a6e764be248f5190b156553069fe255c3180e342e168c796a5dd263656ee"
+    },
+    "phase7b_config": {
+      "path": "config/phase7b_null_calibration.yaml",
+      "sha256": "a9f7ce30b6786bc28cfb0d456ba35487d1e57c4a76b946cb8ada59e8a9cc43f0"
+    },
+    "phase7b_protocol": {
+      "path": "docs/phase7b_null_calibration_protocol.md",
+      "sha256": "0f1cc4944a965090da13e63eea97b8ecd49ca882a4dc837737e57c83d5ed8674"
+    },
+    "phase7b_summary": {
+      "path": "data/processed/genept_scpa/phase7b_null_calibration/phase7b_summary.json",
+      "sha256": "28c715c9cb3f3034a1aca9651a05a6e4263eb2d383d791f68df45122c9879c40"
+    },
+    "phase7b_calibrated_units": {
+      "path": "data/processed/genept_scpa/phase7b_null_calibration/phase7b_null_calibrated_metrics.csv",
+      "sha256": "8c283c5206dbc265f70b5c83ef6e25fc4138bb119abe1c4f32a71f2ea9c56ea2"
+    }
+  },
+  "generated": {
+    "manifest": {
+      "path": "data/processed/genept_scpa/phase8_mean_shift_mechanism/phase8_manifest.json",
+      "sha256": "492fe237339980715853facf9808783b9e3672c39a6d07424b7c3bd3f43de8a6"
+    },
+    "controls_h5": {
+      "path": "data/interim/genept_scpa/phase8_mean_shift_mechanism/phase8_controls.h5",
+      "sha256": "0c4227b6ea805c7456e6a40a2753af7a8cd9b11cd291e7f8895f15ffaecac491"
+    }
+  }
+}

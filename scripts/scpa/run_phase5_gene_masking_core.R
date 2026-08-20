@@ -5,6 +5,7 @@ script_arg <- grep("^--file=", commandArgs(), value = TRUE)
 if (length(script_arg) != 1L) stop("Could not resolve script location")
 script_path <- normalizePath(sub("^--file=", "", script_arg[[1]]))
 source(file.path(dirname(script_path), "scpa_core_adapter.R"))
+source(file.path(dirname(script_path), "gene_masking_lib.R"))
 
 argument <- function(name, required = TRUE, default = NULL) {
   index <- which(args == name)
@@ -50,7 +51,7 @@ pathway_lookup <- setNames(pathways, vapply(pathways, function(x) x$pathway, cha
 safe_p <- function(p) max(as.numeric(p), as.numeric(manifest$phase5$raw_p_clip))
 score <- function(p) -log10(safe_p(p))
 adjusted <- function(p) min(safe_p(p) * as.integer(manifest$phase5$eligible_pathway_count), 1)
-qval <- function(p_adj) if (p_adj == 0) Inf else sqrt(-log10(p_adj))
+qval <- function(p_adj) masking_q_score(p_adj)
 
 run_checked <- function(xa, xb, label) {
   value <- tryCatch(run_mcm_raw(xa, xb), error = function(condition) {
@@ -210,8 +211,9 @@ for (target_index in seq_along(targets)) {
   xa <- groups[[target$group_a]][, indices, drop = FALSE]
   xb <- groups[[target$group_b]][, indices, drop = FALSE]
   ep <- embeddings[indices, , drop = FALSE]
-  za <- xa %*% ep
-  zb <- xb %*% ep
+  projected <- genept_non_l2_project_pair(xa, xb, ep)
+  za <- projected$a
+  zb <- projected$b
   baseline <- baseline_check(target)
   baseline_all[[target_index]] <- baseline
   if (!isTRUE(baseline$passed)) stop("Phase 4B baseline reproduction failed")
@@ -222,11 +224,14 @@ for (target_index in seq_along(targets)) {
 
   for (gene_index in seq_along(genes)) {
     gene <- genes[[gene_index]]
-    xa_masked <- xa; xb_masked <- xb
-    xa_masked[, gene_index] <- 0
-    xb_masked[, gene_index] <- 0
-    za_masked <- za - tcrossprod(xa[, gene_index], ep[gene_index, ])
-    zb_masked <- zb - tcrossprod(xb[, gene_index], ep[gene_index, ])
+    vanilla_mask <- vanilla_zero_mask_pair(xa, xb, gene_index)
+    xa_masked <- vanilla_mask$a
+    xb_masked <- vanilla_mask$b
+    genept_mask <- genept_non_l2_subtraction_mask_pair(
+      za, zb, xa, xb, ep, gene_index
+    )
+    za_masked <- genept_mask$a
+    zb_masked <- genept_mask$b
 
     cat(sprintf(
       "[Target %02d/%02d gene %03d/%03d] %s | %s | branch=vanilla START\n",

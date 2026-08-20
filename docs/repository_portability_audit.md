@@ -1,15 +1,15 @@
 # Repository portability audit
 
 This audit defines the filesystem boundary for a home-machine checkout. A valid
-checkout consists only of Git content, the explicit large resources in
-`artifacts/phase7_transfer_manifest.json`, and a reconstructed software environment.
+checkout consists of Git content, the two documented external large resources, and a
+reconstructed software environment.
 
 ## Classification
 
 | Class | Included content | Decision |
 |---|---|---|
-| A: Git | code, tests, configs, docs, Phase 1--6 small results/QC/figures, frozen cell IDs, export sidecars, Phase 7 handoff artifacts | Track normally, including selected files below the otherwise ignored `data/interim/` tree |
-| B: external large input | CD4 counts Matrix Market file; GenePT embedding pickle | Exact repository-relative path, byte size and SHA256 in transfer manifest |
+| A: Git | code, tests, configs, docs, Phase 1--6 small results/QC/figures, frozen cell IDs and export sidecars | Track normally, including selected files below the otherwise ignored `data/interim/` tree |
+| B: external large input | CD4 counts Matrix Market file; GenePT embedding pickle | Exact repository-relative paths; SHA256 is verified from Phase 2 provenance |
 | C: regenerable local | raw/download archives, RDS objects, CD8/adapter matrices, generated GenePT arrays, Phase 5/6 checkpoints, prepared HDF5, caches, virtual environments, temporary plots and logs | Do not track; recreate from documented pipeline prerequisites when an earlier phase is intentionally rerun |
 | D: secret | `.env`, tokens, keys and credentials | Never track; none found in the reviewed candidate set |
 
@@ -24,7 +24,7 @@ checkout consists only of Git content, the explicit large resources in
 | Phase 4 | pathway CSV, embedding, Phase 2 exports and frozen sampling | small inputs/results are tracked; large scientific inputs remain explicit prerequisites |
 | Phase 5 | Phase 4B results, frozen cells and prepared expression inputs | final result/QC/figures are tracked; per-target checkpoint copies are regenerable |
 | Phase 6 | Phase 5 results, CD4 export, embedding and prepared HDF5 | final result/QC/figures/robustness cells and runner are tracked; HDF5/checkpoints are regenerable |
-| Phase 7 | CD4 export sidecars/counts, Phase 4 manifest, pathway CSV, NCBI descriptions, embedding | all small files are tracked; only counts matrix and embedding are explicit external files |
+| Phase 7 | CD4 export sidecars/counts, Phase 4 manifest and embedding | all small files are tracked; only counts matrix and embedding are explicit external files |
 
 ## Absolute-path audit
 
@@ -37,8 +37,7 @@ obsolete absolute paths inside the historical Seurat export manifest and verifie
 the configured repository-relative sidecars against the original SHA256 values.
 
 `/tmp/genept_scpa_plot_cache` references are disposable plotting caches, not inputs.
-The environment snapshot intentionally records the old interpreter/cache paths as
-machine provenance; no code resolves project resources through those fields.
+No Phase 7 environment snapshot or machine-specific model cache is required.
 
 ## Selected ignored files promoted to Git
 
@@ -61,9 +60,7 @@ machine provenance; no code resolves project resources through those fields.
 
 ## Acceptance test
 
-The final audit clones the exact candidate Git commit into `/tmp`, restores only the
-two required external resources at their manifest paths, and runs integrity checks,
-all Python tests, Phase 7 Python tests, Phase 7 R algebra tests, config/pathway/
-embedding/counts/metadata loading, module imports, and non-scientific CLI help/gates.
-No production synthetic generation, SCPA, model loading, download, inference or
-scientific Phase 7 metric inspection is permitted.
+The final audit restores the two required external resources at their documented paths
+and runs all Python tests, Phase 7 R algebra tests, config/pathway/embedding/counts/
+metadata loading, and CLI help checks. Full Phase 7 synthetic/SCPA production is a
+separate resumable run and is not part of a cheap portability audit.

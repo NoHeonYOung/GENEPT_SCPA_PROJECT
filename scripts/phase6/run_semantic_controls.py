@@ -13,6 +13,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import textwrap
 import time
 from typing import Any, Iterable, Sequence
 
@@ -509,11 +510,18 @@ def create_figures(pathway_summary: Sequence[dict[str, Any]], gene_rows: Sequenc
     figure_dir.mkdir(parents=True, exist_ok=True)
     files: list[Path] = []
 
+    def pathway_label(value: str, width: int = 32) -> str:
+        return "\n".join(textwrap.wrap(value.replace("_", " "), width=width))
+
+    def comparison_label(value: str) -> str:
+        return value.replace("cd4_", "CD4 ").replace("h_vs_", "–").replace("h", " h")
+
     def save(name: str, fig: Any) -> None:
         path = figure_dir / name
-        fig.tight_layout(); fig.savefig(path, dpi=180); plt.close(fig); files.append(path)
+        fig.savefig(path, dpi=180, bbox_inches="tight", pad_inches=0.15)
+        plt.close(fig); files.append(path)
 
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig, ax = plt.subplots(figsize=(8, 6), layout="constrained")
     for control, marker in (("permuted", "o"), ("random", "s")):
         subset = [row for row in pathway_summary if row["control"] == control]
         ax.scatter([row["control_median_score"] for row in subset], [row["true_score"] for row in subset], label=control, marker=marker, alpha=.75)
@@ -521,36 +529,39 @@ def create_figures(pathway_summary: Sequence[dict[str, Any]], gene_rows: Sequenc
     ax.set(xlabel="Control median pathway score", ylabel="True pathway score", title="True vs semantic controls"); ax.legend()
     save("01_true_vs_control_pathway_scores.png", fig)
 
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5), layout="constrained")
     for ax, control in zip(axes, ("permuted", "random")):
         values = [row["true_percentile_among_control"] for row in pathway_summary if row["control"] == control]
         ax.hist(values, bins=10, edgecolor="black"); ax.set(title=control, xlabel="True percentile", ylabel="Targets")
     save("02_true_percentile_distributions.png", fig)
 
-    fig, ax = plt.subplots(figsize=(11, 6))
-    matrix = np.asarray([[row["true_minus_control_median_score"] for row in pathway_summary if int(row["target_index"]) == i] for i in range(1, 31)])
-    image = ax.imshow(matrix, aspect="auto", cmap="coolwarm"); ax.set(xlabel="Control (permuted, random)", ylabel="Target index", title="True minus control median score")
+    fig, ax = plt.subplots(figsize=(8, 9), layout="constrained")
+    matrix = np.asarray([[next(row["true_minus_control_median_score"] for row in pathway_summary if int(row["target_index"]) == i and row["control"] == control) for control in ("permuted", "random")] for i in range(1, 31)])
+    image = ax.imshow(matrix, aspect="auto", cmap="coolwarm")
+    ax.set(xticks=(0, 1), xticklabels=("Permuted", "Random"), yticks=np.arange(30), yticklabels=np.arange(1, 31), ylabel="Target index", title="True minus control median score")
     fig.colorbar(image, ax=ax)
     save("03_control_difference_heatmap.png", fig)
 
-    fig, axes = plt.subplots(2, 3, figsize=(16, 10))
+    fig, axes = plt.subplots(2, 3, figsize=(18, 12), layout="constrained")
     for target_index, ax in enumerate(axes.flat, start=1):
         subset = [row for row in gene_rows if int(row["target_index"]) == target_index and row["control"] == "permuted" and int(row["replicate_id"]) == 1]
         ax.scatter([row["vanilla_delta_score"] for row in subset], [row["control_delta_score"] for row in subset], s=15)
-        if subset: ax.set(title=f"{subset[0]['comparison']}\n{subset[0]['pathway']}")
+        if subset: ax.set(title=f"{comparison_label(subset[0]['comparison'])}\n{pathway_label(subset[0]['pathway'], 34)}")
         ax.set(xlabel="Vanilla delta", ylabel="Permuted delta")
     save("04_gene_rank_control_comparison.png", fig)
 
-    fig, ax = plt.subplots(figsize=(10, 5))
-    x = np.arange(len(gene_summary))
-    ax.bar(x - .2, [row["true_top10_overlap_vs_vanilla"] for row in gene_summary], .4, label="True")
-    ax.bar(x + .2, [row["control_median_top10_overlap_vs_vanilla"] for row in gene_summary], .4, label="Control median")
-    ax.set(xticks=x, xticklabels=[f"{row['target_index']}:{row['control']}" for row in gene_summary], ylabel="Top-10 overlap"); ax.tick_params(axis="x", rotation=60); ax.legend()
+    ordered_summary = sorted(gene_summary, key=lambda row: (int(row["target_index"]), row["control"]))
+    fig, ax = plt.subplots(figsize=(10, 7), layout="constrained")
+    y = np.arange(len(ordered_summary))
+    ax.barh(y - .18, [row["true_top10_overlap_vs_vanilla"] for row in ordered_summary], .36, label="True")
+    ax.barh(y + .18, [row["control_median_top10_overlap_vs_vanilla"] for row in ordered_summary], .36, label="Control median")
+    ax.set(yticks=y, yticklabels=[f"Target {int(row['target_index']):02d} · {row['control'].title()}" for row in ordered_summary], xlabel="Top-10 overlap", title="Gene-ranking overlap with Vanilla")
+    ax.invert_yaxis(); ax.legend()
     save("05_top_gene_overlap_controls.png", fig)
 
-    fig, ax = plt.subplots(figsize=(10, 5))
+    fig, ax = plt.subplots(figsize=(10, 5), layout="constrained")
     values = {representation: [row["score"] for row in robustness_rows if row["representation"] == representation] for representation in ("true", "permuted", "random")}
-    ax.boxplot([values[key] for key in values], labels=list(values)); ax.set(ylabel="Pathway score", title="Paired resampling robustness")
+    ax.boxplot([values[key] for key in values], labels=[key.title() for key in values]); ax.set(ylabel="Pathway score", title="Paired resampling robustness")
     save("06_resampling_robustness.png", fig)
     return files
 

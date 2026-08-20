@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "scope": "llm_free_vanilla_vs_genept_ground_truth_recovery",
+  "backend": "multicross::mcm",
+  "scpa_version": "1.6.2",
+  "multicross_version": "2.1.0",
+  "manifest_experiment_count": 1540,
+  "selected_experiment_count": 1540,
+  "partial_run": false,
+  "completed_experiments": 1540,
+  "reused_checkpoints": 1,
+  "mcm_count": 101920,
+  "failed_mcm_calls": 0,
+  "masking_library": "scripts/scpa/gene_masking_lib.R",
+  "vanilla_mask": "zero expression column",
+  "genept_mask": "non-L2 exact outer-product subtraction",
+  "ground_truth_read": false,
+  "checkpoint_resume": true,
+  "cores": 12
+}

@@ -1,0 +1,5 @@
+scope,pairing_unit,pair_count,mean_genept_minus_vanilla_ap,wilcoxon_statistic,raw_p_value,rank_biserial_effect_genept_minus_vanilla,bonferroni_p_value
+ALL_NON_NULL,pathway_scenario_draw_mean_across_strengths,660,0.07208771830449356,71751.0,5.723291154259154e-14,0.3381239881740318,
+mean_shift,pathway_scenario_draw_mean_across_strengths,220,0.177564075295636,3558.0,1.545000202505275e-19,0.7046077210460772,4.635000607515826e-19
+cell_subset,pathway_scenario_draw_mean_across_strengths,220,0.030353017054700806,9529.0,0.005465013263201694,0.2160427807486631,0.016395039789605083
+mixed_direction,pathway_scenario_draw_mean_across_strengths,220,0.008346062563143958,11623.0,0.6530503019139265,0.035035284350352844,1.0

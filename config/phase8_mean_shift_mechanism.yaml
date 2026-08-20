@@ -1,0 +1,130 @@
+schema_version: 1
+phase: 8
+status: protocol_frozen_ready_for_preparation
+scope: mean_shift_mechanism_decomposition
+
+source:
+  phase7_config: config/phase7_llmfree_synthetic.yaml
+  phase7_protocol: docs/phase7_llmfree_protocol.md
+  phase7_manifest: data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_manifest.json
+  phase7_scpa_qc: data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_scpa_qc.json
+  phase7_rankings: data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_rankings.csv
+  phase7_metrics: data/processed/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_metrics.csv
+  phase7_expression_h5: data/interim/genept_scpa/phase7_llmfree_synthetic/phase7_llmfree_expression.h5
+  phase7b_config: config/phase7b_null_calibration.yaml
+  phase7b_protocol: docs/phase7b_null_calibration_protocol.md
+  phase7b_summary: data/processed/genept_scpa/phase7b_null_calibration/phase7b_summary.json
+  phase7b_calibrated_units: data/processed/genept_scpa/phase7b_null_calibration/phase7b_null_calibrated_metrics.csv
+
+scope_filter:
+  pathways: 11
+  draws: 20
+  states:
+    - {scenario: "null", strength: 0.0}
+    - {scenario: mean_shift, strength: 0.5}
+    - {scenario: mean_shift, strength: 1.0}
+  excluded_scenarios: [cell_subset, mixed_direction]
+  experiment_count: 660
+  pathway_gene_count_sum: 353
+  pathway_gene_count_plus_one_sum: 364
+
+representations:
+  vanilla:
+    source: reuse_phase7_ranking
+    new_mcm: 0
+  true_genept:
+    source: reuse_phase7_ranking
+    projection: non_l2
+    new_mcm: 0
+  permuted_genept:
+    dimension: 1536
+    realization_count_per_pathway_draw: 1
+    operation: within_pathway_whole_row_derangement
+    fixed_point_count_required: 0
+    vector_multiset_preserved: true
+    vector_values_preserved: true
+    row_norm_multiset_preserved: true
+    seed_base: 20260821
+    seed_formula: seed_base_plus_100000_times_pathway_index_plus_draw_id
+  random_projection:
+    dimension: 1536
+    realization_count_per_pathway_draw: 1
+    distribution: independent_standard_gaussian_direction
+    normalization: rowwise_unit_direction_then_scale_to_corresponding_true_row_norm
+    seed_base: 20270821
+    seed_formula: seed_base_plus_100000_times_pathway_index_plus_draw_id
+    row_norm_tolerance: 1.0e-10
+
+control_pairing:
+  unit: pathway_draw
+  same_matrix_states: [null, mean_shift_0.5, mean_shift_1.0]
+  truth_labels_used_during_generation: false
+  truth_labels_used_during_masking: false
+
+masking:
+  shared_library: scripts/scpa/gene_masking_lib.R
+  score: minus_log10_raw_p
+  raw_p_clip: 1.0e-300
+  delta: full_score_minus_masked_score
+  primary_rank: descending_signed_delta_then_gene_symbol
+  projection_l2: false
+
+workload:
+  expected_mcm_per_control: 21840
+  expected_permuted_mcm: 21840
+  expected_random_mcm: 21840
+  expected_total_new_mcm: 43680
+  formula_per_control: 20_draws_times_3_states_times_sum_K_plus_1
+  checkpoint_unit: experiment_with_both_controls
+
+evaluation:
+  primary_endpoint: null_calibrated_average_precision
+  unit: pathway_draw_mean_across_mean_shift_strengths
+  unit_count: 220
+  matched_null_keys: [pathway, draw_id, representation]
+  representations: [vanilla, true_genept, permuted_genept, random_projection]
+  contrasts:
+    - {name: C_mapping, expression: true_genept_minus_permuted_genept}
+    - {name: C_geometry, expression: permuted_genept_minus_random_projection}
+    - {name: C_projection, expression: random_projection_minus_vanilla}
+    - {name: C_total, expression: true_genept_minus_vanilla}
+  paired_test: wilcoxon_signed_rank_two_sided_against_zero
+  effect_size: matched_pairs_rank_biserial_positive_is_left_method
+  multiplicity: bonferroni_across_four_primary_contrasts
+  family_alpha: 0.05
+  descriptive_ci: normal_approximation_95_percent_for_mean
+  phase7b_total_replication_target: 0.1429550762075937
+  phase7b_total_replication_tolerance: 1.0e-12
+  fallback_strata: [ALL, NO_FALLBACK, FALLBACK]
+  pathway_level_significance_tests: forbidden
+
+execution:
+  existing_phase_writes_forbidden: true
+  figures_before_final_qc_forbidden: true
+  checkpoint_resume: true
+  cores_default: 12
+  progress_every_genes: 10
+
+artifacts:
+  interim_directory: data/interim/genept_scpa/phase8_mean_shift_mechanism
+  processed_directory: data/processed/genept_scpa/phase8_mean_shift_mechanism
+  controls_h5: phase8_controls.h5
+  checkpoints: masking_checkpoints
+  manifest: phase8_manifest.json
+  input_snapshot: phase8_input_snapshot.json
+  smoke_qc: phase8_smoke_qc.json
+  control_qc: phase8_control_qc.json
+  control_rankings: phase8_control_rankings.csv
+  metrics: phase8_metrics.csv
+  calibrated_units: phase8_calibrated_units.csv
+  statistics: phase8_statistics.csv
+  fallback_sensitivity: phase8_fallback_sensitivity.csv
+  pathway_summary: phase8_pathway_summary.csv
+  summary: phase8_summary.json
+  results: phase8_results.md
+
+interpretation_limits:
+  - This decomposition applies only to the frozen Phase 7 mean-shift synthetic benchmark.
+  - Contrasts do not prove semantics, biological superiority, causality, or general validity.
+  - One control realization per pathway/draw is the frozen primary design.
+  - Ambiguous results may motivate a separately frozen repeated-control Phase 8B.
